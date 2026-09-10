@@ -250,6 +250,7 @@ function ProductsContent() {
             type="button"
             onClick={() => setMobileFilterOpen(true)}
             className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#ede5da] bg-white px-4 py-2.5 text-xs font-bold text-[#1e1b18] shadow-2xs hover:border-[#7d1d29]"
+            suppressHydrationWarning
           >
             <SlidersHorizontal className="size-4 text-[#7d1d29]" />
             <span>تصفية وترتيب</span>
@@ -273,6 +274,7 @@ function ProductsContent() {
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="ابحث عن منتج، متجر، أو ماركة..."
             className="w-full rounded-xl border border-[#ede5da] bg-[#faf7f2] py-2.5 pr-10 pl-10 text-xs text-[#1e1b18] placeholder-[#80766b] outline-none transition focus:border-[#7d1d29] focus:bg-white"
+            suppressHydrationWarning
           />
           <Search className="absolute right-3 size-4 text-[#80766b]" />
           {searchInput && (

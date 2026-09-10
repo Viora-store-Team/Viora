@@ -151,6 +151,7 @@ export default function Header() {
               onClick={() => setSearchOpen(true)}
               className="grid size-9 place-items-center rounded-full text-[#4a443e] transition-all hover:bg-[#faf7f2] hover:text-[#7d1d29]"
               aria-label="بحث"
+              suppressHydrationWarning
             >
               <Search className="size-4" />
             </button>
@@ -208,6 +209,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="grid size-9 place-items-center rounded-full text-[#4a443e] transition-all hover:bg-[#faf7f2] md:hidden"
               aria-label="القائمة"
+              suppressHydrationWarning
             >
               <Menu className="size-4" />
             </button>
