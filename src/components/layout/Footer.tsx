@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const footerLinks = [
-  { href: "/about", label: "من نحن" },
-  { href: "/faq", label: "الأسئلة الشائعة" },
-  { href: "/privacy", label: "سياسة الخصوصية وحماية البيانات" },
-  { href: "/terms", label: "شروط الاستخدام" },
+  { href: "/content/about", label: "من نحن" },
+  { href: "/content/faq", label: "الأسئلة الشائعة" },
+  { href: "/content/privacy", label: "سياسة الخصوصية وحماية البيانات" },
+  { href: "/content/terms", label: "شروط الاستخدام" },
 ];
 
 export default function Footer() {

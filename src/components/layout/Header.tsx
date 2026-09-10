@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { Heart, Search, ShoppingBag, User, X, Menu } from "lucide-react";
 import { apiFetch, getCustomerToken } from "@/lib/api";
+import NotificationsDropdown from "./NotificationsDropdown";
 
 export default function Header() {
   const [cartCount, setCartCount] = useState<number>(0);
@@ -15,22 +16,40 @@ export default function Header() {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const token = getCustomerToken();
-    setIsLoggedIn(!!token);
+    const checkAuthAndCart = () => {
+      const token = getCustomerToken();
+      setIsLoggedIn(!!token);
 
-    if (token) {
-      apiFetch("/cart/count")
-        .then((res) => {
-          if (res.success && typeof res.count === "number") {
-            setCartCount(res.count);
-          }
-        })
-        .catch(() => {});
-    }
+      if (token) {
+        apiFetch("/cart/count")
+          .then((res) => {
+            if (res.success && typeof res.count === "number") {
+              setCartCount(res.count);
+            }
+          })
+          .catch(() => {});
+      } else {
+        try {
+          const raw = localStorage.getItem("viora_guest_cart");
+          const items = raw ? JSON.parse(raw) : [];
+          setCartCount(items.reduce((s: number, i: any) => s + (i.quantity || 1), 0));
+        } catch {
+          setCartCount(0);
+        }
+      }
+    };
+
+    checkAuthAndCart();
+    window.addEventListener("viora_cart_updated", checkAuthAndCart);
+    window.addEventListener("viora_auth_changed", checkAuthAndCart);
 
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("viora_cart_updated", checkAuthAndCart);
+      window.removeEventListener("viora_auth_changed", checkAuthAndCart);
+    };
   }, []);
 
   useEffect(() => {
@@ -145,6 +164,9 @@ export default function Header() {
               <Heart className="size-4" />
             </Link>
 
+            {/* Notifications (if logged in) */}
+            {isLoggedIn && <NotificationsDropdown />}
+
             {/* Cart */}
             <Link
               href="/cart"
@@ -170,7 +192,7 @@ export default function Header() {
               </Link>
             ) : (
               <Link
-                href="/auth/login"
+                href="/login"
                 className="hidden sm:block rounded-full px-5 py-2 text-xs font-black text-white transition-all duration-200 hover:scale-105 hover:shadow-lg"
                 style={{
                   background: "linear-gradient(135deg, #7d1d29 0%, #9e2233 100%)",
@@ -210,9 +232,17 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
-              {!isLoggedIn && (
+              {isLoggedIn ? (
                 <Link
-                  href="/auth/login"
+                  href="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mt-2 rounded-xl px-4 py-3 text-center text-sm font-black text-[#7d1d29] bg-[#fdf0f2]"
+                >
+                  حسابي
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
                   onClick={() => setMobileMenuOpen(false)}
                   className="mt-2 rounded-xl px-4 py-3 text-center text-sm font-black text-white"
                   style={{ background: "linear-gradient(135deg, #7d1d29, #9e2233)" }}

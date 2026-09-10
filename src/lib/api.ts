@@ -8,6 +8,7 @@ export const API_BASE_URL =
 
 const TOKEN_KEY = "viora_customer_token";
 const USER_KEY = "viora_customer_user";
+const PENDING_TOKEN_KEY = "viora_pending_token";
 
 export function getCustomerToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -19,10 +20,38 @@ export function setCustomerToken(token: string) {
   localStorage.setItem(TOKEN_KEY, token);
 }
 
+export function getCustomerUser(): any | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(USER_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function setCustomerUser(user: any) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
+}
+
+export function getPendingToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(PENDING_TOKEN_KEY);
+}
+
+export function setPendingToken(token: string) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(PENDING_TOKEN_KEY, token);
+}
+
 export function removeCustomerToken() {
   if (typeof window === "undefined") return;
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
+  localStorage.removeItem(PENDING_TOKEN_KEY);
+  window.dispatchEvent(new Event("viora_auth_changed"));
+  window.dispatchEvent(new Event("viora_cart_updated"));
 }
 
 export interface ApiResponse<T = any> {
@@ -43,7 +72,7 @@ export async function apiFetch<T = any>(
     ...(options.headers as Record<string, string>),
   };
 
-  if (token) {
+  if (token && !headers["Authorization"]) {
     headers["Authorization"] = `Bearer ${token}`;
   }
 
@@ -83,4 +112,30 @@ export async function apiFetch<T = any>(
       message: error.message || "تعذر الاتصال بالسيرفر، تأكد من اتصال الإنترنت.",
     };
   }
+}
+
+/**
+ * Merge local guest cart into customer server cart after successful login
+ */
+export async function syncGuestCartOnLogin() {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = localStorage.getItem("viora_guest_cart");
+    const guestItems = raw ? JSON.parse(raw) : [];
+
+    if (Array.isArray(guestItems) && guestItems.length > 0) {
+      const itemsToMerge = guestItems.map((i) => ({
+        variantSizeId: i.variantSizeId,
+        quantity: i.quantity,
+      }));
+
+      await apiFetch("/cart/merge", {
+        method: "POST",
+        body: JSON.stringify({ items: itemsToMerge }),
+      });
+
+      localStorage.removeItem("viora_guest_cart");
+      window.dispatchEvent(new Event("viora_cart_updated"));
+    }
+  } catch {}
 }
