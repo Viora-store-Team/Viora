@@ -160,7 +160,7 @@ export default function ProductDetailView({
   const currentImg = variantImages[activeImageIdx] || null;
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:py-12">
       {feedbackToast.show && <VioraToast message={feedbackToast.text} type={feedbackToast.type} onClose={() => setFeedbackToast((prev) => ({ ...prev, show: false }))} />}
 
       {/* ─── 1. Breadcrumb ─── */}
@@ -191,11 +191,11 @@ export default function ProductDetailView({
       </nav>
 
       {/* ─── 2. Main Product Grid (Gallery + Details) ─── */}
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-7 rounded-[2rem] bg-white p-3 ring-1 ring-[#e9e1d7] lg:grid-cols-12 lg:p-5">
         {/* Left/Gallery Column (5 cols on lg) */}
-        <div className="lg:col-span-6 flex flex-col gap-4">
+        <div className="lg:col-span-7 flex flex-col gap-4">
           {/* Main Big Image Preview */}
-          <div className="relative aspect-square w-full overflow-hidden rounded-3xl border border-[#ede5da] bg-white shadow-2xs">
+          <div className="relative aspect-[4/4.15] w-full overflow-hidden rounded-[1.5rem] bg-[#f3eee8]">
             {currentImg ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -211,7 +211,7 @@ export default function ProductDetailView({
 
             {/* Discount Badge */}
             {product.discountPercent && product.discountPercent > 0 && (
-              <div className="absolute top-4 right-4 rounded-xl bg-[#7d1d29] px-3 py-1.5 text-xs font-black text-white shadow">
+              <div className="absolute top-4 right-4 rounded-full bg-[#7d1d29] px-3 py-1.5 text-xs font-black text-white shadow-lg shadow-[#7d1d29]/30">
                 %{product.discountPercent} خصم
               </div>
             )}
@@ -222,7 +222,7 @@ export default function ProductDetailView({
               onClick={handleToggleFavorite}
               disabled={favLoading}
               aria-label={isFav ? "إزالة من المفضلة" : "إضافة للمفضلة"}
-              className="absolute top-4 left-4 grid size-11 place-items-center rounded-2xl bg-white/90 text-[#4a443e] backdrop-blur-md shadow-xs transition hover:scale-110 hover:bg-white hover:text-[#7d1d29]"
+              className="absolute top-4 left-4 grid size-11 place-items-center rounded-full bg-white/95 text-[#4a443e] shadow-lg transition hover:scale-110 hover:text-[#7d1d29]"
             >
               <Heart
                 className={`size-5 transition-colors ${
@@ -234,7 +234,7 @@ export default function ProductDetailView({
 
           {/* Thumbnails list */}
           {variantImages.length > 1 && (
-            <div className="flex items-center gap-3 overflow-x-auto py-1">
+            <div className="flex items-center gap-3 overflow-x-auto px-1 py-1">
               {variantImages.map((img, i) => (
                 <button
                   key={i}
@@ -255,12 +255,12 @@ export default function ProductDetailView({
         </div>
 
         {/* Right/Info Column (7 cols on lg) */}
-        <div className="lg:col-span-6 flex flex-col">
+        <div className="lg:col-span-5 flex flex-col rounded-[1.5rem] bg-[#fcf9f5] p-5 sm:p-7">
           {/* Store Info Card */}
           {product.store && (
             <Link
               href={`/stores/${product.store.id}`}
-              className="group mb-3 inline-flex items-center gap-2.5 rounded-xl border border-[#ede5da] bg-white px-3.5 py-2 transition hover:border-[#7d1d29]/40 w-fit"
+              className="group mb-5 inline-flex items-center gap-2.5 rounded-full border border-[#eadfd4] bg-white px-3.5 py-2 transition hover:border-[#7d1d29]/40 w-fit"
             >
               <div className="grid size-6 place-items-center rounded-lg bg-[#faf7f2] text-[#c48b4e]">
                 {product.store.logoUrl ? (
@@ -287,7 +287,7 @@ export default function ProductDetailView({
           )}
 
           {/* Product Title */}
-          <h1 className="text-2xl font-black text-[#1e1b18] sm:text-3xl leading-tight">
+          <h1 className="text-3xl font-black tracking-tight text-[#1e1b18] sm:text-4xl leading-tight">
             {product.name}
           </h1>
 
@@ -306,19 +306,19 @@ export default function ProductDetailView({
           </div>
 
           {/* Price */}
-          <div className="mt-5 flex items-baseline gap-3 rounded-2xl border border-[#ede5da] bg-white p-4 shadow-2xs">
+          <div className="mt-6 flex items-baseline gap-3 rounded-2xl bg-[#7d1d29] p-5 text-white shadow-[0_15px_30px_-20px_rgba(125,29,41,.8)]">
             <div className="flex items-baseline gap-1.5">
-              <span className="ltr-nums text-3xl font-black text-[#7d1d29]">
+              <span className="ltr-nums text-3xl font-black text-white">
                 {product.price} ₪
               </span>
               {product.compareAtPrice && (
-                <span className="ltr-nums text-sm text-[#80766b] line-through">
+                <span className="ltr-nums text-sm text-white/60 line-through">
                   {product.compareAtPrice} ₪
                 </span>
               )}
             </div>
             {product.discountPercent && product.discountPercent > 0 && (
-              <span className="rounded-lg bg-[#fdf0f2] px-2.5 py-1 text-xs font-black text-[#7d1d29]">
+              <span className="rounded-lg bg-white/15 px-2.5 py-1 text-xs font-black text-[#f7d9a4]">
                 وفرت %{product.discountPercent}
               </span>
             )}
@@ -402,7 +402,7 @@ export default function ProductDetailView({
           )}
 
           {/* ─── Quantity & Action Buttons ─── */}
-          <div className="mt-8 flex flex-col gap-4">
+          <div className="mt-7 flex flex-col gap-4 border-t border-[#eadfd4] pt-6">
             <div className="flex items-center gap-4">
               <span className="text-xs font-black text-[#1e1b18]">الكمية:</span>
               <div className="flex items-center rounded-xl border border-[#ede5da] bg-white shadow-2xs">
@@ -431,12 +431,12 @@ export default function ProductDetailView({
             </div>
 
             {/* Main Action Buttons */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
               <button
                 type="button"
                 disabled={addingToCart || isOutOfStock}
                 onClick={() => handleAddToCart(false)}
-                className="flex items-center justify-center gap-2 rounded-2xl bg-[#7d1d29] py-3.5 px-6 text-sm font-black text-white shadow-md transition duration-200 hover:bg-[#681822] hover:shadow-lg disabled:opacity-50"
+                className="flex items-center justify-center gap-2 rounded-2xl bg-[#7d1d29] py-4 px-6 text-sm font-black text-white shadow-lg shadow-[#7d1d29]/25 transition duration-200 hover:bg-[#681822] disabled:opacity-50"
               >
                 <ShoppingBag className="size-4.5" />
                 <span>{addingToCart ? "جاري الإضافة..." : "أضف إلى السلة"}</span>
@@ -454,7 +454,7 @@ export default function ProductDetailView({
           </div>
 
           {/* ─── Trust Badges ─── */}
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-[#ede5da] pt-6">
+          <div className="mt-7 grid grid-cols-1 gap-3 border-t border-[#eadfd4] pt-5 sm:grid-cols-3">
             <div className="flex items-center gap-2 text-xs font-bold text-[#4a443e]">
               <Truck className="size-4 text-[#7d1d29]" />
               <span>توصيل سريع وآمن</span>
@@ -472,15 +472,18 @@ export default function ProductDetailView({
       </div>
 
       {/* ─── 3. Tabs Section (Description, Reviews, Store) ─── */}
-      <div className="mt-16 border-t border-[#ede5da] pt-8">
-        <div className="flex items-center gap-6 border-b border-[#ede5da] pb-3">
+      <div className="mt-12 grid gap-6 lg:grid-cols-[.85fr_1.15fr]">
+        <div className="rounded-[1.5rem] bg-[#57111c] p-6 text-white sm:p-8">
+          <p className="text-xs font-bold text-[#f5d7a5]">تفاصيل المنتج</p>
+          <h2 className="mt-2 text-2xl font-black">كل ما يهمك قبل الشراء</h2>
+          <div className="mt-6 flex flex-col gap-2">
           <button
             type="button"
             onClick={() => setActiveTab("desc")}
-            className={`text-sm font-black transition relative pb-3 ${
+            className={`rounded-xl px-4 py-3 text-right text-sm font-black transition ${
               activeTab === "desc"
-                ? "text-[#7d1d29] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#7d1d29]"
-                : "text-[#80766b] hover:text-[#1e1b18]"
+                ? "bg-white text-[#7d1d29]"
+                : "text-white/70 hover:bg-white/10 hover:text-white"
             }`}
           >
             تفاصيل ووصف المنتج
@@ -489,23 +492,24 @@ export default function ProductDetailView({
           <button
             type="button"
             onClick={() => setActiveTab("ratings")}
-            className={`text-sm font-black transition relative pb-3 flex items-center gap-1.5 ${
+            className={`flex items-center gap-1.5 rounded-xl px-4 py-3 text-right text-sm font-black transition ${
               activeTab === "ratings"
-                ? "text-[#7d1d29] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#7d1d29]"
-                : "text-[#80766b] hover:text-[#1e1b18]"
+                ? "bg-white text-[#7d1d29]"
+                : "text-white/70 hover:bg-white/10 hover:text-white"
             }`}
           >
             <span>آراء وتقييمات الزبائن</span>
-            <span className="rounded-full bg-[#faf7f2] px-2 py-0.5 text-xs text-[#80766b]">
+            <span className={`rounded-full px-2 py-0.5 text-xs ${activeTab === "ratings" ? "bg-[#fdf0f2] text-[#7d1d29]" : "bg-white/10 text-white/80"}`}>
               {initialRatings.length}
             </span>
           </button>
+          </div>
         </div>
 
         {/* Tab Content */}
-        <div className="py-6">
+        <div className="rounded-[1.5rem] bg-white p-6 ring-1 ring-[#e9e1d7] sm:p-8">
           {activeTab === "desc" && (
-            <div className="max-w-3xl flex flex-col gap-4 text-sm text-[#4a443e] leading-relaxed">
+            <div className="max-w-3xl flex flex-col gap-5 text-sm text-[#4a443e] leading-8">
               {product.description ? (
                 <p>{product.description}</p>
               ) : (
@@ -513,21 +517,21 @@ export default function ProductDetailView({
               )}
 
               {/* Attributes table */}
-              <div className="mt-4 grid grid-cols-2 gap-3 max-w-md rounded-2xl border border-[#ede5da] bg-white p-4">
+              <div className="mt-2 grid max-w-xl grid-cols-2 gap-px overflow-hidden rounded-2xl bg-[#ede5da]">
                 {product.brand && (
-                  <div>
+                  <div className="bg-[#fcf9f5] p-4">
                     <span className="text-xs text-[#80766b]">الماركة:</span>
                     <p className="text-xs font-black text-[#1e1b18]">{product.brand}</p>
                   </div>
                 )}
                 {product.material && (
-                  <div>
+                  <div className="bg-[#fcf9f5] p-4">
                     <span className="text-xs text-[#80766b]">الخامة:</span>
                     <p className="text-xs font-black text-[#1e1b18]">{product.material}</p>
                   </div>
                 )}
                 {product.category && (
-                  <div>
+                  <div className="bg-[#fcf9f5] p-4">
                     <span className="text-xs text-[#80766b]">القسم:</span>
                     <p className="text-xs font-black text-[#1e1b18]">{product.category.name}</p>
                   </div>
@@ -539,11 +543,11 @@ export default function ProductDetailView({
           {activeTab === "ratings" && (
             <div className="flex flex-col gap-6">
               {initialRatings.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {initialRatings.map((r) => (
                     <div
                       key={r.id}
-                      className="rounded-2xl border border-[#ede5da] bg-white p-4 shadow-2xs"
+                      className="rounded-2xl bg-[#fcf9f5] p-5 ring-1 ring-[#eadfd4]"
                     >
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-black text-[#1e1b18]">
