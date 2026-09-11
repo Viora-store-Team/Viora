@@ -1,60 +1,8 @@
 import Link from "next/link";
+import { ArrowUpLeft, Heart, ShieldCheck } from "lucide-react";
 
-const footerLinks = [
-  { href: "/content/about", label: "من نحن" },
-  { href: "/content/faq", label: "الأسئلة الشائعة" },
-  { href: "/content/privacy", label: "سياسة الخصوصية وحماية البيانات" },
-  { href: "/content/terms", label: "شروط الاستخدام" },
-];
+const links = [{ href: "/content/about", label: "من نحن" }, { href: "/content/faq", label: "الأسئلة الشائعة" }, { href: "/content/privacy", label: "الخصوصية" }, { href: "/content/terms", label: "الشروط والأحكام" }];
 
 export default function Footer() {
-  return (
-    <footer
-      className="relative mt-8 border-t"
-      style={{ borderColor: "rgba(237,229,218,0.6)", background: "#ffffff" }}
-    >
-      {/* Top accent line */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[2px]"
-        style={{
-          background: "linear-gradient(90deg, transparent 0%, #7d1d29 30%, #c48b4e 60%, transparent 100%)",
-        }}
-      />
-
-      <div className="mx-auto max-w-6xl px-4 py-7 sm:px-6">
-        <div className="flex flex-col items-center gap-5 sm:flex-row sm:justify-between">
-          {/* Brand */}
-          <div className="flex flex-col items-center gap-1 sm:items-start">
-            <span
-              className="text-lg font-black tracking-[0.2em]"
-              style={{
-                background: "linear-gradient(135deg, #7d1d29 0%, #c48b4e 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              VIORA
-            </span>
-            <span className="text-[11px] text-[#80766b]">
-              © {new Date().getFullYear()} جميع الحقوق محفوظة
-            </span>
-          </div>
-
-          {/* Links */}
-          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            {footerLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-[11px] font-bold text-[#80766b] transition-colors duration-200 hover:text-[#7d1d29]"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </div>
-    </footer>
-  );
+  return <footer className="mt-14 overflow-hidden bg-[#57111c] text-white"><div className="mx-auto grid max-w-7xl gap-10 px-5 py-10 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] md:py-14"><div><div className="flex items-center gap-3"><span className="grid size-11 place-items-center rounded-2xl bg-white p-2"><img src="/viora-mark.png" alt="شعار فيورا" className="size-full object-contain" /></span><span className="text-2xl font-black tracking-[0.15em]">VIORA</span></div><p className="mt-5 max-w-sm text-sm leading-7 text-white/70">منصة تجمع لك المتاجر المحلية ومنتجات الأزياء في تجربة تسوق بسيطة ومختارة بعناية.</p></div><div><h2 className="text-sm font-black text-[#f6d69e]">اكتشفي فيورا</h2><nav className="mt-4 flex flex-col gap-3">{links.map((link) => <Link key={link.href} href={link.href} className="flex items-center gap-1.5 text-sm font-medium text-white/75 transition hover:text-white">{link.label}<ArrowUpLeft className="size-3.5" /></Link>)}</nav></div><div><h2 className="text-sm font-black text-[#f6d69e]">تسوّقي بثقة</h2><div className="mt-4 space-y-3 text-sm text-white/75"><p className="flex items-center gap-2"><ShieldCheck className="size-4 text-[#f6d69e]" />متاجر معتمدة ومنتجات واضحة</p><p className="flex items-center gap-2"><Heart className="size-4 text-[#f6d69e]" />صُنع بحب للتسوق المحلي</p></div></div></div><div className="border-t border-white/15 px-5 py-4 sm:px-6"><div className="mx-auto flex max-w-7xl flex-col gap-1 text-[11px] text-white/55 sm:flex-row sm:items-center sm:justify-between"><span>© {new Date().getFullYear()} VIORA. جميع الحقوق محفوظة.</span><span>منصة الأزياء والمتاجر المحلية</span></div></div></footer>;
 }

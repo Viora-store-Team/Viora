@@ -1,450 +1,54 @@
 "use client";
 
-import { Suspense, useEffect, useState, useTransition } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Filter,
-  Home,
-  Package,
-  RotateCcw,
-  Search,
-  SlidersHorizontal,
-  X,
-} from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ChevronLeft, ChevronRight, Home, Package, Search, SlidersHorizontal, X } from "lucide-react";
 import { apiFetch } from "@/lib/api";
-import { Category, Product, Pagination } from "@/types";
+import { Category, Product } from "@/types";
 import ProductCard from "@/components/products/ProductCard";
-import ProductsFilter from "@/components/products/ProductsFilter";
+import HorizontalScroller from "@/components/layout/HorizontalScroller";
+
+const PAGE_SIZE = 20;
+const sortOptions = [{ value: "newest", label: "الأحدث" }, { value: "price_asc", label: "السعر: الأقل أولاً" }, { value: "price_desc", label: "السعر: الأعلى أولاً" }, { value: "discount", label: "أعلى خصم" }];
+const validNumber = (value: string | null) => { const number = Number(value); return Number.isInteger(number) && number > 0 ? number : null; };
+
+async function fetchProducts(categoryId: number | null, storeId: number | null) {
+  const params = new URLSearchParams({ page: "1", limit: String(PAGE_SIZE) });
+  if (categoryId) params.set("categoryId", String(categoryId));
+  if (storeId) params.set("storeId", String(storeId));
+  const first = await apiFetch(`/products?${params}`);
+  if (!first.success || !Array.isArray(first.products)) throw new Error(first.message || "تعذر تحميل المنتجات");
+  const pages = Math.max(1, Number(first.pagination?.totalPages) || 1);
+  const remaining = await Promise.all(Array.from({ length: pages - 1 }, (_, index) => {
+    const next = new URLSearchParams(params); next.set("page", String(index + 2)); return apiFetch(`/products?${next}`);
+  }));
+  return [first.products as Product[], ...remaining.map((item) => Array.isArray(item.products) ? item.products as Product[] : [])].flat();
+}
 
 function ProductsContent() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  // Read URL params
-  const categoryIdParam = searchParams.get("categoryId");
-  const storeIdParam = searchParams.get("storeId");
-  const queryParam = searchParams.get("q") || "";
-  const pageParam = parseInt(searchParams.get("page") || "1", 10);
-  const sortParam = searchParams.get("sort") || "newest";
-
-  // State
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({
-    page: 1,
-    limit: 20,
-    total: 0,
-    totalPages: 1,
-  });
-  const [loading, setLoading] = useState(true);
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-  const [searchInput, setSearchInput] = useState(queryParam);
-  const [, startTransition] = useTransition();
-
-  const selectedCategoryId = categoryIdParam ? parseInt(categoryIdParam, 10) : null;
-  const selectedStoreId = storeIdParam ? parseInt(storeIdParam, 10) : null;
-
-  // Sync search input if URL changes
-  useEffect(() => {
-    setSearchInput(queryParam);
-  }, [queryParam]);
-
-  // 1. Fetch categories tree once
-  useEffect(() => {
-    apiFetch("/categories")
-      .then((res) => {
-        if (res.success && Array.isArray(res.categories)) {
-          setCategories(res.categories);
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  // 2. Fetch products based on filters
-  useEffect(() => {
-    let isCancelled = false;
-    setLoading(true);
-
-    const params = new URLSearchParams();
-    params.set("page", String(pageParam));
-    params.set("limit", "20");
-
-    if (selectedCategoryId) {
-      params.set("categoryId", String(selectedCategoryId));
-    }
-    if (selectedStoreId) {
-      params.set("storeId", String(selectedStoreId));
-    }
-
-    apiFetch(`/products?${params.toString()}`)
-      .then((res) => {
-        if (isCancelled) return;
-        if (res.success && Array.isArray(res.products)) {
-          let list = res.products as Product[];
-
-          // Client-side text filter if search query is present
-          if (queryParam.trim()) {
-            const q = queryParam.trim().toLowerCase();
-            list = list.filter(
-              (p) =>
-                p.name.toLowerCase().includes(q) ||
-                p.category?.name.toLowerCase().includes(q) ||
-                p.store?.name.toLowerCase().includes(q)
-            );
-          }
-
-          // Sorting
-          if (sortParam === "price_asc") {
-            list = [...list].sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-          } else if (sortParam === "price_desc") {
-            list = [...list].sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-          } else if (sortParam === "discount") {
-            list = [...list].sort(
-              (a, b) => (b.discountPercent || 0) - (a.discountPercent || 0)
-            );
-          }
-
-          setProducts(list);
-          if (res.pagination) {
-            setPagination({
-              ...res.pagination,
-              total: queryParam.trim() ? list.length : res.pagination.total,
-            });
-          }
-        } else {
-          setProducts([]);
-        }
-      })
-      .catch(() => {
-        if (!isCancelled) setProducts([]);
-      })
-      .finally(() => {
-        if (!isCancelled) setLoading(false);
-      });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [selectedCategoryId, selectedStoreId, pageParam, queryParam, sortParam]);
-
-  // Update query params helper
-  const updateUrl = (updates: Record<string, string | number | null>) => {
-    const nextParams = new URLSearchParams(searchParams.toString());
-
-    Object.entries(updates).forEach(([key, val]) => {
-      if (val === null || val === "" || val === undefined) {
-        nextParams.delete(key);
-      } else {
-        nextParams.set(key, String(val));
-      }
-    });
-
-    startTransition(() => {
-      router.push(`/products?${nextParams.toString()}`);
-    });
-  };
-
-  // Find active category object for title/breadcrumbs
-  const findCategory = (
-    cats: Category[],
-    id: number | null
-  ): { current: Category | null; parent: Category | null } => {
-    if (!id) return { current: null, parent: null };
-    for (const cat of cats) {
-      if (cat.id === id) return { current: cat, parent: null };
-      if (cat.children) {
-        const sub = cat.children.find((c) => c.id === id);
-        if (sub) return { current: sub, parent: cat };
-      }
-    }
-    return { current: null, parent: null };
-  };
-
-  const { current: currentCategory, parent: parentCategory } = findCategory(
-    categories,
-    selectedCategoryId
-  );
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    updateUrl({ q: searchInput.trim() || null, page: 1 });
-  };
-
-  const clearAllFilters = () => {
-    startTransition(() => {
-      router.push("/products");
-    });
-  };
-
-  return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
-      {/* ─── 1. Breadcrumbs ─── */}
-      <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-[#80766b]">
-        <Link href="/" className="flex items-center gap-1 hover:text-[#7d1d29] transition">
-          <Home className="size-3.5" />
-          <span>الرئيسية</span>
-        </Link>
-        <ChevronLeft className="size-3 text-[#ede5da]" />
-        <Link
-          href="/products"
-          className={`transition ${
-            !currentCategory && !queryParam
-              ? "font-bold text-[#1e1b18]"
-              : "hover:text-[#7d1d29]"
-          }`}
-        >
-          المنتجات
-        </Link>
-
-        {parentCategory && (
-          <>
-            <ChevronLeft className="size-3 text-[#ede5da]" />
-            <button
-              type="button"
-              onClick={() => updateUrl({ categoryId: parentCategory.id, page: 1 })}
-              className="hover:text-[#7d1d29] transition"
-            >
-              {parentCategory.name}
-            </button>
-          </>
-        )}
-
-        {currentCategory && (
-          <>
-            <ChevronLeft className="size-3 text-[#ede5da]" />
-            <span className="font-bold text-[#1e1b18]">{currentCategory.name}</span>
-          </>
-        )}
-
-        {queryParam && (
-          <>
-            <ChevronLeft className="size-3 text-[#ede5da]" />
-            <span className="font-bold text-[#7d1d29]">بحث: &quot;{queryParam}&quot;</span>
-          </>
-        )}
-      </nav>
-
-      {/* ─── 2. Header & Title ─── */}
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-black text-[#1e1b18] sm:text-3xl">
-            {currentCategory
-              ? currentCategory.name
-              : queryParam
-              ? `نتائج البحث عن: "${queryParam}"`
-              : "جميع المنتجات"}
-          </h1>
-          <p className="mt-1 text-xs sm:text-sm text-[#80766b]">
-            {loading
-              ? "جاري تحميل المنتجات..."
-              : `تم العثور على ${pagination.total} منتج`}
-          </p>
-        </div>
-
-        {/* Mobile Filter Button */}
-        <div className="flex items-center gap-3 lg:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileFilterOpen(true)}
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#ede5da] bg-white px-4 py-2.5 text-xs font-bold text-[#1e1b18] shadow-2xs hover:border-[#7d1d29]"
-            suppressHydrationWarning
-          >
-            <SlidersHorizontal className="size-4 text-[#7d1d29]" />
-            <span>تصفية وترتيب</span>
-            {(selectedCategoryId || sortParam !== "newest") && (
-              <span className="size-2 rounded-full bg-[#7d1d29]" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* ─── 3. Search & Filter Bar ─── */}
-      <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-[#ede5da] bg-white p-4 shadow-2xs sm:flex-row sm:items-center sm:justify-between">
-        {/* Search input form */}
-        <form
-          onSubmit={handleSearchSubmit}
-          className="relative flex flex-1 items-center max-w-md"
-        >
-          <input
-            type="text"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="ابحث عن منتج، متجر، أو ماركة..."
-            className="w-full rounded-xl border border-[#ede5da] bg-[#faf7f2] py-2.5 pr-10 pl-10 text-xs text-[#1e1b18] placeholder-[#80766b] outline-none transition focus:border-[#7d1d29] focus:bg-white"
-            suppressHydrationWarning
-          />
-          <Search className="absolute right-3 size-4 text-[#80766b]" />
-          {searchInput && (
-            <button
-              type="button"
-              onClick={() => {
-                setSearchInput("");
-                updateUrl({ q: null, page: 1 });
-              }}
-              className="absolute left-3 text-[#80766b] hover:text-[#1e1b18]"
-            >
-              <X className="size-4" />
-            </button>
-          )}
-        </form>
-
-        {/* Quick Active Chips */}
-        {(selectedCategoryId || queryParam || sortParam !== "newest") && (
-          <div className="flex flex-wrap items-center gap-2">
-            {currentCategory && (
-              <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#fdf0f2] px-2.5 py-1 text-xs font-bold text-[#7d1d29]">
-                <span>{currentCategory.name}</span>
-                <button
-                  type="button"
-                  onClick={() => updateUrl({ categoryId: null, page: 1 })}
-                  className="hover:opacity-75"
-                >
-                  <X className="size-3" />
-                </button>
-              </span>
-            )}
-
-            {queryParam && (
-              <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#fdf0f2] px-2.5 py-1 text-xs font-bold text-[#7d1d29]">
-                <span>بحث: {queryParam}</span>
-                <button
-                  type="button"
-                  onClick={() => updateUrl({ q: null, page: 1 })}
-                  className="hover:opacity-75"
-                >
-                  <X className="size-3" />
-                </button>
-              </span>
-            )}
-
-            <button
-              type="button"
-              onClick={clearAllFilters}
-              className="text-xs font-bold text-[#80766b] hover:text-[#7d1d29] hover:underline"
-            >
-              مسح الكل
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* ─── 4. Main Layout: Sidebar + Grid ─── */}
-      <div className="flex items-start gap-8">
-        {/* Desktop Filter Sidebar */}
-        <ProductsFilter
-          categories={categories}
-          selectedCategoryId={selectedCategoryId}
-          onSelectCategory={(id) => updateUrl({ categoryId: id, page: 1 })}
-          sortBy={sortParam}
-          onSelectSort={(sort) => updateUrl({ sort, page: 1 })}
-          isOpenMobile={mobileFilterOpen}
-          onCloseMobile={() => setMobileFilterOpen(false)}
-          totalProducts={pagination.total}
-        />
-
-        {/* Products Grid Area */}
-        <div className="flex-1">
-          {loading ? (
-            /* Skeleton Loading Grid */
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="flex flex-col overflow-hidden rounded-2xl border border-[#ede5da] bg-white p-3 shadow-2xs animate-pulse"
-                >
-                  <div className="aspect-square w-full rounded-xl bg-[#ede5da]/50" />
-                  <div className="mt-3 h-3 w-1/3 rounded bg-[#ede5da]/60" />
-                  <div className="mt-2 h-4 w-3/4 rounded bg-[#ede5da]/80" />
-                  <div className="mt-4 flex items-center justify-between">
-                    <div className="h-4 w-16 rounded bg-[#ede5da]/80" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : products.length > 0 ? (
-            <>
-              {/* Active Products Grid */}
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-3">
-                {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-
-              {/* ─── 5. Pagination Controls ─── */}
-              {pagination.totalPages > 1 && (
-                <div className="mt-12 flex items-center justify-center gap-2">
-                  <button
-                    type="button"
-                    disabled={pagination.page <= 1}
-                    onClick={() => updateUrl({ page: pagination.page - 1 })}
-                    className="grid size-10 place-items-center rounded-xl border border-[#ede5da] bg-white text-[#1e1b18] shadow-2xs transition disabled:opacity-40 disabled:cursor-not-allowed hover:border-[#7d1d29] hover:text-[#7d1d29]"
-                    aria-label="الصفحة السابقة"
-                  >
-                    <ChevronRight className="size-4.5" />
-                  </button>
-
-                  <div className="flex items-center gap-1.5 px-3 text-xs font-black text-[#1e1b18]">
-                    <span>صفحة</span>
-                    <span className="ltr-nums rounded-lg bg-[#7d1d29] px-2.5 py-1 text-white">
-                      {pagination.page}
-                    </span>
-                    <span>من</span>
-                    <span className="ltr-nums">{pagination.totalPages}</span>
-                  </div>
-
-                  <button
-                    type="button"
-                    disabled={pagination.page >= pagination.totalPages}
-                    onClick={() => updateUrl({ page: pagination.page + 1 })}
-                    className="grid size-10 place-items-center rounded-xl border border-[#ede5da] bg-white text-[#1e1b18] shadow-2xs transition disabled:opacity-40 disabled:cursor-not-allowed hover:border-[#7d1d29] hover:text-[#7d1d29]"
-                    aria-label="الصفحة التالية"
-                  >
-                    <ChevronLeft className="size-4.5" />
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            /* Empty State */
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#ede5da] bg-white p-12 text-center shadow-2xs">
-              <div className="grid size-16 place-items-center rounded-full bg-[#fdf0f2] text-[#7d1d29]">
-                <Package className="size-8" />
-              </div>
-              <h3 className="mt-4 text-base font-black text-[#1e1b18]">
-                لم يتم العثور على أي منتجات
-              </h3>
-              <p className="mt-1.5 max-w-sm text-xs text-[#80766b] leading-relaxed">
-                لم نجد أي منتجات تطابق خيارات التصفية أو البحث الحالية. جرب تغيير القسم أو مسح كلمات البحث.
-              </p>
-              <button
-                type="button"
-                onClick={clearAllFilters}
-                className="mt-6 flex items-center gap-2 rounded-xl bg-[#7d1d29] px-5 py-2.5 text-xs font-black text-white shadow transition hover:bg-[#681822]"
-              >
-                <RotateCcw className="size-3.5" />
-                <span>إعادة ضبط كل الفلاتر</span>
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+  const router = useRouter(); const searchParams = useSearchParams(); const [, startTransition] = useTransition();
+  const categoryId = validNumber(searchParams.get("categoryId")); const storeId = validNumber(searchParams.get("storeId"));
+  const requestedPage = validNumber(searchParams.get("page")) || 1; const query = searchParams.get("q") || "";
+  const sort = sortOptions.some((option) => option.value === searchParams.get("sort")) ? searchParams.get("sort")! : "newest";
+  const [categories, setCategories] = useState<Category[]>([]); const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true); const [error, setError] = useState(""); const [searchInput, setSearchInput] = useState(query); const [reloadKey, setReloadKey] = useState(0);
+  const updateUrl = (updates: Record<string, string | number | null>) => { const next = new URLSearchParams(searchParams.toString()); Object.entries(updates).forEach(([key, value]) => value === null || value === "" ? next.delete(key) : next.set(key, String(value))); const value = next.toString(); startTransition(() => router.push(value ? `/products?${value}` : "/products")); };
+  useEffect(() => { setSearchInput(query); }, [query]);
+  useEffect(() => { apiFetch("/categories").then((result) => { if (result.success && Array.isArray(result.categories)) setCategories(result.categories as Category[]); }); }, []);
+  useEffect(() => { let cancelled = false; setLoading(true); setError(""); fetchProducts(categoryId, storeId).then((items) => !cancelled && setAllProducts(items)).catch((reason) => { if (!cancelled) { setAllProducts([]); setError(reason.message || "تعذر تحميل المنتجات"); } }).finally(() => !cancelled && setLoading(false)); return () => { cancelled = true; }; }, [categoryId, storeId, reloadKey]);
+  const filtered = useMemo(() => { const needle = query.trim().toLocaleLowerCase("ar"); const list = needle ? allProducts.filter((item) => [item.name, item.store?.name, item.category?.name].some((value) => value?.toLocaleLowerCase("ar").includes(needle))) : allProducts; return [...list].sort((a, b) => sort === "price_asc" ? Number(a.price) - Number(b.price) : sort === "price_desc" ? Number(b.price) - Number(a.price) : sort === "discount" ? (b.discountPercent || 0) - (a.discountPercent || 0) : new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()); }, [allProducts, query, sort]);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)); const page = Math.min(requestedPage, totalPages); const items = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE); const allCategories = useMemo(() => categories.flatMap((item) => [item, ...(item.children || [])]), [categories]); const selectedCategory = allCategories.find((item) => item.id === categoryId); const hasFilters = Boolean(categoryId || storeId || query || sort !== "newest");
+  const reset = () => updateUrl({ categoryId: null, storeId: null, q: null, sort: null, page: null });
+  return <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:py-12">
+    <nav aria-label="مسار التنقل" className="mb-7 flex items-center gap-2 text-xs text-[#80766b]"><Link href="/" className="flex items-center gap-1 hover:text-[#7d1d29]"><Home className="size-3.5" />الرئيسية</Link><ChevronLeft className="size-3" /><span className="font-bold text-[#1e1b18]">المنتجات</span></nav>
+    <section className="relative isolate overflow-hidden rounded-[2rem] bg-[#641520] bg-cover bg-[center_38%] px-5 py-7 text-white sm:px-8 sm:py-9" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1583039949165-96ee24b0d8de?auto=format&fit=crop&w=2400&q=85')" }}><div className="absolute inset-0 -z-10 bg-[#4b0d16]/72" /><div className="absolute inset-0 -z-10 bg-gradient-to-l from-[#4b0d16]/25 via-[#4b0d16]/55 to-[#4b0d16]/90" /><p className="text-xs font-bold tracking-wide text-[#f4d4a2]">تسوّقي بطريقتك</p><h1 className="mt-2 text-3xl font-black sm:text-4xl">{selectedCategory?.name || "كل المنتجات"}</h1><p className="mt-2 text-sm text-white/80">{loading ? "نرتّب الخيارات المناسبة لك…" : `${filtered.length} منتج متاح للاكتشاف`}</p><form onSubmit={(event) => { event.preventDefault(); updateUrl({ q: searchInput.trim() || null, page: 1 }); }} className="relative mt-6 max-w-2xl"><Search className="absolute right-4 top-1/2 size-4 -translate-y-1/2 text-[#80766b]" /><input value={searchInput} onChange={(event) => setSearchInput(event.target.value)} placeholder="ابحثي باسم المنتج أو المتجر أو القسم" className="w-full rounded-2xl border-0 bg-white py-3.5 pr-11 pl-11 text-sm text-[#1e1b18] shadow-lg outline-none ring-2 ring-transparent transition focus:ring-[#f4d4a2]" />{searchInput && <button type="button" aria-label="مسح البحث" onClick={() => { setSearchInput(""); updateUrl({ q: null, page: 1 }); }} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#80766b]"><X className="size-4" /></button>}</form></section>
+    <section className="mt-6"><div className="mb-3 flex items-center justify-between"><div><h2 className="text-sm font-black text-[#1e1b18]">تسوّقي حسب القسم</h2><p className="mt-0.5 text-[11px] text-[#80766b]">{categories.length} أقسام رئيسية</p></div>{categoryId && <button onClick={() => updateUrl({ categoryId: null, page: 1 })} className="text-xs font-bold text-[#7d1d29]">عرض الكل</button>}</div><HorizontalScroller className="cursor-grab active:cursor-grabbing"><button onClick={() => updateUrl({ categoryId: null, page: 1 })} className={`group flex w-20 shrink-0 snap-start flex-col items-center gap-2 ${!categoryId ? "text-[#7d1d29]" : "text-[#4a443e]"}`}><span className={`grid size-16 place-items-center rounded-2xl ${!categoryId ? "bg-[#7d1d29] text-white" : "bg-white ring-1 ring-[#ede5da]"}`}><Package className="size-6" /></span><span className="w-full truncate text-center text-[11px] font-bold">الكل</span></button>{categories.map((category) => <button key={category.id} onClick={() => updateUrl({ categoryId: category.id, page: 1 })} className={`group flex w-20 shrink-0 snap-start flex-col items-center gap-2 ${categoryId === category.id ? "text-[#7d1d29]" : "text-[#4a443e]"}`}><span className={`size-16 overflow-hidden rounded-2xl bg-[#f1e8dc] ring-2 transition ${categoryId === category.id ? "ring-[#7d1d29]" : "ring-transparent group-hover:ring-[#d9cdbd]"}`}>{category.imageUrl ? <img src={category.imageUrl} alt="" className="size-full object-cover" /> : <span className="grid size-full place-items-center text-lg font-black text-[#7d1d29]">{category.name.slice(0, 1)}</span>}</span><span className="w-full truncate text-center text-[11px] font-bold">{category.name}</span></button>)}</HorizontalScroller></section>
+    <section className="mt-5 flex items-center justify-end border-t border-[#ede5da] pt-4"><div className="flex items-center gap-2"><SlidersHorizontal className="size-4 text-[#7d1d29]" /><label className="sr-only" htmlFor="product-sort">ترتيب المنتجات</label><select id="product-sort" value={sort} onChange={(event) => updateUrl({ sort: event.target.value === "newest" ? null : event.target.value, page: 1 })} className="rounded-xl border border-[#ede5da] bg-white px-3 py-2 text-xs font-bold text-[#1e1b18] outline-none focus:border-[#7d1d29]">{sortOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></div></section>
+    {hasFilters && <div className="mt-4 flex items-center justify-between text-xs"><span className="text-[#80766b]">النتائج المعروضة: {filtered.length}</span><button onClick={reset} className="font-bold text-[#7d1d29] hover:underline">مسح التصفية</button></div>}
+    <section className="mt-7" aria-live="polite">{loading ? <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{Array.from({ length: 8 }).map((_, index) => <div key={index} className="aspect-[.72] animate-pulse rounded-3xl bg-white ring-1 ring-[#ede5da]" />)}</div> : error ? <State title="تعذر تحميل المنتجات" description={error} onAction={() => setReloadKey((value) => value + 1)} /> : items.length ? <><div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{items.map((product) => <ProductCard key={product.id} product={product} />)}</div>{totalPages > 1 && <Pagination page={page} totalPages={totalPages} onChange={(next) => updateUrl({ page: next })} />}</> : <State title="لا توجد نتائج مطابقة" description="جرّبي كلمة بحث أخرى أو امسحي خيارات التصفية." onAction={reset} />}</section>
+  </main>;
 }
-
-export default function ProductsPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 text-center text-sm font-bold text-[#80766b]">
-          جاري تحميل المنتجات...
-        </div>
-      }
-    >
-      <ProductsContent />
-    </Suspense>
-  );
-}
+function Pagination({ page, totalPages, onChange }: { page: number; totalPages: number; onChange: (page: number) => void }) { return <div className="mt-10 flex items-center justify-center gap-4"><button disabled={page <= 1} onClick={() => onChange(page - 1)} aria-label="الصفحة السابقة" className="grid size-10 place-items-center rounded-full bg-white ring-1 ring-[#ede5da] disabled:opacity-40"><ChevronRight className="size-4" /></button><span className="text-xs font-bold text-[#4a443e]">{page} / {totalPages}</span><button disabled={page >= totalPages} onClick={() => onChange(page + 1)} aria-label="الصفحة التالية" className="grid size-10 place-items-center rounded-full bg-white ring-1 ring-[#ede5da] disabled:opacity-40"><ChevronLeft className="size-4" /></button></div>; }
+function State({ title, description, onAction }: { title: string; description: string; onAction: () => void }) { return <div className="rounded-[2rem] bg-white px-6 py-16 text-center ring-1 ring-[#ede5da]"><div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#fdf0f2] text-[#7d1d29]"><Package className="size-7" /></div><h2 className="mt-4 text-lg font-black text-[#1e1b18]">{title}</h2><p className="mx-auto mt-2 max-w-md text-sm text-[#80766b]">{description}</p><button onClick={onAction} className="mt-6 rounded-xl bg-[#7d1d29] px-4 py-2.5 text-xs font-bold text-white">إعادة المحاولة</button></div>; }
+export default function ProductsPage() { return <Suspense fallback={<div className="py-20 text-center text-sm">جاري تحميل المنتجات…</div>}><ProductsContent /></Suspense>; }

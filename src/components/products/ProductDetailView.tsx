@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  Check,
   ChevronLeft,
   Heart,
   Home,
@@ -23,6 +22,7 @@ import { Product, ProductDetail, RatingItem } from "@/types";
 import { apiFetch, getCustomerToken } from "@/lib/api";
 import { addToCart } from "@/lib/cart";
 import ProductCard from "./ProductCard";
+import VioraToast from "@/components/layout/VioraToast";
 
 interface ProductDetailViewProps {
   product: ProductDetail;
@@ -97,10 +97,7 @@ export default function ProductDetailView({
 
   const handleToggleFavorite = async () => {
     const token = getCustomerToken();
-    if (!token) {
-      alert("يرجى تسجيل الدخول لحفظ المنتج في المفضلة");
-      return;
-    }
+    if (!token) { showToast("يرجى تسجيل الدخول لحفظ المنتج في المفضلة", "error"); return; }
     if (favLoading) return;
     setFavLoading(true);
 
@@ -108,13 +105,18 @@ export default function ProductDetailView({
     setIsFav(nextState);
 
     try {
-      if (nextState) {
-        await apiFetch(`/favorites/${product.id}`, { method: "POST" });
+      const result = nextState
+        ? await apiFetch(`/favorites/${product.id}`, { method: "POST" })
+        : await apiFetch(`/favorites/${product.id}`, { method: "DELETE" });
+      if (!result.success) {
+        setIsFav(!nextState);
+        showToast(result.message || "تعذر تحديث المفضلة، حاولي مرة أخرى", "error");
       } else {
-        await apiFetch(`/favorites/${product.id}`, { method: "DELETE" });
+        showToast(nextState ? "تمت إضافة المنتج إلى المفضلة" : "تمت إزالة المنتج من المفضلة", "success");
       }
     } catch {
       setIsFav(!nextState);
+      showToast("تعذر تحديث المفضلة، حاولي مرة أخرى", "error");
     } finally {
       setFavLoading(false);
     }
@@ -159,23 +161,7 @@ export default function ProductDetailView({
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
-      {/* ─── Notification Toast ─── */}
-      {feedbackToast.show && (
-        <div
-          className={`fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2.5 rounded-2xl px-5 py-3 text-xs font-black shadow-2xl transition-all duration-300 ${
-            feedbackToast.type === "success"
-              ? "bg-[#7d1d29] text-white shadow-[#7d1d29]/30"
-              : "bg-red-600 text-white shadow-red-600/30"
-          }`}
-        >
-          {feedbackToast.type === "success" ? (
-            <Check className="size-4" />
-          ) : (
-            <RotateCcw className="size-4" />
-          )}
-          <span>{feedbackToast.text}</span>
-        </div>
-      )}
+      {feedbackToast.show && <VioraToast message={feedbackToast.text} type={feedbackToast.type} onClose={() => setFeedbackToast((prev) => ({ ...prev, show: false }))} />}
 
       {/* ─── 1. Breadcrumb ─── */}
       <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-[#80766b]">
