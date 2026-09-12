@@ -1,210 +1,165 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { ChevronRight, ChevronLeft, Sparkles, ArrowLeft } from "lucide-react";
+import { strings } from "@/lib/strings";
 
-const slides = [
+interface Slide {
+  id: number;
+  badge: string;
+  title: string;
+  subtitle: string;
+  ctaText: string;
+  ctaLink: string;
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
+  gradient: string;
+  image?: string;
+}
+
+const slides: Slide[] = [
   {
     id: 1,
-    image: "/hero-banner.jpg",
-    title: "",
-    subtitle: "",
-    cta: "",
-    ctaLink: "",
-    useImage: true,
+    badge: "منصة التسوّق الشاملة",
+    title: "تسوّق من أفضل المتاجر المحلية في مكان واحد",
+    subtitle: "تصفح أحدث صيحات الموضة، الأزياء الرجالية والنسائية، والأطفال والأحذية مع توصيل سريع وآمن.",
+    ctaText: "تصفّح المنتجات",
+    ctaLink: "/products",
+    secondaryCtaText: "استكشف المتاجر",
+    secondaryCtaLink: "/stores",
+    gradient: "from-[#4a0e17] via-[#7d1d29] to-[#2d080e]",
+    image: "/images/auth_banner.jpg",
   },
   {
     id: 2,
-    useImage: false,
-    bg: "linear-gradient(135deg, #1e1b18 0%, #3d1a22 50%, #7d1d29 100%)",
-    title: "أزياء تعكس شخصيتك",
-    subtitle: "اكتشفي أحدث صيحات الموضة من أفضل المتاجر المحلية",
-    cta: "تسوّقي الآن",
-    ctaLink: "/products",
-    accent: "#c48b4e",
+    badge: "عروض وتخفيضات موسمية",
+    title: "خصومات حصرية على تشكيلات الموسم الجديدة",
+    subtitle: "استمتع بعروض مميزة من أشهر المحلات التجارية المحلية بأسعار منافسة.",
+    ctaText: "شاهد العروض",
+    ctaLink: "/products/offers",
+    secondaryCtaText: "المتاجر المميزة",
+    secondaryCtaLink: "/stores",
+    gradient: "from-[#2d080e] via-[#580b1e] to-[#7d1d29]",
   },
   {
     id: 3,
-    useImage: false,
-    bg: "linear-gradient(135deg, #7d1d29 0%, #c48b4e 100%)",
-    title: "العروض الحصرية",
-    subtitle: "خصومات تصل إلى 50% على منتجات مختارة",
-    cta: "اكتشفي العروض",
-    ctaLink: "/products/offers",
-    accent: "#ffffff",
-  },
-  {
-    id: 4,
-    useImage: false,
-    bg: "linear-gradient(135deg, #2d1b33 0%, #7d1d29 60%, #c48b4e 100%)",
-    title: "المتاجر المميزة",
-    subtitle: "تسوّقي من أفضل المتاجر الموثوقة في منصة فيورا",
-    cta: "استعرضي المتاجر",
-    ctaLink: "/stores",
-    accent: "#fdf0f2",
-  },
-  {
-    id: 5,
-    useImage: false,
-    bg: "linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #7d1d29 100%)",
-    title: "تجربة تسوق لا مثيل لها",
-    subtitle: "سهولة الطلب، سرعة التوصيل، وجودة مضمونة",
-    cta: "ابدئي الآن",
-    ctaLink: "/products",
-    accent: "#c48b4e",
+    badge: "دفع آمن وشحن مباشر",
+    title: "خيارات دفع مرنة وسريعة مع محفظة فيورا",
+    subtitle: "ادفع بسهولة عبر رصيد محفظتك الرقمية أو عند الاستلام مباشرة.",
+    ctaText: "محفظتي",
+    ctaLink: "/wallet",
+    secondaryCtaText: "إنشاء حساب",
+    secondaryCtaLink: "/register",
+    gradient: "from-[#7d1d29] via-[#4a0e17] to-[#1e1b18]",
   },
 ];
 
 export default function HeroBannerSlider() {
-  const [current, setCurrent] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [direction, setDirection] = useState<"next" | "prev">("next");
-
-  const goTo = useCallback(
-    (index: number, dir: "next" | "prev" = "next") => {
-      if (isAnimating) return;
-      setIsAnimating(true);
-      setDirection(dir);
-      setTimeout(() => {
-        setCurrent(index);
-        setIsAnimating(false);
-      }, 400);
-    },
-    [isAnimating]
-  );
-
-  const next = useCallback(() => {
-    goTo((current + 1) % slides.length, "next");
-  }, [current, goTo]);
-
-  const prev = useCallback(() => {
-    goTo((current - 1 + slides.length) % slides.length, "prev");
-  }, [current, goTo]);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(next, 5000);
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 6000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, []);
 
-  const slide = slides[current];
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 pt-6 sm:px-6">
-      <div
-        className="relative overflow-hidden rounded-3xl shadow-2xl"
-        style={{ aspectRatio: "21/8" }}
-      >
-        {/* Slide Content */}
-        <div
-          key={current}
-          className="absolute inset-0 transition-all duration-500"
-          style={{
-            background: slide.useImage ? "#7d1d29" : slide.bg,
-            animation: isAnimating
-              ? direction === "next"
-                ? "slideInFromLeft 0.4s ease"
-                : "slideInFromRight 0.4s ease"
-              : "fadeIn 0.5s ease",
-          }}
-        >
-          {slide.useImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={slide.image}
-              alt="Viora - كل ما تبحثين عنه في عالم الموضة"
-              className="size-full object-cover"
-            />
-          ) : (
-            <div className="relative flex size-full flex-col items-center justify-center gap-4 px-8 text-center">
-              {/* Decorative circles */}
-              <div
-                className="absolute -top-20 -right-20 size-64 rounded-full opacity-10"
-                style={{ background: "rgba(255,255,255,0.2)" }}
-              />
-              <div
-                className="absolute -bottom-16 -left-16 size-48 rounded-full opacity-10"
-                style={{ background: "rgba(255,255,255,0.15)" }}
-              />
+    <section className="relative mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 font-cairo dir-rtl">
+      <div className="relative overflow-hidden rounded-3xl bg-[#1e1b18] shadow-2xl min-h-[380px] sm:min-h-[440px] flex items-center">
+        {slides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+              index === currentSlide ? "opacity-100 pointer-events-auto z-10" : "opacity-0 pointer-events-none z-0"
+            }`}
+          >
+            {/* Background Gradient & Pattern */}
+            <div className={`absolute inset-0 bg-gradient-to-r ${slide.gradient}`} />
+            <div className="absolute -top-32 -left-32 size-96 rounded-full bg-white/5 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-32 -right-32 size-96 rounded-full bg-[#c48b4e]/10 blur-3xl pointer-events-none" />
 
-              <h2
-                className="relative text-2xl font-black text-white sm:text-4xl lg:text-5xl"
-                style={{ textShadow: "0 2px 20px rgba(0,0,0,0.3)" }}
-              >
-                {slide.title}
-              </h2>
-              <p className="relative max-w-md text-sm text-white/80 sm:text-base">
-                {slide.subtitle}
-              </p>
-              {slide.cta && (
-                <a
+            {/* Slide Content */}
+            <div className="relative z-10 flex h-full flex-col justify-between p-8 sm:p-14 text-white max-w-2xl">
+              <div>
+                {/* Badge */}
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold text-[#fbf4ea] border border-white/15 mb-4 shadow-sm">
+                  <Sparkles className="size-3.5 text-[#c48b4e]" />
+                  <span>{slide.badge}</span>
+                </div>
+
+                {/* Title */}
+                <h1 className="text-2xl sm:text-4xl font-black leading-tight sm:leading-tight tracking-tight text-white text-balance">
+                  {slide.title}
+                </h1>
+
+                {/* Subtitle */}
+                <p className="mt-3 text-xs sm:text-sm text-[#fbf4ea]/85 leading-relaxed max-w-xl">
+                  {slide.subtitle}
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Link
                   href={slide.ctaLink}
-                  className="relative mt-2 rounded-full px-8 py-3 text-sm font-black transition-all duration-200 hover:scale-105 hover:shadow-xl"
-                  style={{
-                    background: slide.accent,
-                    color: slide.accent === "#ffffff" ? "#7d1d29" : "#ffffff",
-                  }}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-xs font-black text-[#7d1d29] shadow-lg transition duration-200 hover:bg-[#fbf4ea] hover:scale-105 active:scale-95"
                 >
-                  {slide.cta}
-                </a>
-              )}
-            </div>
-          )}
-        </div>
+                  <span>{slide.ctaText}</span>
+                  <ArrowLeft className="size-4" />
+                </Link>
 
-        {/* Dark overlay for image slide */}
-        {slide.useImage && (
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-        )}
+                {slide.secondaryCtaText && slide.secondaryCtaLink && (
+                  <Link
+                    href={slide.secondaryCtaLink}
+                    className="inline-flex items-center gap-2 rounded-2xl border border-white/30 bg-white/10 backdrop-blur-md px-6 py-3.5 text-xs font-bold text-white transition duration-200 hover:bg-white/20 hover:scale-105 active:scale-95"
+                  >
+                    <span>{slide.secondaryCtaText}</span>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
 
         {/* Navigation Arrows */}
         <button
-          onClick={prev}
-          className="absolute right-4 top-1/2 z-10 -translate-y-1/2 grid size-10 place-items-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/40 hover:scale-110"
+          type="button"
+          onClick={prevSlide}
           aria-label="السابق"
+          className="absolute right-4 top-1/2 z-20 grid size-10 -translate-y-1/2 place-items-center rounded-2xl border border-white/20 bg-black/20 text-white backdrop-blur-md transition hover:bg-white/30 hover:scale-110 active:scale-95"
         >
           <ChevronRight className="size-5" />
         </button>
+
         <button
-          onClick={next}
-          className="absolute left-4 top-1/2 z-10 -translate-y-1/2 grid size-10 place-items-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/40 hover:scale-110"
+          type="button"
+          onClick={nextSlide}
           aria-label="التالي"
+          className="absolute left-4 top-1/2 z-20 grid size-10 -translate-y-1/2 place-items-center rounded-2xl border border-white/20 bg-black/20 text-white backdrop-blur-md transition hover:bg-white/30 hover:scale-110 active:scale-95"
         >
           <ChevronLeft className="size-5" />
         </button>
 
-        {/* Dots Indicator */}
-        <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-          {slides.map((_, i) => (
+        {/* Slide Indicators Dots */}
+        <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 rounded-full bg-black/20 px-3 py-1.5 backdrop-blur-md border border-white/10">
+          {slides.map((_, idx) => (
             <button
-              key={i}
-              onClick={() => goTo(i, i > current ? "next" : "prev")}
-              className="transition-all duration-300"
-              style={{
-                width: i === current ? "28px" : "8px",
-                height: "8px",
-                borderRadius: "4px",
-                background: i === current ? "#ffffff" : "rgba(255,255,255,0.5)",
-              }}
-              aria-label={`الشريحة ${i + 1}`}
+              key={idx}
+              type="button"
+              onClick={() => setCurrentSlide(idx)}
+              aria-label={`شريحة ${idx + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                idx === currentSlide ? "w-6 bg-white" : "w-2 bg-white/40 hover:bg-white/70"
+              }`}
             />
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes slideInFromLeft {
-          from { opacity: 0; transform: translateX(-30px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInFromRight {
-          from { opacity: 0; transform: translateX(30px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-      `}</style>
     </section>
   );
 }

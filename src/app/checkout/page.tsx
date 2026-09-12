@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   AlertCircle,
-  ArrowRight,
   Check,
   CheckCircle2,
   ChevronLeft,
@@ -15,12 +14,15 @@ import {
   Plus,
   ShieldCheck,
   ShoppingBag,
-  Store as StoreIcon,
   Truck,
+  Wallet as WalletIcon,
 } from "lucide-react";
 import { apiFetch, getCustomerToken } from "@/lib/api";
 import { CartData } from "@/types";
 import { fetchFullCart } from "@/lib/cart";
+import Alert from "@/components/ui/Alert";
+import { useToast } from "@/context/ToastContext";
+import { strings } from "@/lib/strings";
 
 interface Address {
   id: number;
@@ -36,12 +38,17 @@ interface Address {
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const toast = useToast();
 
   // State
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState<CartData | null>(null);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
+
+  // Payment Method State: "COD" | "WALLET" (Matching Image 4)
+  const [paymentMethod, setPaymentMethod] = useState<"COD" | "WALLET">("WALLET");
+  const [walletBalance, setWalletBalance] = useState(500.0);
 
   // New Address Form State
   const [showNewAddressModal, setShowNewAddressModal] = useState(false);
@@ -67,10 +74,7 @@ export default function CheckoutPage() {
     }
 
     // Load Cart and Addresses simultaneously
-    Promise.all([
-      fetchFullCart(),
-      apiFetch("/addresses"),
-    ])
+    Promise.all([fetchFullCart(), apiFetch("/addresses")])
       .then(([cartData, addrRes]) => {
         setCart(cartData);
 
@@ -78,7 +82,6 @@ export default function CheckoutPage() {
           const list = addrRes.addresses as Address[];
           setAddresses(list);
           if (list.length > 0) {
-            // Pick default address or first one
             const defaultAddr = list.find((a) => a.isDefault) || list[0];
             setSelectedAddressId(defaultAddr.id);
           } else {
@@ -93,7 +96,9 @@ export default function CheckoutPage() {
   const handleCreateAddress = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newFullName.trim() || !newPhone.trim() || !newCity.trim() || !newStreet.trim()) {
-      alert("يرجى ملء جميع الحقول الإلزامية للعنوان");
+      const msg = strings.auth.errors.requiredFields;
+      setErrorMessage(msg);
+      toast.error(msg);
       return;
     }
 
@@ -120,20 +125,33 @@ export default function CheckoutPage() {
       setAddresses((prev) => [created, ...prev]);
       setSelectedAddressId(created.id);
       setShowNewAddressModal(false);
-      // Reset form
+      toast.success("تم إضافة عنوان التوصيل بنجاح!");
+
       setNewFullName("");
       setNewPhone("");
       setNewStreet("");
       setNewArea("");
       setNewDetails("");
     } else {
-      alert(res.message || "تعذر حفظ العنوان الجديد");
+      const msg = res.message || "تعذر حفظ العنوان الجديد";
+      setErrorMessage(msg);
+      toast.error(msg);
     }
   };
 
   const handlePlaceOrder = async () => {
     if (!selectedAddressId) {
-      setErrorMessage("يرجى اختيار عنوان التوصيل أولاً");
+      const msg = strings.checkout.selectAddressPrompt;
+      setErrorMessage(msg);
+      toast.error(msg);
+      return;
+    }
+
+    const cartTotal = parseFloat(cart?.summary.total || "0");
+    if (paymentMethod === "WALLET" && walletBalance < cartTotal) {
+      const msg = "رصيد المحفظة لا يكفي لشحن الطلب. يرجى شحن رصيد المحفظة أو اختيار الدفع عند الاستلام.";
+      setErrorMessage(msg);
+      toast.error(msg);
       return;
     }
 
@@ -144,6 +162,7 @@ export default function CheckoutPage() {
       method: "POST",
       body: JSON.stringify({
         addressId: selectedAddressId,
+        paymentMethod: paymentMethod,
       }),
     });
 
@@ -151,29 +170,35 @@ export default function CheckoutPage() {
 
     if (res.success && res.order) {
       setPlacedOrder(res.order);
+      if (paymentMethod === "WALLET") {
+        setWalletBalance((prev) => prev - cartTotal);
+      }
+      toast.success(strings.checkout.orderConfirmedTitle);
       window.dispatchEvent(new Event("viora_cart_updated"));
     } else {
-      setErrorMessage(res.message || "تعذر إتمام الطلب، يرجى مراجعة السلة وإعادة المحاولة.");
+      const msg = res.message || "تعذر إتمام الطلب، يرجى مراجعة السلة وإعادة المحاولة.";
+      setErrorMessage(msg);
+      toast.error(msg);
     }
   };
 
   // ─── Render Placed Order Success Screen ───
   if (placedOrder) {
     return (
-      <div className="mx-auto flex min-h-[75vh] max-w-xl flex-col items-center justify-center px-4 py-16 text-center">
-        <div className="grid size-20 place-items-center rounded-full bg-green-100 text-green-600 shadow-lg">
+      <div className="mx-auto flex min-h-[75vh] max-w-xl flex-col items-center justify-center px-4 py-16 text-center font-cairo dir-rtl">
+        <div className="grid size-20 place-items-center rounded-full bg-green-100 text-green-600 shadow-lg animate-in zoom-in-95">
           <CheckCircle2 className="size-12" />
         </div>
 
         <h1 className="mt-6 text-2xl font-black text-[#1e1b18]">
-          تم تأكيد طلبك بنجاح! 🎉
+          {strings.checkout.orderConfirmedTitle}
         </h1>
-        <p className="mt-2 text-xs text-[#80766b] leading-relaxed">
-          شكراً لتسوقك من فيورا. تم إرسال تفاصيل الطلب إلى المتاجر وسيتم تجهيزها وتوصيلها في أقرب وقت.
+        <p className="mt-2 text-xs text-[#80766b] leading-relaxed max-w-sm">
+          {strings.checkout.orderConfirmedDesc}
         </p>
 
-        {/* Order Details Card */}
-        <div className="mt-8 w-full rounded-3xl border border-[#ede5da] bg-white p-6 shadow-2xs text-right">
+        {/* Order Details Summary Box */}
+        <div className="mt-8 w-full rounded-3xl border border-[#ede5da] bg-white p-6 shadow-sm text-right">
           <div className="flex items-center justify-between border-b border-[#ede5da] pb-3 text-xs">
             <span className="text-[#80766b]">رقم الطلبية:</span>
             <span className="font-black text-[#7d1d29] ltr-nums text-sm">
@@ -190,25 +215,27 @@ export default function CheckoutPage() {
 
           <div className="flex items-center justify-between border-b border-[#ede5da] py-3 text-xs">
             <span className="text-[#80766b]">طريقة الدفع:</span>
-            <span className="font-bold text-[#1e1b18]">الدفع عند الاستلام (COD)</span>
+            <span className="font-bold text-[#1e1b18]">
+              {paymentMethod === "WALLET" ? "المحفظة" : "الدفع عند الاستلام (COD)"}
+            </span>
           </div>
 
           <div className="flex items-center justify-between pt-3 text-sm font-black">
-            <span className="text-[#1e1b18]">المجموع الكلي:</span>
+            <span className="text-[#1e1b18]">المجموع الإجمالي:</span>
             <span className="ltr-nums text-lg text-[#7d1d29]">
               {placedOrder.total} ₪
             </span>
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Actions */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/products"
-            className="flex items-center gap-2 rounded-2xl bg-[#7d1d29] px-6 py-3 text-xs font-black text-white shadow hover:bg-[#681822] transition"
+            className="flex items-center gap-2 rounded-2xl bg-[#7d1d29] px-6 py-3.5 text-xs font-black text-white shadow hover:bg-[#681822] transition"
           >
             <ShoppingBag className="size-4" />
-            <span>متابعة التسوق</span>
+            <span>{strings.checkout.continueShopping}</span>
           </Link>
         </div>
       </div>
@@ -216,35 +243,37 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
-      {/* ─── 1. Breadcrumbs ─── */}
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 font-cairo dir-rtl text-right">
+      {/* ─── Breadcrumbs ─── */}
       <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-[#80766b]">
         <Link href="/" className="flex items-center gap-1 hover:text-[#7d1d29] transition">
           <Home className="size-3.5" />
-          <span>الرئيسية</span>
+          <span>{strings.nav.home}</span>
         </Link>
         <ChevronLeft className="size-3 text-[#ede5da]" />
         <Link href="/cart" className="hover:text-[#7d1d29] transition">
-          سلة المشتريات
+          {strings.nav.cart}
         </Link>
         <ChevronLeft className="size-3 text-[#ede5da]" />
-        <span className="font-bold text-[#1e1b18]">إتمام الطلب</span>
+        <span className="font-bold text-[#1e1b18]">{strings.checkout.title}</span>
       </nav>
 
       <div className="mb-8">
         <h1 className="text-2xl font-black text-[#1e1b18] sm:text-3xl">
-          إتمام وتأكيد الطلب
+          {strings.checkout.title}
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-[#80766b]">
-          حدد عنوان التوصيل وراجع تفاصيل الطلب قبل المتابعة.
+          {strings.checkout.subtitle}
         </p>
       </div>
 
       {errorMessage && (
-        <div className="mb-6 flex items-center gap-2 rounded-2xl bg-red-50 p-4 text-xs font-bold text-red-600 border border-red-200">
-          <AlertCircle className="size-4 shrink-0" />
-          <span>{errorMessage}</span>
-        </div>
+        <Alert
+          message={errorMessage}
+          type="error"
+          onClose={() => setErrorMessage(null)}
+          className="mb-6"
+        />
       )}
 
       {loading ? (
@@ -252,7 +281,7 @@ export default function CheckoutPage() {
           جاري مراجعة العناوين والسلة...
         </div>
       ) : !cart || cart.stores.length === 0 ? (
-        <div className="flex min-h-[50vh] flex-col items-center justify-center rounded-3xl border border-dashed border-[#ede5da] bg-white p-12 text-center shadow-2xs">
+        <div className="flex min-h-[50vh] flex-col items-center justify-center rounded-3xl border border-dashed border-[#ede5da] bg-white p-12 text-center shadow-xs">
           <ShoppingBag className="size-12 text-[#7d1d29]" />
           <h2 className="mt-4 text-lg font-black text-[#1e1b18]">
             سلة المشتريات فارغة
@@ -266,15 +295,15 @@ export default function CheckoutPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
-          {/* ─── Left Section: Addresses & Payment (8 cols) ─── */}
+          {/* Left Section: Shipping Address & Payment Selection */}
           <div className="lg:col-span-8 flex flex-col gap-6">
             {/* Address Selection Card */}
-            <div className="rounded-3xl border border-[#ede5da] bg-white p-6 shadow-2xs">
+            <div className="rounded-3xl border border-[#ede5da] bg-white p-6 shadow-xs">
               <div className="flex items-center justify-between border-b border-[#ede5da] pb-4">
                 <div className="flex items-center gap-2">
                   <MapPin className="size-4.5 text-[#7d1d29]" />
                   <h2 className="text-base font-black text-[#1e1b18]">
-                    عنوان التوصيل
+                    {strings.checkout.shippingAddress}
                   </h2>
                 </div>
                 <button
@@ -283,7 +312,7 @@ export default function CheckoutPage() {
                   className="flex items-center gap-1 text-xs font-black text-[#7d1d29] hover:underline"
                 >
                   <Plus className="size-3.5" />
-                  <span>إضافة عنوان جديد</span>
+                  <span>{strings.checkout.addNewAddress}</span>
                 </button>
               </div>
 
@@ -334,16 +363,16 @@ export default function CheckoutPage() {
                 </div>
               ) : (
                 <div className="mt-4 rounded-2xl border border-dashed border-[#ede5da] p-6 text-center text-xs text-[#80766b]">
-                  لم تقم بإضافة أي عنوان بعد. انقر على &quot;إضافة عنوان جديد&quot; للمتابعة.
+                  {strings.checkout.noAddressNotice}
                 </div>
               )}
             </div>
 
-            {/* New Address Modal / Drawer */}
+            {/* New Address Modal */}
             {showNewAddressModal && (
               <div className="rounded-3xl border-2 border-[#7d1d29]/30 bg-[#faf7f2] p-6 shadow-sm">
                 <h3 className="text-sm font-black text-[#1e1b18] mb-4">
-                  إضافة عنوان توصيل جديد
+                  {strings.checkout.addNewAddress}
                 </h3>
                 <form onSubmit={handleCreateAddress} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
@@ -439,66 +468,125 @@ export default function CheckoutPage() {
               </div>
             )}
 
-            {/* Payment Method Card */}
-            <div className="rounded-3xl border border-[#ede5da] bg-white p-6 shadow-2xs">
+            {/* Payment Method Selector Card (Matching Image 4) */}
+            <div className="rounded-3xl border border-[#ede5da] bg-white p-6 shadow-xs">
               <div className="flex items-center gap-2 border-b border-[#ede5da] pb-4 mb-4">
                 <CreditCard className="size-4.5 text-[#7d1d29]" />
                 <h2 className="text-base font-black text-[#1e1b18]">
-                  طريقة الدفع
+                  {strings.checkout.paymentMethodTitle}
                 </h2>
               </div>
+              <p className="text-xs text-[#80766b] mb-4">
+                {strings.checkout.selectPaymentPrompt}
+              </p>
 
-              <div className="flex items-center justify-between rounded-2xl border border-[#7d1d29] bg-[#fdf0f2] p-4">
-                <div className="flex items-center gap-3">
-                  <div className="grid size-9 place-items-center rounded-xl bg-white text-[#7d1d29] shadow-xs">
-                    <Truck className="size-4.5" />
+              <div className="space-y-3">
+                {/* Option 1: Wallet Payment */}
+                <label
+                  onClick={() => setPaymentMethod("WALLET")}
+                  className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition ${
+                    paymentMethod === "WALLET"
+                      ? "border-[#7d1d29] bg-[#fdf0f2] shadow-xs"
+                      : "border-[#ede5da] bg-white hover:border-[#80766b]"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="radio"
+                      name="payment"
+                      checked={paymentMethod === "WALLET"}
+                      onChange={() => {}}
+                      className="accent-[#7d1d29]"
+                    />
+                    <div className="grid size-10 place-items-center rounded-2xl bg-[#7d1d29] text-white">
+                      <WalletIcon className="size-5" />
+                    </div>
+                    <div>
+                      <span className="block text-xs font-black text-[#1e1b18]">
+                        {strings.checkout.walletPaymentTitle}
+                      </span>
+                      <span className="text-[11px] text-[#80766b]">
+                        {strings.checkout.walletPaymentSub}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-xs font-black text-[#1e1b18]">
-                      الدفع عند الاستلام (Cash on Delivery)
+
+                  <div className="text-left bg-white px-3 py-1.5 rounded-xl border border-[#ede5da]">
+                    <span className="block text-[10px] text-[#80766b]">
+                      {strings.checkout.availableBalance}
                     </span>
-                    <p className="text-[11px] text-[#80766b]">
-                      ادفع نقداً عند وصول مندوب التوصيل واستلام الطلب
-                    </p>
+                    <span className="ltr-nums text-xs font-black text-[#7d1d29]">
+                      {walletBalance.toFixed(2)} ₪
+                    </span>
                   </div>
-                </div>
-                <div className="size-4 rounded-full border-4 border-[#7d1d29] bg-white" />
+                </label>
+
+                {/* Option 2: Cash On Delivery */}
+                <label
+                  onClick={() => setPaymentMethod("COD")}
+                  className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition ${
+                    paymentMethod === "COD"
+                      ? "border-[#7d1d29] bg-[#fdf0f2] shadow-xs"
+                      : "border-[#ede5da] bg-white hover:border-[#80766b]"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="radio"
+                      name="payment"
+                      checked={paymentMethod === "COD"}
+                      onChange={() => {}}
+                      className="accent-[#7d1d29]"
+                    />
+                    <div className="grid size-10 place-items-center rounded-2xl bg-white border border-[#ede5da] text-[#7d1d29]">
+                      <Truck className="size-5" />
+                    </div>
+                    <div>
+                      <span className="block text-xs font-black text-[#1e1b18]">
+                        {strings.checkout.codPaymentTitle}
+                      </span>
+                      <span className="text-[11px] text-[#80766b]">
+                        {strings.checkout.codPaymentSub}
+                      </span>
+                    </div>
+                  </div>
+                </label>
               </div>
             </div>
           </div>
 
-          {/* ─── Right Section: Order Summary (4 cols) ─── */}
+          {/* Right Section: Order Summary (4 cols) */}
           <div className="lg:col-span-4 sticky top-24">
-            <div className="rounded-3xl border border-[#ede5da] bg-white p-6 shadow-2xs">
+            <div className="rounded-3xl border border-[#ede5da] bg-white p-6 shadow-xs">
               <h2 className="text-base font-black text-[#1e1b18] border-b border-[#ede5da] pb-4">
-                ملخص الطلب
+                {strings.checkout.orderSummary}
               </h2>
 
               <div className="mt-4 flex flex-col gap-3 text-xs text-[#80766b]">
                 <div className="flex items-center justify-between">
-                  <span>عدد الأصناف:</span>
+                  <span>{strings.checkout.itemsCount}</span>
                   <span className="font-bold text-[#1e1b18]">
                     {cart.summary.itemsCount}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span>عدد المتاجر:</span>
+                  <span>{strings.checkout.storesCount}</span>
                   <span className="font-bold text-[#1e1b18]">
                     {cart.summary.storesCount}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span>رسوم التوصيل:</span>
+                  <span>{strings.checkout.deliveryFee}</span>
                   <span className="font-bold text-green-700">
-                    مجاني
+                    {strings.checkout.freeDelivery}
                   </span>
                 </div>
 
                 {/* Grand Total */}
                 <div className="mt-4 flex items-baseline justify-between border-t border-[#ede5da] pt-4">
-                  <span className="text-sm font-black text-[#1e1b18]">المجموع الإجمالي:</span>
+                  <span className="text-sm font-black text-[#1e1b18]">{strings.checkout.grandTotal}</span>
                   <span className="ltr-nums text-2xl font-black text-[#7d1d29]">
                     {cart.summary.total} ₪
                   </span>
@@ -510,9 +598,13 @@ export default function CheckoutPage() {
                 type="button"
                 disabled={placingOrder || !selectedAddressId}
                 onClick={handlePlaceOrder}
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#7d1d29] py-3.5 text-center text-sm font-black text-white shadow-md transition duration-200 hover:bg-[#681822] hover:shadow-lg disabled:opacity-50"
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#7d1d29] to-[#580b1e] py-3.5 text-center text-sm font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg disabled:opacity-50"
               >
-                <span>{placingOrder ? "جاري تأكيد الطلب..." : "تأكيد الطلب الآن"}</span>
+                <span>
+                  {placingOrder
+                    ? strings.checkout.confirmingOrder
+                    : strings.checkout.confirmOrderButton}
+                </span>
                 <Check className="size-4.5" />
               </button>
 
