@@ -5,15 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Bell,
-  Check,
   CheckCheck,
-  Clock,
   Package,
   ShieldAlert,
   ShoppingBag,
-  Sparkles,
   Store,
-  X,
 } from "lucide-react";
 import { apiFetch, getCustomerToken } from "@/lib/api";
 
@@ -175,11 +171,16 @@ export default function NotificationsDropdown() {
         type="button"
         onClick={handleToggle}
         aria-label="الإشعارات"
-        className="relative grid size-9 place-items-center rounded-full text-[#4a443e] transition-all hover:bg-[#faf7f2] hover:text-[#7d1d29]"
+        aria-expanded={isOpen}
+        className={`relative grid size-10 place-items-center rounded-2xl border transition-all active:scale-95 ${
+          isOpen
+            ? "border-[#7d1d29]/30 bg-[#fdf0f2] text-[#7d1d29] shadow-sm"
+            : "border-[#ede5da] bg-white text-[#4a443e] hover:border-[#7d1d29]/40 hover:bg-[#fdf0f2] hover:text-[#7d1d29] hover:scale-105"
+        }`}
       >
         <Bell className="size-4.5" />
         {unreadCount > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-[#7d1d29] text-[9px] font-black text-white shadow-sm animate-pulse">
+          <span className="absolute -right-1 -top-1 flex min-w-5 h-5 items-center justify-center rounded-full border-2 border-[#faf7f2] bg-[#8d1f30] px-1 text-[9px] font-black text-white shadow-sm">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
@@ -187,14 +188,25 @@ export default function NotificationsDropdown() {
 
       {/* Dropdown Panel */}
       {isOpen && (
-        <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 w-80 sm:w-96 rounded-3xl border border-[#ede5da] bg-white p-4 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200">
+        <section
+          aria-label="قائمة الإشعارات"
+          className="fixed inset-x-3 top-[4.75rem] z-50 overflow-hidden rounded-[1.45rem] border border-[#eadfd4] bg-white shadow-[0_24px_60px_-30px_rgba(69,12,23,0.5)] animate-in fade-in zoom-in-95 duration-200 sm:absolute sm:inset-x-auto sm:left-0 sm:right-auto sm:top-full sm:mt-3 sm:w-80"
+        >
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-[#ede5da] pb-3 mb-3">
+          <div className="flex items-center justify-between border-b border-[#ede5da] bg-[#fcf8f4] px-4 py-3.5">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-black text-[#1e1b18]">الإشعارات</span>
+              <span className="grid size-8 place-items-center rounded-xl bg-[#f5e5e7] text-[#8d1f30]">
+                <Bell className="size-4" />
+              </span>
+              <div>
+                <h2 className="text-sm font-black text-[#241d19]">الإشعارات</h2>
+                <p className="mt-0.5 text-[10px] font-medium text-[#8b8177]">
+                  {unreadCount > 0 ? "لديك تحديثات جديدة" : "تابعي آخر تحديثاتك"}
+                </p>
+              </div>
               {unreadCount > 0 && (
-                <span className="rounded-full bg-[#fdf0f2] px-2 py-0.5 text-[10px] font-black text-[#7d1d29]">
-                  {unreadCount} جديد
+                <span className="rounded-full bg-[#8d1f30] px-2 py-0.5 text-[10px] font-black text-white shadow-sm">
+                  {unreadCount}
                 </span>
               )}
             </div>
@@ -203,34 +215,43 @@ export default function NotificationsDropdown() {
               <button
                 type="button"
                 onClick={handleMarkAllRead}
-                className="flex items-center gap-1 text-[11px] font-bold text-[#7d1d29] hover:underline"
+                className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] font-black text-[#7d1d29] transition hover:bg-[#f5e5e7]"
               >
                 <CheckCheck className="size-3.5" />
-                <span>تحديد الكل كمقروء</span>
+                <span>قراءة الكل</span>
               </button>
             )}
           </div>
 
           {/* List */}
-          <div className="max-h-[380px] overflow-y-auto divide-y divide-[#ede5da]/50">
+          <div className="max-h-[360px] overflow-y-auto p-2">
             {loading ? (
-              <div className="py-8 text-center text-xs text-[#80766b]">
-                جاري جلب الإشعارات...
+              <div className="space-y-2 px-1 py-2" aria-label="جاري تحميل الإشعارات">
+                {[1, 2, 3].map((item) => (
+                  <div key={item} className="flex items-center gap-3 rounded-2xl p-2.5">
+                    <span className="size-9 animate-pulse rounded-xl bg-[#f4eee7]" />
+                    <span className="flex-1 space-y-2">
+                      <span className="block h-2.5 w-2/3 animate-pulse rounded-full bg-[#f4eee7]" />
+                      <span className="block h-2 w-full animate-pulse rounded-full bg-[#f8f4ef]" />
+                    </span>
+                  </div>
+                ))}
               </div>
             ) : notifications.length > 0 ? (
               notifications.map((notif) => {
                 const isUnread = !notif.readAt;
                 return (
-                  <div
+                  <button
+                    type="button"
                     key={notif.id}
                     onClick={() => handleItemClick(notif)}
-                    className={`flex items-start gap-3 p-3 rounded-2xl cursor-pointer transition ${
+                    className={`flex w-full items-start gap-3 rounded-2xl p-3 text-right transition ${
                       isUnread
-                        ? "bg-[#faf7f2]/80 hover:bg-[#fdf0f2]"
+                        ? "bg-[#fdf6f5] hover:bg-[#f8e9ea]"
                         : "hover:bg-[#faf7f2]"
                     }`}
                   >
-                    <div className="grid size-8 shrink-0 place-items-center rounded-xl bg-white border border-[#ede5da] shadow-2xs mt-0.5">
+                    <div className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl border border-[#eadfd4] bg-white shadow-sm">
                       {getNotifIcon(notif.type)}
                     </div>
 
@@ -244,30 +265,30 @@ export default function NotificationsDropdown() {
                         )}
                       </div>
 
-                      <p className="mt-0.5 text-[11px] text-[#4a443e] leading-relaxed line-clamp-2">
+                      <p className="mt-1 text-[11px] leading-relaxed text-[#635a52] line-clamp-2">
                         {notif.body}
                       </p>
 
-                      <span className="mt-1.5 text-[10px] text-[#80766b]">
+                      <span className="mt-1.5 text-[10px] font-medium text-[#9a9086]">
                         {formatTime(notif.createdAt)}
                       </span>
                     </div>
-                  </div>
+                  </button>
                 );
               })
             ) : (
-              <div className="py-10 text-center flex flex-col items-center justify-center">
-                <div className="grid size-12 place-items-center rounded-full bg-[#faf7f2] text-[#80766b] mb-2">
-                  <Bell className="size-6" />
+              <div className="flex min-h-56 flex-col items-center justify-center px-7 py-8 text-center">
+                <div className="relative mb-4 grid size-14 place-items-center rounded-2xl bg-[#f7eaeb] text-[#8d1f30] shadow-sm ring-8 ring-[#fcf7f3]">
+                  <Bell className="size-6" strokeWidth={1.7} />
                 </div>
-                <p className="text-xs font-bold text-[#1e1b18]">لا توجد إشعارات حالياً</p>
-                <p className="text-[11px] text-[#80766b] mt-0.5">
-                  ستصلك هنا تحديثات فورية عند قبول أو تجهيز أو توصيل طلباتك.
+                <p className="text-sm font-black text-[#241d19]">لا توجد إشعارات جديدة</p>
+                <p className="mt-1.5 max-w-60 text-[11px] leading-6 text-[#8b8177]">
+                  ستصل هنا تحديثات طلباتك وحالة التسليم فور صدورها.
                 </p>
               </div>
             )}
           </div>
-        </div>
+        </section>
       )}
     </div>
   );

@@ -112,6 +112,7 @@ export default function ProductDetailView({
         setIsFav(!nextState);
         showToast(result.message || "تعذر تحديث المفضلة، حاولي مرة أخرى", "error");
       } else {
+        window.dispatchEvent(new Event("viora_favorites_updated"));
         showToast(nextState ? "تمت إضافة المنتج إلى المفضلة" : "تمت إزالة المنتج من المفضلة", "success");
       }
     } catch {

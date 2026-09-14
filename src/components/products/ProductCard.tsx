@@ -23,7 +23,7 @@ export default function ProductCard({ product }: { product: Product }) {
     const next = !isFav; setFavLoading(true); setIsFav(next);
     try {
       const result = await apiFetch(`/favorites/${product.id}`, { method: next ? "POST" : "DELETE" });
-      if (!result.success) { setIsFav(!next); showToast(result.message || "تعذر تحديث المفضلة، حاولي مرة أخرى", "error"); } else { showToast(next ? "تمت إضافة المنتج إلى المفضلة" : "تمت إزالة المنتج من المفضلة", "success"); }
+      if (!result.success) { setIsFav(!next); showToast(result.message || "تعذر تحديث المفضلة، حاولي مرة أخرى", "error"); } else { window.dispatchEvent(new Event("viora_favorites_updated")); showToast(next ? "تمت إضافة المنتج إلى المفضلة" : "تمت إزالة المنتج من المفضلة", "success"); }
     } catch { setIsFav(!next); showToast("تعذر تحديث المفضلة، حاولي مرة أخرى", "error"); } finally { setFavLoading(false); }
   };
 

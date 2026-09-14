@@ -13,6 +13,7 @@ import {
 import { apiFetch } from "@/lib/api";
 import HeroBannerSlider from "@/components/layout/HeroBannerSlider";
 import HomeCategories from "@/components/layout/HomeCategories";
+import GuestJoinBanner from "@/components/layout/GuestJoinBanner";
 import ProductCard from "@/components/products/ProductCard";
 import StoreCard from "@/components/stores/StoreCard";
 import { Product, StoreDetail } from "@/types";
@@ -201,36 +202,8 @@ export default async function HomePage() {
         )}
       </section>
 
-      {/* ─── 6. Merchant / Customer Callout Banner ─────────────────────── */}
-      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#4a0e17] via-[#7d1d29] to-[#2d080e] p-8 sm:p-12 text-white shadow-xl">
-          <div className="absolute -top-24 -right-24 size-80 rounded-full bg-white/5 blur-3xl pointer-events-none" />
-          <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="space-y-2 text-center sm:text-right">
-              <h3 className="text-2xl sm:text-3xl font-black">
-                انضم إلى منصة فيورا اليوم
-              </h3>
-              <p className="text-xs sm:text-sm text-[#fbf4ea]/80 max-w-md">
-                تصفح أفضل المتاجر المحلية، اختر منتجاتك المفضلة للرجال والنساء والأطفال، واستمتع بتجربة تسوق سلسة وآمنة.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3 shrink-0">
-              <Link
-                href="/register"
-                className="rounded-full bg-white px-6 py-3 text-xs font-black text-[#7d1d29] transition hover:bg-[#fbf4ea] hover:scale-105 shadow-md"
-              >
-                إنشاء حساب جديد
-              </Link>
-              <Link
-                href="/stores"
-                className="rounded-full border border-white/30 bg-white/10 backdrop-blur-md px-6 py-3 text-xs font-black text-white transition hover:bg-white/20"
-              >
-                استعرض المتاجر
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ─── 6. Guest Callout Banner ───────────────────────────────────── */}
+      <GuestJoinBanner />
     </div>
   );
 }

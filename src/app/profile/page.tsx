@@ -165,17 +165,18 @@ export default function ProfilePage() {
     }
 
     setSavingAddr(true);
+    const addressPayload = {
+      label: addrLabel.trim() || "البيت",
+      fullName: addrName.trim(),
+      phone: addrPhone.trim(),
+      city: addrCity.trim(),
+      street: addrStreet.trim(),
+      ...(addrDetails.trim() ? { details: addrDetails.trim() } : {}),
+    };
+
     const res = await apiFetch("/addresses", {
       method: "POST",
-      body: JSON.stringify({
-        label: addrLabel,
-        fullName: addrName.trim(),
-        phone: addrPhone.trim(),
-        city: addrCity.trim(),
-        street: addrStreet.trim(),
-        details: addrDetails.trim() || null,
-        isDefault: addresses.length === 0,
-      }),
+      body: JSON.stringify(addressPayload),
     });
 
     setSavingAddr(false);
@@ -221,7 +222,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:py-10">
       {/* ─── Breadcrumbs ─── */}
       <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-[#80766b]">
         <Link href="/" className="flex items-center gap-1 hover:text-[#7d1d29] transition">
@@ -232,31 +233,47 @@ export default function ProfilePage() {
         <span className="font-bold text-[#1e1b18]">حسابي</span>
       </nav>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
-        {/* ─── Sidebar Navigation (4 cols) ─── */}
-        <aside className="lg:col-span-4 rounded-3xl border border-[#ede5da] bg-white p-6 shadow-2xs">
+      <section className="relative isolate overflow-hidden rounded-[2rem] bg-[#681822] px-6 py-7 text-white shadow-[0_20px_45px_-28px_rgba(68,12,22,.65)] sm:px-8 sm:py-8">
+        <div className="absolute -left-12 -top-16 -z-10 size-56 rounded-full bg-[#e5b47a]/15 blur-3xl" />
+        <div className="absolute -bottom-24 right-[22%] -z-10 size-52 rounded-full border-[22px] border-white/10" />
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-bold tracking-wide text-[#f4d4a2]">مساحتك الخاصة</p>
+            <h1 className="mt-1.5 text-2xl font-black sm:text-3xl">أهلاً {user?.name || "بك"}</h1>
+            <p className="mt-2 text-sm text-white/80">تابعي طلباتك، عناوين التوصيل وبيانات حسابك في مكان واحد.</p>
+          </div>
+          <div className="flex items-center gap-3 self-start rounded-2xl border border-white/15 bg-white/10 p-3 backdrop-blur sm:self-auto">
+            <span className="grid size-12 place-items-center rounded-2xl bg-white text-lg font-black text-[#8d1f30] shadow-sm">{user?.name ? user.name[0] : "ز"}</span>
+            <div><p className="text-sm font-black">{user?.name || "حسابي"}</p><p className="mt-0.5 text-[11px] text-white/70">عضو في فيورا</p></div>
+          </div>
+        </div>
+      </section>
+
+      <div className="mt-7 grid grid-cols-1 items-start gap-6 lg:grid-cols-[18rem_minmax(0,1fr)]">
+        {/* ─── Sidebar Navigation ─── */}
+        <aside className="rounded-[1.75rem] border border-[#eadfd4] bg-white p-4 shadow-sm lg:sticky lg:top-24">
           {/* User Preview */}
-          <div className="flex items-center gap-3 border-b border-[#ede5da] pb-5">
-            <div className="grid size-12 place-items-center rounded-2xl bg-[#fdf0f2] text-[#7d1d29] font-black text-lg">
+          <div className="flex items-center gap-3 rounded-2xl bg-[#fbf6f1] p-3.5">
+            <div className="grid size-12 place-items-center rounded-2xl bg-[#f5e5e7] text-lg font-black text-[#8d1f30]">
               {user?.name ? user.name[0] : "ز"}
             </div>
             <div className="overflow-hidden">
               <h2 className="text-sm font-black text-[#1e1b18] truncate">
                 {user?.name || "حسابي"}
               </h2>
-              <p className="text-xs text-[#80766b] truncate ltr-nums text-left">{user?.email}</p>
+              <p className="mt-0.5 text-[11px] text-[#80766b] truncate ltr-nums text-left">{user?.email || "جاري تحميل بيانات الحساب…"}</p>
             </div>
           </div>
 
           {/* Navigation Links */}
-          <nav className="mt-4 flex flex-col gap-1">
+          <nav className="mt-4 flex flex-col gap-1.5">
             <button
               type="button"
               onClick={() => setActiveTab("orders")}
-              className={`flex items-center justify-between rounded-2xl px-4 py-3 text-xs font-black transition ${
+              className={`flex items-center justify-between rounded-xl px-3.5 py-3 text-xs font-black transition ${
                 activeTab === "orders"
-                  ? "bg-[#7d1d29] text-white shadow-xs"
-                  : "text-[#4a443e] hover:bg-[#faf7f2]"
+                  ? "bg-[#8d1f30] text-white shadow-md shadow-[#8d1f30]/20"
+                  : "text-[#4a443e] hover:bg-[#fbf6f1] hover:text-[#8d1f30]"
               }`}
             >
               <div className="flex items-center gap-2.5">
@@ -271,10 +288,10 @@ export default function ProfilePage() {
             <button
               type="button"
               onClick={() => setActiveTab("addresses")}
-              className={`flex items-center justify-between rounded-2xl px-4 py-3 text-xs font-black transition ${
+              className={`flex items-center justify-between rounded-xl px-3.5 py-3 text-xs font-black transition ${
                 activeTab === "addresses"
-                  ? "bg-[#7d1d29] text-white shadow-xs"
-                  : "text-[#4a443e] hover:bg-[#faf7f2]"
+                  ? "bg-[#8d1f30] text-white shadow-md shadow-[#8d1f30]/20"
+                  : "text-[#4a443e] hover:bg-[#fbf6f1] hover:text-[#8d1f30]"
               }`}
             >
               <div className="flex items-center gap-2.5">
@@ -289,10 +306,10 @@ export default function ProfilePage() {
             <button
               type="button"
               onClick={() => setActiveTab("profile")}
-              className={`flex items-center gap-2.5 rounded-2xl px-4 py-3 text-xs font-black transition ${
+              className={`flex items-center gap-2.5 rounded-xl px-3.5 py-3 text-xs font-black transition ${
                 activeTab === "profile"
-                  ? "bg-[#7d1d29] text-white shadow-xs"
-                  : "text-[#4a443e] hover:bg-[#faf7f2]"
+                  ? "bg-[#8d1f30] text-white shadow-md shadow-[#8d1f30]/20"
+                  : "text-[#4a443e] hover:bg-[#fbf6f1] hover:text-[#8d1f30]"
               }`}
             >
               <User className="size-4" />
@@ -302,7 +319,7 @@ export default function ProfilePage() {
             <button
               type="button"
               onClick={handleLogout}
-              className="mt-4 flex items-center gap-2.5 rounded-2xl border border-red-100 bg-red-50/50 px-4 py-3 text-xs font-black text-red-600 transition hover:bg-red-100"
+              className="mt-4 flex items-center gap-2.5 rounded-xl border border-red-100 bg-red-50/50 px-3.5 py-3 text-xs font-black text-red-600 transition hover:bg-red-100"
             >
               <LogOut className="size-4" />
               <span>تسجيل الخروج</span>
@@ -311,15 +328,19 @@ export default function ProfilePage() {
         </aside>
 
         {/* ─── Main Content (8 cols) ─── */}
-        <main className="lg:col-span-8">
+        <main className="min-w-0">
           {/* ─── Tab: Orders ─── */}
           {activeTab === "orders" && (
             <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between border-b border-[#ede5da] pb-4">
-                <div>
+              <div className="flex items-center justify-between rounded-[1.5rem] border border-[#eadfd4] bg-white p-5 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <span className="grid size-11 place-items-center rounded-2xl bg-[#f5e5e7] text-[#8d1f30]"><ShoppingBag className="size-5" /></span>
+                  <div>
                   <h1 className="text-xl font-black text-[#1e1b18]">طلباتي السابقة</h1>
-                  <p className="text-xs text-[#80766b]">متابعة وتفاصيل جميع طلبياتك على منصة فيورا</p>
+                  <p className="mt-1 text-xs text-[#80766b]">متابعة وتفاصيل جميع طلبياتك على منصة فيورا</p>
+                  </div>
                 </div>
+                <span className="rounded-xl bg-[#fbf6f1] px-3 py-2 text-xs font-black text-[#8d1f30]">{orders.length} طلب</span>
               </div>
 
               {loadingOrders ? (
@@ -382,8 +403,8 @@ export default function ProfilePage() {
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-[#ede5da] bg-white p-12 text-center shadow-2xs">
-                  <Package className="size-12 text-[#7d1d29]" />
+                <div className="flex min-h-80 flex-col items-center justify-center rounded-[1.75rem] border border-dashed border-[#dfd2c5] bg-white p-12 text-center shadow-sm">
+                  <span className="grid size-16 place-items-center rounded-2xl bg-[#f5e5e7] text-[#8d1f30]"><Package className="size-8" /></span>
                   <h3 className="mt-4 text-base font-black text-[#1e1b18]">لا توجد طلبات سابقة</h3>
                   <p className="mt-1 text-xs text-[#80766b]">لم تقم بعمل أي طلبات بعد.</p>
                   <Link
@@ -400,10 +421,13 @@ export default function ProfilePage() {
           {/* ─── Tab: Addresses ─── */}
           {activeTab === "addresses" && (
             <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between border-b border-[#ede5da] pb-4">
-                <div>
+              <div className="flex items-center justify-between rounded-[1.5rem] border border-[#eadfd4] bg-white p-5 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <span className="grid size-11 place-items-center rounded-2xl bg-[#f5e5e7] text-[#8d1f30]"><MapPin className="size-5" /></span>
+                  <div>
                   <h1 className="text-xl font-black text-[#1e1b18]">دفتر العناوين</h1>
-                  <p className="text-xs text-[#80766b]">إدارة عناوين التوصيل الخاصة بك</p>
+                  <p className="mt-1 text-xs text-[#80766b]">إدارة عناوين التوصيل الخاصة بك</p>
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -538,10 +562,8 @@ export default function ProfilePage() {
 
           {/* ─── Tab: Profile Details ─── */}
           {activeTab === "profile" && (
-            <div className="rounded-3xl border border-[#ede5da] bg-white p-8 shadow-2xs">
-              <h1 className="text-xl font-black text-[#1e1b18] border-b border-[#ede5da] pb-4">
-                تعديل البيانات الشخصية
-              </h1>
+            <div className="rounded-[1.75rem] border border-[#eadfd4] bg-white p-6 shadow-sm sm:p-8">
+              <div className="flex items-center gap-3 border-b border-[#ede5da] pb-5"><span className="grid size-11 place-items-center rounded-2xl bg-[#f5e5e7] text-[#8d1f30]"><User className="size-5" /></span><div><h1 className="text-xl font-black text-[#1e1b18]">تعديل البيانات الشخصية</h1><p className="mt-1 text-xs text-[#80766b]">حدّثي معلومات حسابك متى شئت.</p></div></div>
 
               {profileMsg && (
                 <div className="mt-4 rounded-2xl bg-green-50 p-4 text-xs font-bold text-green-700 border border-green-200 flex items-center gap-2">

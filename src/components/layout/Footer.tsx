@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpLeft, Heart, ShieldCheck, ShoppingBag, Sparkles, Store, Truck } from "lucide-react";
+import { ArrowUpLeft, Heart, ShieldCheck, Sparkles, Store, Truck } from "lucide-react";
 import { strings } from "@/lib/strings";
 
 const links = [
@@ -19,8 +19,8 @@ export default function Footer() {
         {/* Brand & Description */}
         <div className="space-y-4">
           <Link href="/" className="inline-flex items-center gap-3">
-            <div className="grid size-12 place-items-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-2 text-white shadow-lg">
-              <ShoppingBag className="size-6 text-[#c48b4e]" />
+            <div className="grid size-12 place-items-center rounded-2xl bg-white p-2 shadow-lg">
+              <img src="/viora-mark.png" alt="" className="size-full object-contain" />
             </div>
             <div>
               <span className="block text-2xl font-black tracking-widest text-white">
@@ -67,16 +67,16 @@ export default function Footer() {
             الأقسام الشهيرة
           </h2>
           <nav className="mt-4 flex flex-col gap-3 text-xs font-semibold text-white/80">
-            <Link href="/products?category=men" className="hover:text-white transition">
+            <Link href="/products?categoryId=1" className="hover:text-white transition">
               {strings.home.categories.men}
             </Link>
-            <Link href="/products?category=women" className="hover:text-white transition">
+            <Link href="/products?categoryId=8" className="hover:text-white transition">
               {strings.home.categories.women}
             </Link>
-            <Link href="/products?category=kids" className="hover:text-white transition">
+            <Link href="/products?categoryId=170" className="hover:text-white transition">
               {strings.home.categories.kids}
             </Link>
-            <Link href="/products?category=shoes" className="hover:text-white transition">
+            <Link href="/products?categoryId=222" className="hover:text-white transition">
               {strings.home.categories.shoes}
             </Link>
           </nav>

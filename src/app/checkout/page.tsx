@@ -15,7 +15,6 @@ import {
   ShieldCheck,
   ShoppingBag,
   Truck,
-  Wallet as WalletIcon,
 } from "lucide-react";
 import { apiFetch, getCustomerToken } from "@/lib/api";
 import { CartData } from "@/types";
@@ -46,9 +45,8 @@ export default function CheckoutPage() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
 
-  // Payment Method State: "COD" | "WALLET" (Matching Image 4)
-  const [paymentMethod, setPaymentMethod] = useState<"COD" | "WALLET">("WALLET");
-  const [walletBalance, setWalletBalance] = useState(500.0);
+  // Cash on delivery is currently the only supported checkout method.
+  const paymentMethod = "COD";
 
   // New Address Form State
   const [showNewAddressModal, setShowNewAddressModal] = useState(false);
@@ -104,18 +102,19 @@ export default function CheckoutPage() {
 
     setSavingAddress(true);
 
+    const addressPayload = {
+      label: newLabel.trim() || "البيت",
+      fullName: newFullName.trim(),
+      phone: newPhone.trim(),
+      city: newCity.trim(),
+      street: newStreet.trim(),
+      ...(newArea.trim() ? { area: newArea.trim() } : {}),
+      ...(newDetails.trim() ? { details: newDetails.trim() } : {}),
+    };
+
     const res = await apiFetch("/addresses", {
       method: "POST",
-      body: JSON.stringify({
-        label: newLabel,
-        fullName: newFullName.trim(),
-        phone: newPhone.trim(),
-        city: newCity.trim(),
-        area: newArea.trim() || null,
-        street: newStreet.trim(),
-        details: newDetails.trim() || null,
-        isDefault: addresses.length === 0,
-      }),
+      body: JSON.stringify(addressPayload),
     });
 
     setSavingAddress(false);
@@ -147,14 +146,6 @@ export default function CheckoutPage() {
       return;
     }
 
-    const cartTotal = parseFloat(cart?.summary.total || "0");
-    if (paymentMethod === "WALLET" && walletBalance < cartTotal) {
-      const msg = "رصيد المحفظة لا يكفي لشحن الطلب. يرجى شحن رصيد المحفظة أو اختيار الدفع عند الاستلام.";
-      setErrorMessage(msg);
-      toast.error(msg);
-      return;
-    }
-
     setPlacingOrder(true);
     setErrorMessage(null);
 
@@ -170,9 +161,6 @@ export default function CheckoutPage() {
 
     if (res.success && res.order) {
       setPlacedOrder(res.order);
-      if (paymentMethod === "WALLET") {
-        setWalletBalance((prev) => prev - cartTotal);
-      }
       toast.success(strings.checkout.orderConfirmedTitle);
       window.dispatchEvent(new Event("viora_cart_updated"));
     } else {
@@ -216,7 +204,7 @@ export default function CheckoutPage() {
           <div className="flex items-center justify-between border-b border-[#ede5da] py-3 text-xs">
             <span className="text-[#80766b]">طريقة الدفع:</span>
             <span className="font-bold text-[#1e1b18]">
-              {paymentMethod === "WALLET" ? "المحفظة" : "الدفع عند الاستلام (COD)"}
+              الدفع عند الاستلام
             </span>
           </div>
 
@@ -393,7 +381,7 @@ export default function CheckoutPage() {
                       required
                       value={newFullName}
                       onChange={(e) => setNewFullName(e.target.value)}
-                      placeholder="يوسف نعيم"
+                      placeholder="أحمد أحمد"
                       className="w-full rounded-xl border border-[#ede5da] bg-white p-2.5 outline-none focus:border-[#7d1d29]"
                     />
                   </div>
@@ -480,61 +468,15 @@ export default function CheckoutPage() {
                 {strings.checkout.selectPaymentPrompt}
               </p>
 
-              <div className="space-y-3">
-                {/* Option 1: Wallet Payment */}
+              <div>
                 <label
-                  onClick={() => setPaymentMethod("WALLET")}
-                  className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition ${
-                    paymentMethod === "WALLET"
-                      ? "border-[#7d1d29] bg-[#fdf0f2] shadow-xs"
-                      : "border-[#ede5da] bg-white hover:border-[#80766b]"
-                  }`}
+                  className="flex items-center justify-between rounded-2xl border border-[#7d1d29] bg-[#fdf0f2] p-4 shadow-xs"
                 >
                   <div className="flex items-center gap-3">
                     <input
                       type="radio"
                       name="payment"
-                      checked={paymentMethod === "WALLET"}
-                      onChange={() => {}}
-                      className="accent-[#7d1d29]"
-                    />
-                    <div className="grid size-10 place-items-center rounded-2xl bg-[#7d1d29] text-white">
-                      <WalletIcon className="size-5" />
-                    </div>
-                    <div>
-                      <span className="block text-xs font-black text-[#1e1b18]">
-                        {strings.checkout.walletPaymentTitle}
-                      </span>
-                      <span className="text-[11px] text-[#80766b]">
-                        {strings.checkout.walletPaymentSub}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="text-left bg-white px-3 py-1.5 rounded-xl border border-[#ede5da]">
-                    <span className="block text-[10px] text-[#80766b]">
-                      {strings.checkout.availableBalance}
-                    </span>
-                    <span className="ltr-nums text-xs font-black text-[#7d1d29]">
-                      {walletBalance.toFixed(2)} ₪
-                    </span>
-                  </div>
-                </label>
-
-                {/* Option 2: Cash On Delivery */}
-                <label
-                  onClick={() => setPaymentMethod("COD")}
-                  className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition ${
-                    paymentMethod === "COD"
-                      ? "border-[#7d1d29] bg-[#fdf0f2] shadow-xs"
-                      : "border-[#ede5da] bg-white hover:border-[#80766b]"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="radio"
-                      name="payment"
-                      checked={paymentMethod === "COD"}
+                      checked
                       onChange={() => {}}
                       className="accent-[#7d1d29]"
                     />
@@ -579,8 +521,8 @@ export default function CheckoutPage() {
 
                 <div className="flex items-center justify-between">
                   <span>{strings.checkout.deliveryFee}</span>
-                  <span className="font-bold text-green-700">
-                    {strings.checkout.freeDelivery}
+                  <span className="font-bold text-[#8d1f30]">
+                    يُدفع عند الاستلام
                   </span>
                 </div>
 
