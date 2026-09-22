@@ -1,0 +1,193 @@
+[
+  {
+    "route": "/categories",
+    "status": 200,
+    "ms": 1327,
+    "success": true,
+    "keys": [
+      "success",
+      "count",
+      "categories"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/banners",
+    "status": 200,
+    "ms": 1196,
+    "success": true,
+    "keys": [
+      "success",
+      "count",
+      "banners"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/products?limit=1",
+    "status": 200,
+    "ms": 1578,
+    "success": true,
+    "keys": [
+      "success",
+      "products",
+      "pagination"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/stores?limit=1",
+    "status": 200,
+    "ms": 535,
+    "success": true,
+    "keys": [
+      "success",
+      "stores",
+      "pagination"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/stores/featured?limit=1",
+    "status": 200,
+    "ms": 523,
+    "success": true,
+    "keys": [
+      "success",
+      "stores"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/products/best-selling?limit=1",
+    "status": 200,
+    "ms": 831,
+    "success": true,
+    "keys": [
+      "success",
+      "products",
+      "rankedCount"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/products/offers?limit=1",
+    "status": 200,
+    "ms": 686,
+    "success": true,
+    "keys": [
+      "success",
+      "products",
+      "pagination"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/products/435",
+    "status": 200,
+    "ms": 812,
+    "success": true,
+    "keys": [
+      "success",
+      "product"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/products/435/ratings?limit=1",
+    "status": 200,
+    "ms": 487,
+    "success": true,
+    "keys": [
+      "success",
+      "ratingAvg",
+      "ratingCount",
+      "ratings",
+      "pagination"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/content/about",
+    "status": 200,
+    "ms": 349,
+    "success": true,
+    "keys": [
+      "success",
+      "page"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/cart",
+    "status": 401,
+    "ms": 305,
+    "success": false,
+    "keys": [
+      "success",
+      "message",
+      "forceLogout"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/favorites",
+    "status": 401,
+    "ms": 304,
+    "success": false,
+    "keys": [
+      "success",
+      "message",
+      "forceLogout"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/orders",
+    "status": 401,
+    "ms": 343,
+    "success": false,
+    "keys": [
+      "success",
+      "message",
+      "forceLogout"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/addresses",
+    "status": 401,
+    "ms": 348,
+    "success": false,
+    "keys": [
+      "success",
+      "message",
+      "forceLogout"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/auth/me",
+    "status": 401,
+    "ms": 349,
+    "success": false,
+    "keys": [
+      "success",
+      "message",
+      "forceLogout"
+    ],
+    "cors": "*"
+  },
+  {
+    "route": "/notifications/count",
+    "status": 401,
+    "ms": 311,
+    "success": false,
+    "keys": [
+      "success",
+      "message",
+      "forceLogout"
+    ],
+    "cors": "*"
+  }
+]

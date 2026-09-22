@@ -1,0 +1,55 @@
+{
+  "accountId": 1605,
+  "email": "viora.qa.1790080964676@example.com",
+  "registration": {
+    "status": 201,
+    "otpReturnedInResponse": true
+  },
+  "verification": {
+    "status": 200,
+    "requiredMailboxAccess": false
+  },
+  "profileUpdated": true,
+  "addressCreated": true,
+  "cartAdded": true,
+  "cartQuantityUpdated": 2,
+  "checkoutReviewed": true,
+  "orderSubmitted": false,
+  "cleanup": [
+    {
+      "test": "Favorite removed on server",
+      "status": 200,
+      "count": 0
+    },
+    {
+      "test": "Delete disposable test address",
+      "status": 200,
+      "success": true
+    },
+    {
+      "test": "Clear test cart",
+      "status": 200,
+      "success": true
+    },
+    {
+      "test": "Final /orders",
+      "status": 200,
+      "count": 0
+    },
+    {
+      "test": "Final /cart",
+      "status": 200,
+      "count": 0
+    },
+    {
+      "test": "Final /addresses",
+      "status": 200,
+      "count": 0
+    },
+    {
+      "test": "Final /favorites",
+      "status": 200,
+      "count": 0
+    }
+  ]
+}

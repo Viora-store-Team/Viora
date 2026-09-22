@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  AlertCircle,
   Check,
   ChevronLeft,
   Clock,
@@ -212,6 +211,10 @@ export default function ProfilePage() {
         return { label: "قيد المراجعة", color: "bg-amber-100 text-amber-800" };
       case "ACCEPTED":
         return { label: "تم القبول والتجهيز", color: "bg-blue-100 text-blue-800" };
+      case "PREPARING":
+        return { label: "قيد التجهيز", color: "bg-blue-100 text-blue-800" };
+      case "SHIPPING":
+        return { label: "في الطريق إليك", color: "bg-violet-100 text-violet-800" };
       case "DELIVERED":
         return { label: "تم التوصيل بنجاح", color: "bg-green-100 text-green-800" };
       case "CANCELLED":
@@ -348,9 +351,10 @@ export default function ProfilePage() {
               ) : orders.length > 0 ? (
                 <div className="flex flex-col gap-4">
                   {orders.map((order) => (
-                    <div
+                    <Link
+                      href={`/orders/${order.id}`}
                       key={order.id}
-                      className="overflow-hidden rounded-3xl border border-[#ede5da] bg-white p-6 shadow-2xs"
+                      className="group block overflow-hidden rounded-3xl border border-[#ede5da] bg-white p-6 shadow-2xs transition hover:-translate-y-0.5 hover:border-[#8d1f30]/40 hover:shadow-md"
                     >
                       {/* Order Header */}
                       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#ede5da]/60 pb-4">
@@ -399,7 +403,7 @@ export default function ProfilePage() {
                         <span className="text-[#80766b] text-xs">المجموع الكلي للطلبية:</span>
                         <span className="ltr-nums text-base text-[#7d1d29]">{order.total} ₪</span>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               ) : (

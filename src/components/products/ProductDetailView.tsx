@@ -65,6 +65,7 @@ export default function ProductDetailView({
     const newSizes = newVariant?.sizes || [];
     const inStock = newSizes.find((s) => s.stock > 0) || newSizes[0] || null;
     setSelectedSizeId(inStock ? inStock.id : null);
+    setQuantity(1);
   };
 
   // Quantity
@@ -132,6 +133,10 @@ export default function ProductDetailView({
       showToast("هذا المقاس غير متوفر حالياً", "error");
       return;
     }
+    if (selectedSize && quantity > selectedSize.stock) {
+      showToast(`الكمية المتوفرة في المخزون هي ${selectedSize.stock} فقط`, "error");
+      return;
+    }
 
     setAddingToCart(true);
 
@@ -142,7 +147,9 @@ export default function ProductDetailView({
       sizeName: selectedSize?.name,
       price: product.price,
       image: variantImages[activeImageIdx] || product.image,
+      storeId: product.store?.id,
       storeName: product.store?.name,
+      stock: selectedSize?.stock,
     });
 
     setAddingToCart(false);

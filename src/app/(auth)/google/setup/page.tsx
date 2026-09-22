@@ -8,7 +8,7 @@ export default function GoogleSetupPage() {
 
   useEffect(() => {
     // توجيه تلقائي ومباشر إلى خطوات التسجيل الأساسية
-    router.replace("/register/step1");
+    router.replace("/register");
   }, [router]);
 
   return null;

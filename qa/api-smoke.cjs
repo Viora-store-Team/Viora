@@ -1,0 +1,6 @@
+// Read-only public/auth-guard checks. Does not record response bodies or credentials.
+require('@next/env').loadEnvConfig(require('node:path').join(__dirname,'..'));
+const fs=require('node:fs'); const path=require('node:path');
+const base=process.env.NEXT_PUBLIC_API_URL||'https://viora-backend-tuqg.onrender.com/api';
+const routes=['/categories','/banners','/products?limit=1','/stores?limit=1','/stores/featured?limit=1','/products/best-selling?limit=1','/products/offers?limit=1','/products/435','/products/435/ratings?limit=1','/content/about','/cart','/favorites','/orders','/addresses','/auth/me','/notifications/count'];
+(async()=>{const results=[];for(let i=0;i<routes.length;i+=3){results.push(...await Promise.all(routes.slice(i,i+3).map(async route=>{const start=Date.now();try{const r=await fetch(base+route,{headers:{Accept:'application/json',Origin:'http://localhost:3100'},signal:AbortSignal.timeout(30000)});const data=await r.json();return{route,status:r.status,ms:Date.now()-start,success:data.success,keys:Object.keys(data),cors:r.headers.get('access-control-allow-origin')};}catch(e){return{route,error:e.message}}})));}fs.writeFileSync(path.join(__dirname,'api-results.json'),JSON.stringify(results,null,2));console.log(JSON.stringify(results,null,2));})();

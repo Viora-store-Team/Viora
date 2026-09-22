@@ -1,0 +1,115 @@
+{"kind":"deck","id":"pr/bcts50","name":"Deck"}
+{"kind":"layout","layoutId":"ba92ce21-9c48-4fd9-a13a-30b28910d283","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"c4b7ebc6-8dd7-422d-af41-2ded435bcf0d","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/ffq51o","slide":1,"title":"فيورا","textShapes":6}
+{"kind":"shape","id":"sh/sj65gva9","slide":1,"bbox":[0,0,1280,720]}
+{"kind":"shape","id":"sh/ryd47q9o","slide":1,"bbox":[0,0,430,720]}
+{"kind":"shape","id":"sh/qx4nels3","slide":1,"bbox":[66,100,4,320]}
+{"kind":"shape","id":"sh/1of6dkrq","slide":1,"bbox":[104,140,222,245]}
+{"kind":"textbox","id":"sh/fmxoba90","slide":1,"text":"فيورا","textPreview":"فيورا","textChars":5,"textLines":1,"bbox":[520,170,610,82]}
+{"kind":"textbox","id":"sh/eloni5sf","slide":1,"text":"منصة موحّدة لاكتشاف وشراء الأزياء\nمن المتاجر المحلية","textPreview":"منصة موحّدة لاكتشاف وشراء الأزياء | من المتاجر المحلية","textChars":52,"textLines":2,"bbox":[520,270,610,116]}
+{"kind":"shape","id":"sh/psz6hkr2","slide":1,"bbox":[520,430,360,0]}
+{"kind":"textbox","id":"sh/orq5ofah","slide":1,"text":"عرض فكرة المشروع  |  3–4 دقائق","textPreview":"عرض فكرة المشروع  |  3–4 دقائق","textChars":30,"textLines":1,"bbox":[520,454,390,36]}
+{"kind":"textbox","id":"sh/6hkby1oz","slide":1,"text":"من تجربة متاجر متفرّقة إلى رحلة شراء واضحة","textPreview":"من تجربة متاجر متفرّقة إلى رحلة شراء واضحة","textChars":42,"textLines":1,"bbox":[520,555,610,40]}
+{"kind":"textbox","id":"sh/7its76pk","slide":1,"text":"VIORA","textPreview":"VIORA","textChars":5,"textLines":1,"bbox":[72,670,120,24]}
+{"kind":"textbox","id":"sh/8j2t0r65","slide":1,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1114,670,94,24]}
+{"kind":"image","id":"im/d4naxovu","slide":1,"name":"","alt":"شعار منصة فيورا","bbox":[128,162,174,200]}
+{"kind":"notes","id":"nt/ffq51o","slide":1,"text":"10 ثوانٍ. فيورا منصة عربية تجمع منتجات الأزياء والمتاجر المحلية في مكان واحد. سنعرض المشكلة، الحل، نموذج الاستدامة، ما أنجزناه، وخطوتنا القادمة."}
+{"kind":"slide","id":"sl/ci24ql","slide":2,"title":"المشكلة","textShapes":11}
+{"kind":"textbox","id":"sh/725kzi1g","slide":2,"text":"المشكلة","textPreview":"المشكلة","textChars":7,"textLines":1,"bbox":[84,58,1100,56]}
+{"kind":"textbox","id":"sh/83e18ni1","slide":2,"text":"رحلة شراء الأزياء المحلية ما زالت موزّعة بين حسابات ورسائل متفرقة.","textPreview":"رحلة شراء الأزياء المحلية ما زالت موزّعة بين حسابات ورسائل متفرقة.","textChars":66,"textLines":1,"bbox":[84,132,1060,44]}
+{"kind":"shape","id":"sh/94n21sjm","slide":2,"bbox":[84,205,1112,0]}
+{"kind":"textbox","id":"sh/yxcj2dkz","slide":2,"text":"المشتري","textPreview":"المشتري","textChars":7,"textLines":1,"bbox":[945,258,230,42]}
+{"kind":"textbox","id":"sh/zy5kvi14","slide":2,"text":"يقارن بصعوبة بين المنتجات\nولا يملك مكانًا واضحًا للطلب والمتابعة.","textPreview":"يقارن بصعوبة بين المنتجات | ولا يملك مكانًا واضحًا للطلب والمتابعة.","textChars":65,"textLines":2,"bbox":[785,315,390,100]}
+{"kind":"textbox","id":"sh/kze14nip","slide":2,"text":"المتجر","textPreview":"المتجر","textChars":6,"textLines":1,"bbox":[515,258,210,42]}
+{"kind":"textbox","id":"sh/l0n2xsja","slide":2,"text":"يعرض منتجاته عبر قنوات متفرقة\nويحتاج طريقة منظمة لإدارة الطلبات.","textPreview":"يعرض منتجاته عبر قنوات متفرقة | ويحتاج طريقة منظمة لإدارة الطلبات.","textChars":64,"textLines":2,"bbox":[370,315,355,100]}
+{"kind":"textbox","id":"sh/itg3ex03","slide":2,"text":"النتيجة","textPreview":"النتيجة","textChars":7,"textLines":1,"bbox":[105,258,180,42]}
+{"kind":"textbox","id":"sh/jupk721o","slide":2,"text":"تجربة أقل وضوحًا للمشتري\nوفرصة وصول أضعف للمتاجر المحلية.","textPreview":"تجربة أقل وضوحًا للمشتري | وفرصة وصول أضعف للمتاجر المحلية.","textChars":57,"textLines":2,"bbox":[84,315,300,100]}
+{"kind":"shape","id":"sh/jm94ze90","slide":2,"bbox":[84,515,1112,1]}
+{"kind":"textbox","id":"sh/il036tsf","slide":2,"text":"المشكلة الحقيقية: غياب واجهة واحدة تربط الاكتشاف بالطلب ومتابعة الحالة.","textPreview":"المشكلة الحقيقية: غياب واجهة واحدة تربط الاكتشاف بالطلب ومتابعة الحالة.","textChars":71,"textLines":1,"bbox":[84,555,1112,46]}
+{"kind":"textbox","id":"sh/5orm1or6","slide":2,"text":"VIORA","textPreview":"VIORA","textChars":5,"textLines":1,"bbox":[72,670,120,24]}
+{"kind":"textbox","id":"sh/4nil8jal","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1114,670,94,24]}
+{"kind":"notes","id":"nt/ci24ql","slide":2,"text":"25 ثانية. كثير من المتاجر المحلية تعرض منتجاتها عبر قنوات متفرقة. المشتري ينتقل بين الحسابات والرسائل، ويصعب عليه المقارنة والطلب ومتابعة ما طلبه. وفي المقابل، يحتاج المتجر قناة منظمة تصل إلى عملاء جدد وتوضح حالة الطلب."}
+{"kind":"slide","id":"sl/vwgdb2","slide":3,"title":"الحل","textShapes":17}
+{"kind":"textbox","id":"sh/qdgjid4v","slide":3,"text":"الحل","textPreview":"الحل","textChars":4,"textLines":1,"bbox":[84,58,1112,56]}
+{"kind":"textbox","id":"sh/dg72d8nm","slide":3,"text":"فيورا تجمع المتاجر والمنتجات في تجربة عربية واحدة من البحث حتى متابعة الطلب.","textPreview":"فيورا تجمع المتاجر والمنتجات في تجربة عربية واحدة من البحث حتى متابعة الطلب.","textChars":76,"textLines":1,"bbox":[84,128,1112,42]}
+{"kind":"shape","id":"sh/sfy1k3m1","slide":3,"bbox":[84,220,1112,2]}
+{"kind":"textbox","id":"sh/f2pkfi5c","slide":3,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[84,258,72,30]}
+{"kind":"textbox","id":"sh/e1gjmd4r","slide":3,"text":"اكتشف","textPreview":"اكتشف","textChars":5,"textLines":1,"bbox":[84,305,210,46]}
+{"kind":"textbox","id":"sh/14r2hsni","slide":3,"text":"متاجر ومنتجات\nوتصنيفات واضحة","textPreview":"متاجر ومنتجات | وتصنيفات واضحة","textChars":28,"textLines":2,"bbox":[84,370,230,70]}
+{"kind":"shape","id":"sh/03y1onmx","slide":3,"bbox":[329,330,30,0]}
+{"kind":"textbox","id":"sh/v6503y58","slide":3,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[362,258,72,30]}
+{"kind":"textbox","id":"sh/u5wjat4n","slide":3,"text":"اختَر","textPreview":"اختَر","textChars":5,"textLines":1,"bbox":[362,305,210,46]}
+{"kind":"textbox","id":"sh/krytkzah","slide":3,"text":"بحث وفلترة\nومفضلة شخصية","textPreview":"بحث وفلترة | ومفضلة شخصية","textChars":23,"textLines":2,"bbox":[362,370,230,70]}
+{"kind":"shape","id":"sh/5s7at4r2","slide":3,"bbox":[607,330,30,0]}
+{"kind":"textbox","id":"sh/ipgri9sb","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[640,258,72,30]}
+{"kind":"textbox","id":"sh/jqpsru9w","slide":3,"text":"اطلب","textPreview":"اطلب","textChars":4,"textLines":1,"bbox":[640,305,210,46]}
+{"kind":"textbox","id":"sh/svitojad","slide":3,"text":"سلة وعناوين\nودفع عند الاستلام","textPreview":"سلة وعناوين | ودفع عند الاستلام","textChars":29,"textLines":2,"bbox":[640,370,230,70]}
+{"kind":"shape","id":"sh/twrahory","slide":3,"bbox":[885,330,30,0]}
+{"kind":"textbox","id":"sh/6tgbm9sn","slide":3,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[918,258,72,30]}
+{"kind":"textbox","id":"sh/7upsfe9s","slide":3,"text":"تابع","textPreview":"تابع","textChars":4,"textLines":1,"bbox":[918,305,210,46]}
+{"kind":"textbox","id":"sh/8ze9cfa9","slide":3,"text":"طلبات وإشعارات\nوتفاصيل كل طلب","textPreview":"طلبات وإشعارات | وتفاصيل كل طلب","textChars":29,"textLines":2,"bbox":[918,370,230,70]}
+{"kind":"shape","id":"sh/90nalkru","slide":3,"bbox":[84,525,1112,92]}
+{"kind":"textbox","id":"sh/p4vytcz6","slide":3,"text":"للعميل: رحلة شراء واضحة. للمتجر: واجهة لعرض المنتجات وتحديث حالة الطلب.","textPreview":"للعميل: رحلة شراء واضحة. للمتجر: واجهة لعرض المنتجات وتحديث حالة الطلب.","textChars":71,"textLines":1,"bbox":[120,545,1040,48]}
+{"kind":"textbox","id":"sh/ojmh07y1","slide":3,"text":"VIORA","textPreview":"VIORA","textChars":5,"textLines":1,"bbox":[72,670,120,24]}
+{"kind":"textbox","id":"sh/3idgrmhg","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1114,670,94,24]}
+{"kind":"notes","id":"nt/vwgdb2","slide":3,"text":"35 ثانية. فيورا تقدم رحلة واحدة: المستخدم يكتشف، يختار، يطلب ثم يتابع. جمعنا البحث والفلترة والمفضلة والسلة والعناوين والطلبات والإشعارات في تجربة عربية متناسقة. ويستفيد المتجر من واجهة منظمة لعرض المنتجات وإدارة حالة الطلب."}
+{"kind":"slide","id":"sl/q8qb98","slide":4,"title":"السوق ونموذج الاستدامة","textShapes":16}
+{"kind":"textbox","id":"sh/j2x47elo","slide":4,"text":"السوق ونموذج الاستدامة","textPreview":"السوق ونموذج الاستدامة","textChars":22,"textLines":1,"bbox":[84,58,1112,56]}
+{"kind":"textbox","id":"sh/43650j2t","slide":4,"text":"نبدأ من احتياج واضح لدى المتسوقين والمتاجر المحلية في قطاع الأزياء.","textPreview":"نبدأ من احتياج واضح لدى المتسوقين والمتاجر المحلية في قطاع الأزياء.","textChars":67,"textLines":1,"bbox":[84,128,1112,40]}
+{"kind":"shape","id":"sh/54fm9oje","slide":4,"bbox":[84,205,1112,0]}
+{"kind":"textbox","id":"sh/65on2tkz","slide":4,"text":"المستخدمون المستهدفون","textPreview":"المستخدمون المستهدفون","textChars":21,"textLines":1,"bbox":[712,250,470,38]}
+{"kind":"textbox","id":"sh/r6x4by1k","slide":4,"text":"المتسوقون","textPreview":"المتسوقون","textChars":9,"textLines":1,"bbox":[895,323,285,34]}
+{"kind":"textbox","id":"sh/s7654j25","slide":4,"text":"يبحثون عن أزياء ومنتجات محلية\nضمن تجربة عربية سهلة وواضحة.","textPreview":"يبحثون عن أزياء ومنتجات محلية | ضمن تجربة عربية سهلة وواضحة.","textChars":58,"textLines":2,"bbox":[712,365,468,80]}
+{"kind":"textbox","id":"sh/t8f6dojq","slide":4,"text":"أصحاب المتاجر","textPreview":"أصحاب المتاجر","textChars":13,"textLines":1,"bbox":[895,485,285,34]}
+{"kind":"textbox","id":"sh/e98n6tkb","slide":4,"text":"متاجر الملابس والإكسسوارات والعطور\nالتي تريد وصولًا رقميًا منظمًا.","textPreview":"متاجر الملابس والإكسسوارات والعطور | التي تريد وصولًا رقميًا منظمًا.","textChars":66,"textLines":2,"bbox":[712,527,468,80]}
+{"kind":"shape","id":"sh/fahofy1g","slide":4,"bbox":[625,245,1,370]}
+{"kind":"textbox","id":"sh/naxcf2pg","slide":4,"text":"مصادر الدخل المقترحة","textPreview":"مصادر الدخل المقترحة","textChars":20,"textLines":1,"bbox":[88,250,470,38]}
+{"kind":"textbox","id":"sh/m9obmxob","slide":4,"text":"عمولة على الطلبات المكتملة","textPreview":"عمولة على الطلبات المكتملة","textChars":26,"textLines":1,"bbox":[88,330,470,35]}
+{"kind":"textbox","id":"sh/9cfuhs7m","slide":4,"text":"ترتبط الإيرادات بعمليات بيع حقيقية عبر المنصة.","textPreview":"ترتبط الإيرادات بعمليات بيع حقيقية عبر المنصة.","textChars":46,"textLines":1,"bbox":[88,373,470,38]}
+{"kind":"textbox","id":"sh/ob6to761","slide":4,"text":"ظهور مميّز للمتاجر","textPreview":"ظهور مميّز للمتاجر","textChars":18,"textLines":1,"bbox":[88,456,470,35]}
+{"kind":"textbox","id":"sh/z6dcbipk","slide":4,"text":"مساحات مدفوعة لعرض متجر أو منتجاته أمام جمهور أكبر.","textPreview":"مساحات مدفوعة لعرض متجر أو منتجاته أمام جمهور أكبر.","textChars":51,"textLines":1,"bbox":[88,499,470,48]}
+{"kind":"textbox","id":"sh/e54bidoz","slide":4,"text":"خدمات للمتاجر لاحقًا","textPreview":"خدمات للمتاجر لاحقًا","textChars":20,"textLines":1,"bbox":[88,585,470,35]}
+{"kind":"textbox","id":"sh/18vuds7q","slide":4,"text":"أدوات إضافية لإدارة العرض وتحليل الأداء عند نضج المنصة.","textPreview":"أدوات إضافية لإدارة العرض وتحليل الأداء عند نضج المنصة.","textChars":55,"textLines":1,"bbox":[88,628,470,34]}
+{"kind":"textbox","id":"sh/07mtkn65","slide":4,"text":"VIORA","textPreview":"VIORA","textChars":5,"textLines":1,"bbox":[72,670,120,24]}
+{"kind":"textbox","id":"sh/j2hcnm5o","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1114,670,94,24]}
+{"kind":"notes","id":"nt/q8qb98","slide":4,"text":"55 ثانية. نستهدف جهتين: المتسوق الذي يريد اكتشاف منتجات الأزياء المحلية وطلبها بوضوح، وصاحب المتجر الذي يريد قناة رقمية منظمة. نموذج الدخل المقترح يبدأ بعمولة على الطلبات المكتملة، ثم ظهور مميز للمتاجر، ومع نمو الاستخدام يمكن إضافة خدمات تساعد المتاجر في الإدارة وفهم الأداء. هذه مسارات مقترحة وليست إيرادات محققة بعد."}
+{"kind":"slide","id":"sl/jt926m","slide":5,"title":"الإنجاز حتى الآن","textShapes":17}
+{"kind":"textbox","id":"sh/yx8vq5kr","slide":5,"text":"الإنجاز حتى الآن","textPreview":"الإنجاز حتى الآن","textChars":16,"textLines":1,"bbox":[84,58,1112,56]}
+{"kind":"textbox","id":"sh/l0jelk3i","slide":5,"text":"تحويل الفكرة إلى واجهة عميل متكاملة ومتصلة بواجهات API.","textPreview":"تحويل الفكرة إلى واجهة عميل متكاملة ومتصلة بواجهات API.","textChars":55,"textLines":1,"bbox":[84,128,1112,40]}
+{"kind":"shape","id":"sh/0zaxsf2x","slide":5,"bbox":[180,210,3,380]}
+{"kind":"shape","id":"sh/buhwfqlg","slide":5,"bbox":[163,219,38,38]}
+{"kind":"textbox","id":"sh/qt8vm5kv","slide":5,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[163,219,38,38]}
+{"kind":"textbox","id":"sh/dwzeh036","slide":5,"text":"هوية وتجربة عربية","textPreview":"هوية وتجربة عربية","textChars":17,"textLines":1,"bbox":[250,210,850,35]}
+{"kind":"textbox","id":"sh/cvqdov2l","slide":5,"text":"واجهة RTL متجاوبة وهوية برغندية موحّدة.","textPreview":"واجهة RTL متجاوبة وهوية برغندية موحّدة.","textChars":39,"textLines":1,"bbox":[250,252,850,31]}
+{"kind":"shape","id":"sh/vq1wru1k","slide":5,"bbox":[163,314,38,38]}
+{"kind":"textbox","id":"sh/apsfypkz","slide":5,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[163,314,38,38]}
+{"kind":"textbox","id":"sh/0f2x8n21","slide":5,"text":"اكتشاف المنتجات والمتاجر","textPreview":"اكتشاف المنتجات والمتاجر","textChars":24,"textLines":1,"bbox":[250,305,850,35]}
+{"kind":"textbox","id":"sh/lgvy1sjm","slide":5,"text":"تصنيفات، بحث، فلترة، صفحات قوائم وتفاصيل.","textPreview":"تصنيفات، بحث، فلترة، صفحات قوائم وتفاصيل.","textChars":41,"textLines":1,"bbox":[250,347,850,31]}
+{"kind":"shape","id":"sh/ydkf6dkv","slide":5,"bbox":[163,409,38,38]}
+{"kind":"textbox","id":"sh/zetgzilg","slide":5,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[163,409,38,38]}
+{"kind":"textbox","id":"sh/cb2x4325","slide":5,"text":"رحلة العميل","textPreview":"رحلة العميل","textChars":11,"textLines":1,"bbox":[250,400,850,35]}
+{"kind":"textbox","id":"sh/dcbyx83a","slide":5,"text":"تسجيل دخول، مفضلة، سلة، عناوين، وطلب عند الاستلام.","textPreview":"تسجيل دخول، مفضلة، سلة، عناوين، وطلب عند الاستلام.","textChars":50,"textLines":1,"bbox":[250,442,850,31]}
+{"kind":"shape","id":"sh/qpkf2tkz","slide":5,"bbox":[163,504,38,38]}
+{"kind":"textbox","id":"sh/batgvylk","slide":5,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[163,504,38,38]}
+{"kind":"textbox","id":"sh/onix032t","slide":5,"text":"بعد الطلب","textPreview":"بعد الطلب","textChars":9,"textLines":1,"bbox":[250,495,850,35]}
+{"kind":"textbox","id":"sh/poryt83e","slide":5,"text":"ملف شخصي، سجل طلبات، تفاصيل الطلب وإشعارات.","textPreview":"ملف شخصي، سجل طلبات، تفاصيل الطلب وإشعارات.","textChars":43,"textLines":1,"bbox":[250,537,850,31]}
+{"kind":"shape","id":"sh/54jexkv2","slide":5,"bbox":[84,620,1112,1]}
+{"kind":"textbox","id":"sh/43ad4fuh","slide":5,"text":"العمل الحالي يربط الواجهات الأمامية بخدمات المنصة ويغطي المسار الأساسي للمشتري.","textPreview":"العمل الحالي يربط الواجهات الأمامية بخدمات المنصة ويغطي المسار الأساسي للمشتري.","textChars":79,"textLines":1,"bbox":[84,638,1112,36]}
+{"kind":"textbox","id":"sh/ji1wvudc","slide":5,"text":"VIORA","textPreview":"VIORA","textChars":5,"textLines":1,"bbox":[72,670,120,24]}
+{"kind":"textbox","id":"sh/ihsv2pcr","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1114,670,94,24]}
+{"kind":"notes","id":"nt/jt926m","slide":5,"text":"55 ثانية. أنجزنا واجهة عميل مبنية بـ Next.js ومتصلة بواجهات API. جهزنا تجربة عربية متجاوبة، ثم قوائم المنتجات والمتاجر مع البحث والفلترة والتصنيفات. أضفنا رحلة المستخدم من الدخول والمفضلة والسلة والعنوان حتى الطلب عند الاستلام. كما جهزنا الملف الشخصي وسجل الطلبات وتفاصيل كل طلب والإشعارات."}
+{"kind":"slide","id":"sl/ek4fng","slide":6,"title":"الرؤية والخطوة التالية","textShapes":11}
+{"kind":"textbox","id":"sh/d8ratsra","slide":6,"text":"الرؤية والخطوة التالية","textPreview":"الرؤية والخطوة التالية","textChars":22,"textLines":1,"bbox":[84,68,1112,60]}
+{"kind":"textbox","id":"sh/q5gryx8j","slide":6,"text":"نريد أن تصبح فيورا نقطة البداية للتسوق من المتاجر المحلية بثقة ووضوح.","textPreview":"نريد أن تصبح فيورا نقطة البداية للتسوق من المتاجر المحلية بثقة ووضوح.","textChars":69,"textLines":1,"bbox":[84,144,1112,42]}
+{"kind":"shape","id":"sh/r6psri94","slide":6,"bbox":[84,238,1112,2]}
+{"kind":"textbox","id":"sh/43y9wnqt","slide":6,"text":"إطلاق تجريبي","textPreview":"إطلاق تجريبي","textChars":12,"textLines":1,"bbox":[84,285,300,38]}
+{"kind":"textbox","id":"sh/547apsry","slide":6,"text":"ضم مجموعة مختارة من المتاجر\nوقياس رحلة الشراء الفعلية.","textPreview":"ضم مجموعة مختارة من المتاجر | وقياس رحلة الشراء الفعلية.","textChars":54,"textLines":2,"bbox":[84,340,300,80]}
+{"kind":"textbox","id":"sh/i1grud8n","slide":6,"text":"تحسين التشغيل","textPreview":"تحسين التشغيل","textChars":13,"textLines":1,"bbox":[490,285,300,38]}
+{"kind":"textbox","id":"sh/32psni98","slide":6,"text":"تحسين تفاصيل إدارة الطلب\nوالتوصيل بناءً على التجربة.","textPreview":"تحسين تفاصيل إدارة الطلب | والتوصيل بناءً على التجربة.","textChars":52,"textLines":2,"bbox":[490,340,300,80]}
+{"kind":"textbox","id":"sh/gze9s3qh","slide":6,"text":"توسع محسوب","textPreview":"توسع محسوب","textChars":10,"textLines":1,"bbox":[896,285,300,38]}
+{"kind":"textbox","id":"sh/h07al8r2","slide":6,"text":"توسيع المتاجر والتصنيفات\nوتطوير شراكات دفع وتوصيل.","textPreview":"توسيع المتاجر والتصنيفات | وتطوير شراكات دفع وتوصيل.","textChars":50,"textLines":2,"bbox":[896,340,300,80]}
+{"kind":"textbox","id":"sh/583u943e","slide":6,"text":"فيورا تبدأ من احتياج يومي بسيط، ثم تبني سوقًا محليًا منظمًا حوله.","textPreview":"فيورا تبدأ من احتياج يومي بسيط، ثم تبني سوقًا محليًا منظمًا حوله.","textChars":65,"textLines":1,"bbox":[84,545,1112,46]}
+{"kind":"textbox","id":"sh/47utgzmt","slide":6,"text":"VIORA","textPreview":"VIORA","textChars":5,"textLines":1,"bbox":[72,670,120,24]}
+{"kind":"textbox","id":"sh/36lc7ul8","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1114,670,94,24]}
+{"kind":"notes","id":"nt/ek4fng","slide":6,"text":"25 ثانية. الخطوة التالية هي إطلاق تجريبي مع مجموعة مختارة من المتاجر، ثم قياس تجربة الشراء وتحسين إدارة الطلب والتوصيل بناءً على الاستخدام الحقيقي. بعد ذلك نتوسع تدريجيًا في المتاجر والتصنيفات والشراكات. رؤيتنا أن تصبح فيورا نقطة بداية موثوقة للتسوق من المتاجر المحلية."}

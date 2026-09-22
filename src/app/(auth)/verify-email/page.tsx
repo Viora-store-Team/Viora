@@ -2,13 +2,14 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CheckCircle2, RefreshCw, KeyRound } from "lucide-react";
+import { CheckCircle2, RefreshCw } from "lucide-react";
 import {
   apiFetch,
   getPendingToken,
   setCustomerToken,
   setCustomerUser,
   syncGuestCartOnLogin,
+  getSafeReturnUrl,
 } from "@/lib/api";
 import OtpInput from "@/components/auth/OtpInput";
 import AuthLayout from "@/components/auth/AuthLayout";
@@ -18,7 +19,6 @@ function VerifyEmailForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
-  const otpParam = searchParams.get("otp") || "";
   const returnUrl = searchParams.get("returnUrl") || "/";
 
   const [code, setCode] = useState("");
@@ -26,7 +26,6 @@ function VerifyEmailForm() {
   const [resending, setResending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
-  const [detectedOtp, setDetectedOtp] = useState<string | null>(null);
 
   // Success state (Frame 5)
   const [isSuccess, setIsSuccess] = useState(false);
@@ -52,19 +51,6 @@ function VerifyEmailForm() {
     const secs = seconds % 60;
     return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
   };
-
-  useEffect(() => {
-    let initialOtp = otpParam;
-    if (!initialOtp && typeof window !== "undefined") {
-      initialOtp = sessionStorage.getItem("viora_last_otp") || "";
-    }
-
-    if (initialOtp && initialOtp.length === 6) {
-      setCode(initialOtp);
-      setDetectedOtp(initialOtp);
-      setInfoMessage(`تم التقاط رمز التحقق تلقائياً: ${initialOtp}`);
-    }
-  }, [otpParam]);
 
   const handleVerify = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -96,10 +82,6 @@ function VerifyEmailForm() {
     setLoading(false);
 
     if (res.success && res.token) {
-      if (typeof window !== "undefined") {
-        sessionStorage.removeItem("viora_last_otp");
-      }
-
       setCustomerToken(res.token);
       if (res.user) setCustomerUser(res.user);
 
@@ -137,18 +119,7 @@ function VerifyEmailForm() {
     if (res.success) {
       setTimer(60);
       setCanResend(false);
-
-      const newOtp = res.otp || res.code;
-      if (newOtp) {
-        setCode(String(newOtp));
-        setDetectedOtp(String(newOtp));
-        if (typeof window !== "undefined") {
-          sessionStorage.setItem("viora_last_otp", String(newOtp));
-        }
-        setInfoMessage(`تم توليد رمز تحقق جديد: ${newOtp} (تم تعبئته تلقائياً)`);
-      } else {
-        setInfoMessage("تم إرسال رمز تحقق جديد إلى بريدك الإلكتروني بنجاح.");
-      }
+      setInfoMessage("تم إرسال رمز تحقق جديد إلى بريدك الإلكتروني بنجاح.");
     } else {
       setErrorMessage(
         res.message || "تعذر إعادة إرسال الرمز، يرجى الانتظار دقيقة قبل المحاولة مجدداً."
@@ -174,7 +145,7 @@ function VerifyEmailForm() {
 
         <button
           type="button"
-          onClick={() => router.push(returnUrl)}
+          onClick={() => router.push(getSafeReturnUrl(returnUrl, "/"))}
           className="w-full rounded-2xl bg-gradient-to-r from-[#7d1d29] to-[#580b1e] py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99"
         >
           {strings.auth.goToHomeButton}
@@ -207,18 +178,6 @@ function VerifyEmailForm() {
       {infoMessage && (
         <div className="mt-4 rounded-2xl bg-green-50 p-3 text-xs font-bold text-green-700 border border-green-200 flex items-center justify-center gap-2">
           <span>{infoMessage}</span>
-        </div>
-      )}
-
-      {detectedOtp && (
-        <div className="mt-4 rounded-2xl bg-[#fdf0f2] p-3 text-xs font-bold text-[#7d1d29] border border-[#7d1d29]/20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <KeyRound className="size-4" />
-            <span>{strings.auth.devOtpNotice}</span>
-          </div>
-          <span className="ltr-nums text-sm font-black tracking-widest bg-white px-3 py-1 rounded-xl shadow-2xs">
-            {detectedOtp}
-          </span>
         </div>
       )}
 

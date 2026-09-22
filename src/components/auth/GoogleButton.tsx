@@ -45,6 +45,9 @@ export default function GoogleButton({
 }: GoogleButtonProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [ready, setReady] = useState(false);
+  const onCredentialRef = useRef(onCredential);
+  onCredentialRef.current = onCredential;
+  const initializedRef = useRef(false);
 
   useEffect(() => {
     if (!GOOGLE_ENABLED) return;
@@ -66,13 +69,16 @@ export default function GoogleButton({
       if (!gid || !container || cancelled) return false;
 
       try {
-        gid.initialize({
-          client_id: GOOGLE_CLIENT_ID,
-          callback: (res: GoogleCredentialResponse) => {
-            if (res.credential) onCredential(res.credential);
-          },
-          auto_select: false,
-        });
+        if (!initializedRef.current) {
+          gid.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: (res: GoogleCredentialResponse) => {
+              if (res.credential) onCredentialRef.current(res.credential);
+            },
+            auto_select: false,
+          });
+          initializedRef.current = true;
+        }
 
         container.innerHTML = "";
         gid.renderButton(container, {
@@ -104,7 +110,7 @@ export default function GoogleButton({
       clearInterval(poll);
       clearTimeout(timer);
     };
-  }, [onCredential]);
+  }, []);
 
   const handleClick = () => {
     if (busy) return;

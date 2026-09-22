@@ -1,0 +1,71 @@
+[
+  {
+    "route": "/auth/me",
+    "status": 200,
+    "success": true,
+    "keys": [
+      "success",
+      "user"
+    ]
+  },
+  {
+    "route": "/cart",
+    "status": 200,
+    "success": true,
+    "keys": [
+      "success",
+      "cart"
+    ]
+  },
+  {
+    "route": "/cart/count",
+    "status": 200,
+    "success": true,
+    "keys": [
+      "success",
+      "count",
+      "totalQuantity"
+    ],
+    "count": 0
+  },
+  {
+    "route": "/favorites",
+    "status": 200,
+    "success": true,
+    "keys": [
+      "success",
+      "products",
+      "pagination"
+    ]
+  },
+  {
+    "route": "/orders",
+    "status": 200,
+    "success": true,
+    "keys": [
+      "success",
+      "orders",
+      "pagination"
+    ],
+    "orders": 0
+  },
+  {
+    "route": "/addresses",
+    "status": 200,
+    "success": true,
+    "keys": [
+      "success",
+      "addresses"
+    ],
+    "addresses": 0
+  },
+  {
+    "route": "/notifications/count",
+    "status": 200,
+    "success": true,
+    "keys": [
+      "success",
+      "unread"
+    ]
+  }
+]

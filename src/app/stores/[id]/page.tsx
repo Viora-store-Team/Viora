@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
   ChevronLeft,
@@ -61,26 +62,7 @@ export default async function StoreDetailPage({ params }: PageProps) {
   const data = await getStoreData(id);
 
   if (!data) {
-    return (
-      <div className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center px-4 py-16 text-center">
-        <div className="grid size-16 place-items-center rounded-full bg-[#fdf0f2] text-[#7d1d29]">
-          <StoreIcon className="size-8" />
-        </div>
-        <h1 className="mt-4 text-xl font-black text-[#1e1b18]">
-          المتجر غير موجود أو غير متاح
-        </h1>
-        <p className="mt-2 text-xs text-[#80766b] leading-relaxed">
-          عذراً، لم نتمكن من العثور على هذا المتجر أو قد يكون حسابه معطلاً حالياً.
-        </p>
-        <Link
-          href="/stores"
-          className="mt-6 flex items-center gap-2 rounded-xl bg-[#7d1d29] px-5 py-2.5 text-xs font-black text-white shadow hover:bg-[#681822] transition"
-        >
-          <ChevronLeft className="size-4" />
-          <span>تصفح جميع المتاجر</span>
-        </Link>
-      </div>
-    );
+    notFound();
   }
 
   const { store, products } = data;

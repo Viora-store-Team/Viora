@@ -48,6 +48,15 @@ export default function FavoritesPage() {
 
   useEffect(() => {
     loadFavorites();
+
+    const handleFavUpdated = () => {
+      loadFavorites();
+    };
+
+    window.addEventListener("viora_favorites_updated", handleFavUpdated);
+    return () => {
+      window.removeEventListener("viora_favorites_updated", handleFavUpdated);
+    };
   }, []);
 
   return (

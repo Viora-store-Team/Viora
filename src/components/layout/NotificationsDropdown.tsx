@@ -49,14 +49,17 @@ export default function NotificationsDropdown() {
 
   useEffect(() => {
     fetchCount();
-    const interval = setInterval(fetchCount, 45000); // 45s polling
+    const interval = setInterval(fetchCount, 20000);
 
     const onAuthChanged = () => fetchCount();
+    const onWindowFocus = () => fetchCount();
     window.addEventListener("viora_auth_changed", onAuthChanged);
+    window.addEventListener("focus", onWindowFocus);
 
     return () => {
       clearInterval(interval);
       window.removeEventListener("viora_auth_changed", onAuthChanged);
+      window.removeEventListener("focus", onWindowFocus);
     };
   }, []);
 
@@ -116,7 +119,10 @@ export default function NotificationsDropdown() {
     setIsOpen(false);
 
     // Smart route navigation
-    if (notif.data?.orderId || notif.type.startsWith("ORDER_")) {
+    const orderId = notif.data?.orderGroupId || notif.data?.orderId;
+    if (orderId) {
+      router.push(`/orders/${orderId}`);
+    } else if (notif.type.startsWith("ORDER_")) {
       router.push("/profile");
     }
   };

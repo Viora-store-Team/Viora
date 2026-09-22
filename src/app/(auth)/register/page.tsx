@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { User, Mail, Lock, Eye, EyeOff, ArrowLeft } from "lucide-react";
-import { apiFetch, setPendingToken } from "@/lib/api";
+import { apiFetch, setPendingToken, getSafeReturnUrl } from "@/lib/api";
 import GoogleButton from "@/components/auth/GoogleButton";
 import AuthLayout from "@/components/auth/AuthLayout";
 import { strings } from "@/lib/strings";
@@ -62,13 +62,11 @@ function RegisterForm() {
       if (res.pendingToken) {
         setPendingToken(res.pendingToken);
       }
-      const otp = res.otp || res.code || "";
-      if (otp && typeof window !== "undefined") {
-        sessionStorage.setItem("viora_last_otp", String(otp));
-      }
+      const safeReturn = getSafeReturnUrl(returnUrl, "/");
       router.push(
-        `/verify-email?email=${encodeURIComponent(email.trim())}${otp ? `&otp=${encodeURIComponent(otp)}` : ""
-        }${returnUrl !== "/" ? `&returnUrl=${encodeURIComponent(returnUrl)}` : ""}`
+        `/verify-email?email=${encodeURIComponent(email.trim())}${
+          safeReturn !== "/" ? `&returnUrl=${encodeURIComponent(safeReturn)}` : ""
+        }`
       );
     } else {
       setErrorMessage(
@@ -92,13 +90,13 @@ function RegisterForm() {
     setGoogleLoading(false);
 
     if (res.success) {
+      const safeReturn = getSafeReturnUrl(returnUrl, "/");
       if (res.requiresSetup && res.setupToken) {
         if (typeof window !== "undefined") {
           sessionStorage.setItem("viora_setup_token", res.setupToken);
         }
         router.push(
-          `/google/complete${returnUrl !== "/" ? `?returnUrl=${encodeURIComponent(returnUrl)}` : ""
-          }`
+          `/google/complete${safeReturn !== "/" ? `?returnUrl=${encodeURIComponent(safeReturn)}` : ""}`
         );
         return;
       }
@@ -111,7 +109,7 @@ function RegisterForm() {
         if (res.user) setCustomerUser(res.user);
         await syncGuestCartOnLogin();
         window.dispatchEvent(new Event("viora_auth_changed"));
-        router.push(returnUrl);
+        router.push(safeReturn);
       }
     } else {
       setErrorMessage(res.message || "تعذر التسجيل عبر Google حالياً.");

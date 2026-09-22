@@ -10,6 +10,7 @@ import {
   setCustomerUser,
   setPendingToken,
   syncGuestCartOnLogin,
+  getSafeReturnUrl,
 } from "@/lib/api";
 import GoogleButton from "@/components/auth/GoogleButton";
 import AuthLayout from "@/components/auth/AuthLayout";
@@ -18,7 +19,8 @@ import { strings } from "@/lib/strings";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const returnUrl = searchParams.get("returnUrl") || "/";
+  const rawReturnUrl = searchParams.get("returnUrl") || "/";
+  const returnUrl = getSafeReturnUrl(rawReturnUrl, "/");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -143,41 +145,48 @@ function LoginForm() {
       <form onSubmit={handleLogin} className="mt-6 flex flex-col gap-4">
         {/* Email Field */}
         <div>
-          <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+          <label htmlFor="login-email" className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
             {strings.auth.email}
           </label>
           <div className="relative flex items-center">
             <input
+              id="login-email"
+              name="email"
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={strings.auth.emailPlaceholder}
+              aria-label={strings.auth.email}
               dir="ltr"
               className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white text-left"
             />
-            <Mail className="absolute left-3.5 size-4 text-[#80766b]" />
+            <Mail className="absolute left-3.5 size-4 text-[#80766b]" aria-hidden="true" />
           </div>
         </div>
 
         {/* Password Field */}
         <div>
-          <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+          <label htmlFor="login-password" className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
             {strings.auth.password}
           </label>
           <div className="relative flex items-center">
             <input
+              id="login-password"
+              name="password"
               type={showPassword ? "text" : "password"}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={strings.auth.passwordPlaceholder}
+              aria-label={strings.auth.password}
               dir="ltr"
               className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white text-left"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
               className="absolute left-3.5 text-[#80766b] hover:text-[#1e1b18] transition"
             >
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}

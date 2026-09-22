@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { Heart, Menu, Search, ShoppingBag, User, X, Wallet as WalletIcon } from "lucide-react";
 import { apiFetch, getCustomerToken } from "@/lib/api";
 import NotificationsDropdown from "./NotificationsDropdown";
 import { strings } from "@/lib/strings";
@@ -48,7 +48,9 @@ export default function Header() {
         try {
           const items = JSON.parse(localStorage.getItem("viora_guest_cart") || "[]");
           setCartCount(
-            items.reduce((sum: number, item: { quantity?: number }) => sum + (item.quantity || 1), 0)
+            Array.isArray(items)
+              ? items.reduce((sum: number, i: any) => sum + (Number(i?.quantity) || 0), 0)
+              : 0
           );
         } catch {
           setCartCount(0);
@@ -56,6 +58,7 @@ export default function Header() {
         setFavoritesCount(0);
       }
     };
+
     refresh();
     window.addEventListener("viora_cart_updated", refresh);
     window.addEventListener("viora_favorites_updated", refresh);
@@ -92,21 +95,21 @@ export default function Header() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-[#ede5da]/80 bg-[#faf7f2]/90 backdrop-blur-xl shadow-xs transition-all font-cairo dir-rtl">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between gap-1.5 sm:gap-4 px-2.5 sm:px-6">
           {/* Logo & Brand */}
           <Link
             href="/"
             aria-label="فيورا - الصفحة الرئيسية"
-            className="flex shrink-0 items-center gap-3 group"
+            className="flex shrink-0 items-center gap-1.5 sm:gap-3 group"
           >
-            <div className="grid size-11 place-items-center rounded-2xl bg-[#fdf7f5] p-2 shadow-md shadow-[#7d1d29]/20 ring-1 ring-[#eadfd4] transition-transform group-hover:scale-105">
+            <div className="grid size-9 sm:size-11 place-items-center rounded-xl sm:rounded-2xl bg-[#fdf7f5] p-1.5 sm:p-2 shadow-md shadow-[#7d1d29]/20 ring-1 ring-[#eadfd4] transition-transform group-hover:scale-105">
               <img src="/viora-mark.png" alt="" className="size-full object-contain" />
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-black tracking-widest bg-gradient-to-r from-[#580b1e] via-[#7d1d29] to-[#c48b4e] bg-clip-text text-transparent drop-shadow-xs">
+              <span className="text-lg sm:text-2xl font-black tracking-widest bg-gradient-to-r from-[#580b1e] via-[#7d1d29] to-[#c48b4e] bg-clip-text text-transparent drop-shadow-xs leading-tight">
                 {strings.brandEnglish}
               </span>
-              <span className="text-[10px] font-bold text-[#80766b] -mt-1 tracking-wider">
+              <span className="text-[9px] sm:text-[10px] font-bold text-[#80766b] -mt-0.5 sm:-mt-1 tracking-wider">
                 {strings.appName}
               </span>
             </div>
@@ -130,29 +133,38 @@ export default function Header() {
           </nav>
 
           {/* User Actions Bar */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             {/* Search Button */}
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
               aria-label="بحث"
-              className="grid size-10 place-items-center rounded-2xl border border-[#ede5da] bg-white text-[#4a443e] transition-all hover:border-[#7d1d29]/40 hover:bg-[#fdf0f2] hover:text-[#7d1d29] hover:scale-105 active:scale-95"
+              className="grid size-8.5 sm:size-10 place-items-center rounded-xl sm:rounded-2xl border border-[#ede5da] bg-white text-[#4a443e] transition-all hover:border-[#7d1d29]/40 hover:bg-[#fdf0f2] hover:text-[#7d1d29] hover:scale-105 active:scale-95"
             >
-              <Search className="size-4.5" />
+              <Search className="size-4 sm:size-4.5" />
             </button>
 
             {/* Favorites Link */}
             <Link
               href="/favorites"
               aria-label="المفضلة"
-              className="relative grid size-10 place-items-center rounded-2xl border border-[#ede5da] bg-white text-[#4a443e] transition-all hover:border-[#7d1d29]/40 hover:bg-[#fdf0f2] hover:text-[#7d1d29] hover:scale-105 active:scale-95"
+              className="relative grid size-8.5 sm:size-10 place-items-center rounded-xl sm:rounded-2xl border border-[#ede5da] bg-white text-[#4a443e] transition-all hover:border-[#7d1d29]/40 hover:bg-[#fdf0f2] hover:text-[#7d1d29] hover:scale-105 active:scale-95"
             >
-              <Heart className="size-4.5" />
+              <Heart className="size-4 sm:size-4.5" />
               {favoritesCount > 0 && (
-                <span className="absolute -left-1 -top-1 grid min-w-5 h-5 place-items-center rounded-full bg-[#8d1f30] px-1 text-[10px] font-black text-white ring-2 ring-[#faf7f2] shadow-sm">
+                <span className="absolute -left-1 -top-1 grid min-w-4.5 h-4.5 place-items-center rounded-full bg-[#8d1f30] px-1 text-[9px] sm:text-[10px] font-black text-white ring-2 ring-[#faf7f2] shadow-sm">
                   {favoritesCount > 99 ? "99+" : favoritesCount}
                 </span>
               )}
+            </Link>
+
+            {/* Wallet Link */}
+            <Link
+              href="/wallet"
+              aria-label="المحفظة"
+              className="relative grid size-8.5 sm:size-10 place-items-center rounded-xl sm:rounded-2xl border border-[#ede5da] bg-white text-[#4a443e] transition-all hover:border-[#7d1d29]/40 hover:bg-[#fdf0f2] hover:text-[#7d1d29] hover:scale-105 active:scale-95"
+            >
+              <WalletIcon className="size-4 sm:size-4.5 text-[#c48b4e]" />
             </Link>
 
             {/* Notifications Dropdown if Logged In */}
@@ -162,11 +174,11 @@ export default function Header() {
             <Link
               href="/cart"
               aria-label="السلة"
-              className="relative grid size-10 place-items-center rounded-2xl border border-[#ede5da] bg-white text-[#4a443e] transition-all hover:border-[#7d1d29]/40 hover:bg-[#fdf0f2] hover:text-[#7d1d29] hover:scale-105 active:scale-95"
+              className="relative grid size-8.5 sm:size-10 place-items-center rounded-xl sm:rounded-2xl border border-[#ede5da] bg-white text-[#4a443e] transition-all hover:border-[#7d1d29]/40 hover:bg-[#fdf0f2] hover:text-[#7d1d29] hover:scale-105 active:scale-95"
             >
-              <ShoppingBag className="size-4.5" />
+              <ShoppingBag className="size-4 sm:size-4.5" />
               {cartCount > 0 && (
-                <span className="absolute -left-1 -top-1 grid size-5 place-items-center rounded-full bg-[#7d1d29] text-[10px] font-black text-white ring-2 ring-white animate-pulse">
+                <span className="absolute -left-1 -top-1 grid size-4.5 sm:size-5 place-items-center rounded-full bg-[#7d1d29] text-[9px] sm:text-[10px] font-black text-white ring-2 ring-white animate-pulse">
                   {cartCount}
                 </span>
               )}
@@ -195,9 +207,9 @@ export default function Header() {
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="القائمة"
-              className="grid size-10 place-items-center rounded-2xl border border-[#ede5da] bg-white text-[#4a443e] lg:hidden"
+              className="grid size-8.5 sm:size-10 place-items-center rounded-xl sm:rounded-2xl border border-[#ede5da] bg-white text-[#4a443e] lg:hidden"
             >
-              {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+              {menuOpen ? <X className="size-4.5 sm:size-5" /> : <Menu className="size-4.5 sm:size-5" />}
             </button>
           </div>
         </div>
@@ -220,6 +232,30 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="/wallet"
+                onClick={() => setMenuOpen(false)}
+                className={`rounded-2xl px-4 py-3 text-center text-xs font-black transition flex items-center justify-center gap-1.5 ${
+                  active("/wallet")
+                    ? "bg-[#7d1d29] text-white shadow-md"
+                    : "bg-[#faf7f2] text-[#4a443e] hover:bg-[#fdf0f2] hover:text-[#7d1d29]"
+                }`}
+              >
+                <WalletIcon className="size-4 text-[#c48b4e]" />
+                <span>{strings.nav.wallet}</span>
+              </Link>
+              <Link
+                href={loggedIn ? "/profile" : "/login"}
+                onClick={() => setMenuOpen(false)}
+                className={`rounded-2xl px-4 py-3 text-center text-xs font-black transition flex items-center justify-center gap-1.5 ${
+                  active("/profile") || active("/login")
+                    ? "bg-[#7d1d29] text-white shadow-md"
+                    : "bg-[#faf7f2] text-[#4a443e] hover:bg-[#fdf0f2] hover:text-[#7d1d29]"
+                }`}
+              >
+                <User className="size-4 text-[#7d1d29]" />
+                <span>{loggedIn ? strings.nav.profile : strings.nav.login}</span>
+              </Link>
             </nav>
           </div>
         )}

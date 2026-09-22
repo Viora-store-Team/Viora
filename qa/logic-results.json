@@ -1,0 +1,70 @@
+[
+  {
+    "name": "Empty guest cart",
+    "status": "PASS"
+  },
+  {
+    "name": "Add and increment same variant",
+    "status": "PASS"
+  },
+  {
+    "name": "Update quantity",
+    "status": "PASS"
+  },
+  {
+    "name": "Remove guest item",
+    "status": "PASS"
+  },
+  {
+    "name": "Clear guest cart",
+    "status": "PASS"
+  },
+  {
+    "name": "Count quantities",
+    "status": "PASS"
+  },
+  {
+    "name": "Malformed JSON recovery",
+    "status": "PASS"
+  },
+  {
+    "name": "Valid JSON wrong shape recovery",
+    "status": "PASS"
+  },
+  {
+    "name": "Unique store IDs in guest cart",
+    "status": "PASS"
+  },
+  {
+    "name": "Reject negative guest quantity",
+    "status": "PASS"
+  },
+  {
+    "name": "Preserve guest cart when merge HTTP fails",
+    "status": "PASS"
+  },
+  {
+    "name": "Preserve guest cart when merge network fails",
+    "status": "PASS"
+  },
+  {
+    "name": "Clear guest cart after successful merge",
+    "status": "PASS"
+  },
+  {
+    "name": "API sends customer token",
+    "status": "PASS"
+  },
+  {
+    "name": "API preserves explicit auth header",
+    "status": "PASS"
+  },
+  {
+    "name": "API reports network failure",
+    "status": "PASS"
+  },
+  {
+    "name": "Logout removes customer and pending credentials",
+    "status": "PASS"
+  }
+]

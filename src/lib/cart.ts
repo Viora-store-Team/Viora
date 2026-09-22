@@ -12,14 +12,18 @@ export interface GuestCartItem {
   sizeName?: string;
   price: string;
   image?: string | null;
+  storeId?: number;
   storeName?: string;
+  stock?: number;
 }
 
 export function getGuestCart(): GuestCartItem[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(GUEST_CART_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
   }
@@ -47,7 +51,8 @@ export async function fetchCartCount(): Promise<number> {
   }
 
   const guestItems = getGuestCart();
-  return guestItems.reduce((sum, item) => sum + item.quantity, 0);
+  if (!Array.isArray(guestItems)) return 0;
+  return guestItems.reduce((sum, item) => sum + (Number(item?.quantity) || 0), 0);
 }
 
 export async function addToCart(
@@ -60,9 +65,15 @@ export async function addToCart(
     sizeName?: string;
     price: string;
     image?: string | null;
+    storeId?: number;
     storeName?: string;
+    stock?: number;
   }
 ): Promise<{ success: boolean; message?: string }> {
+  if (!Number.isInteger(quantity) || quantity <= 0) {
+    return { success: false, message: "الكمية غير صالحة" };
+  }
+
   const token = getCustomerToken();
 
   if (token) {
@@ -83,8 +94,24 @@ export async function addToCart(
   const existingIdx = cart.findIndex((i) => i.variantSizeId === variantSizeId);
 
   if (existingIdx > -1) {
-    cart[existingIdx].quantity += quantity;
+    const currentItem = cart[existingIdx];
+    const availableStock = metadata?.stock ?? currentItem.stock;
+    if (availableStock !== undefined && currentItem.quantity + quantity > availableStock) {
+      return {
+        success: false,
+        message: `الكمية المطلوبة تتجاوز المخزون المتوفر (${availableStock})`,
+      };
+    }
+    currentItem.quantity += quantity;
+    if (metadata?.stock !== undefined) currentItem.stock = metadata.stock;
+    if (metadata?.storeId !== undefined) currentItem.storeId = metadata.storeId;
   } else if (metadata) {
+    if (metadata.stock !== undefined && quantity > metadata.stock) {
+      return {
+        success: false,
+        message: `الكمية المطلوبة تتجاوز المخزون المتوفر (${metadata.stock})`,
+      };
+    }
     cart.push({
       variantSizeId,
       quantity,
@@ -94,7 +121,9 @@ export async function addToCart(
       sizeName: metadata.sizeName,
       price: metadata.price,
       image: metadata.image,
+      storeId: metadata.storeId,
       storeName: metadata.storeName,
+      stock: metadata.stock,
     });
   }
 
@@ -115,7 +144,7 @@ export async function fetchFullCart(): Promise<CartData | null> {
 
   // Build simulated CartData from guest cart
   const guestItems = getGuestCart();
-  if (guestItems.length === 0) {
+  if (!Array.isArray(guestItems) || guestItems.length === 0) {
     return {
       stores: [],
       summary: {
@@ -128,12 +157,19 @@ export async function fetchFullCart(): Promise<CartData | null> {
     };
   }
 
-  // Group guest items by storeName
-  const storeMap = new Map<string, CartItem[]>();
+  // Group guest items by store
+  interface GroupedStore {
+    id: number;
+    name: string;
+    items: CartItem[];
+  }
+
+  const storeMap = new Map<string, GroupedStore>();
+  let nextStoreId = 1;
 
   guestItems.forEach((item, idx) => {
-    const storeKey = item.storeName || "متجر فيورا";
-    const lineTotal = (parseFloat(item.price) * item.quantity).toFixed(2);
+    const storeKey = item.storeId ? `id_${item.storeId}` : `name_${item.storeName || "متجر فيورا"}`;
+    const lineTotal = (parseFloat(item.price || "0") * item.quantity).toFixed(2);
 
     const cartItem: CartItem = {
       id: idx + 1, // simulated id
@@ -147,29 +183,34 @@ export async function fetchFullCart(): Promise<CartData | null> {
       },
       color: item.colorName ? { hex: "#7d1d29", name: item.colorName } : null,
       size: item.sizeName ? { id: 0, name: item.sizeName } : null,
+      stock: item.stock,
       lineTotal,
       isAvailable: true,
     };
 
     if (!storeMap.has(storeKey)) {
-      storeMap.set(storeKey, []);
+      storeMap.set(storeKey, {
+        id: item.storeId ?? nextStoreId++,
+        name: item.storeName || "متجر فيورا",
+        items: [],
+      });
     }
-    storeMap.get(storeKey)!.push(cartItem);
+    storeMap.get(storeKey)!.items.push(cartItem);
   });
 
   const stores: CartStore[] = [];
   let grandTotal = 0;
   let totalQty = 0;
 
-  storeMap.forEach((items, storeName) => {
-    const subtotal = items.reduce((sum, i) => sum + parseFloat(i.lineTotal), 0);
+  storeMap.forEach((group) => {
+    const subtotal = group.items.reduce((sum, i) => sum + parseFloat(i.lineTotal), 0);
     grandTotal += subtotal;
-    totalQty += items.reduce((sum, i) => sum + i.quantity, 0);
+    totalQty += group.items.reduce((sum, i) => sum + i.quantity, 0);
 
     stores.push({
-      id: 1,
-      name: storeName,
-      items,
+      id: group.id,
+      name: group.name,
+      items: group.items,
       subtotal: subtotal.toFixed(2),
     });
   });
@@ -191,6 +232,10 @@ export async function updateCartItemQuantity(
   variantSizeId: number,
   newQuantity: number
 ): Promise<{ success: boolean; cart?: CartData; message?: string }> {
+  if (!Number.isInteger(newQuantity) || newQuantity <= 0) {
+    return { success: false, message: "الكمية غير صالحة" };
+  }
+
   const token = getCustomerToken();
 
   if (token) {
@@ -210,6 +255,12 @@ export async function updateCartItemQuantity(
   const cart = getGuestCart();
   const target = cart.find((i) => i.variantSizeId === variantSizeId);
   if (target) {
+    if (target.stock !== undefined && newQuantity > target.stock) {
+      return {
+        success: false,
+        message: `الكمية المتوفرة في المخزون هي ${target.stock} فقط`,
+      };
+    }
     target.quantity = newQuantity;
     saveGuestCart(cart);
     const updated = await fetchFullCart();

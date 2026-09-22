@@ -129,13 +129,33 @@ export async function syncGuestCartOnLogin() {
         quantity: i.quantity,
       }));
 
-      await apiFetch("/cart/merge", {
+      const res = await apiFetch("/cart/merge", {
         method: "POST",
         body: JSON.stringify({ items: itemsToMerge }),
       });
 
-      localStorage.removeItem("viora_guest_cart");
-      window.dispatchEvent(new Event("viora_cart_updated"));
+      if (res && res.success) {
+        localStorage.removeItem("viora_guest_cart");
+        window.dispatchEvent(new Event("viora_cart_updated"));
+      }
     }
   } catch {}
 }
+
+/**
+ * Safely sanitize internal return URLs to prevent open redirect vulnerabilities.
+ */
+export function getSafeReturnUrl(url?: string | null, fallback = "/"): string {
+  if (!url || typeof url !== "string") return fallback;
+  const trimmed = url.trim();
+  if (
+    trimmed.startsWith("/") &&
+    !trimmed.startsWith("//") &&
+    !trimmed.includes("\\") &&
+    !trimmed.includes("://")
+  ) {
+    return trimmed;
+  }
+  return fallback;
+}
+

@@ -11,6 +11,7 @@ import {
   Award,
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
+import { getPublishedBanners } from "@/lib/banners";
 import HeroBannerSlider from "@/components/layout/HeroBannerSlider";
 import HomeCategories from "@/components/layout/HomeCategories";
 import GuestJoinBanner from "@/components/layout/GuestJoinBanner";
@@ -51,12 +52,15 @@ async function getHomeData() {
 }
 
 export default async function HomePage() {
-  const { categories, featuredStores, bestSelling } = await getHomeData();
+  const [{ categories, featuredStores, bestSelling }, banners] = await Promise.all([
+    getHomeData(),
+    getPublishedBanners(),
+  ]);
 
   return (
     <div className="flex flex-col gap-12 pb-24 bg-[#faf7f2]">
       {/* ─── 1. Main Hero Slider ─────────────────────────────────────── */}
-      <HeroBannerSlider />
+      <HeroBannerSlider banners={banners} />
 
       {/* ─── 2. Platform Value Props (Trust & Benefits Bar) ───────────── */}
       <section className="mx-auto w-full max-w-6xl px-4 sm:px-6">

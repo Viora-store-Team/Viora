@@ -1,0 +1,226 @@
+[
+  {
+    "route": "/",
+    "status": 200,
+    "ms": 7234,
+    "htmlBytes": 142176,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/products",
+    "status": 200,
+    "ms": 61,
+    "htmlBytes": 20160,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/products/offers",
+    "status": 200,
+    "ms": 62,
+    "htmlBytes": 24035,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/products/435",
+    "status": 200,
+    "ms": 7291,
+    "htmlBytes": 34677,
+    "title": "عباية | فيورا (Viora)",
+    "appError": false
+  },
+  {
+    "route": "/stores",
+    "status": 200,
+    "ms": 33,
+    "htmlBytes": 20154,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/stores/354",
+    "status": 200,
+    "ms": 774,
+    "htmlBytes": 58040,
+    "title": "قمرة | فيورا (Viora)",
+    "appError": false
+  },
+  {
+    "route": "/cart",
+    "status": 200,
+    "ms": 25,
+    "htmlBytes": 22367,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/checkout",
+    "status": 200,
+    "ms": 32,
+    "htmlBytes": 21815,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/favorites",
+    "status": 200,
+    "ms": 18,
+    "htmlBytes": 23531,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/login",
+    "status": 200,
+    "ms": 16,
+    "htmlBytes": 13883,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/register",
+    "status": 200,
+    "ms": 27,
+    "htmlBytes": 13891,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/forgot-password",
+    "status": 200,
+    "ms": 28,
+    "htmlBytes": 15758,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/verify-email",
+    "status": 200,
+    "ms": 32,
+    "htmlBytes": 13899,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/google/complete",
+    "status": 200,
+    "ms": 30,
+    "htmlBytes": 12711,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/google/setup",
+    "status": 200,
+    "ms": 30,
+    "htmlBytes": 10531,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/profile",
+    "status": 200,
+    "ms": 31,
+    "htmlBytes": 27650,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/orders",
+    "status": 200,
+    "ms": 47,
+    "htmlBytes": 20728,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/orders/1",
+    "status": 200,
+    "ms": 39,
+    "htmlBytes": 20016,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/wallet",
+    "status": 200,
+    "ms": 46,
+    "htmlBytes": 20755,
+    "title": "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
+    "appError": false
+  },
+  {
+    "route": "/about",
+    "status": 200,
+    "ms": 1456,
+    "htmlBytes": 35979,
+    "title": "عن منصة فيورا (About Viora) | فيورا (Viora)",
+    "appError": false
+  },
+  {
+    "route": "/faq",
+    "status": 200,
+    "ms": 385,
+    "htmlBytes": 34446,
+    "title": "الأسئلة الشائعة حول منصة فيورا (FAQ) | فيورا (Viora)",
+    "appError": false
+  },
+  {
+    "route": "/privacy",
+    "status": 200,
+    "ms": 565,
+    "htmlBytes": 37367,
+    "title": "سياسة الخصوصية وحماية بيانات المستخدمين (Privacy Policy) | فيورا (Viora)",
+    "appError": false
+  },
+  {
+    "route": "/terms",
+    "status": 200,
+    "ms": 491,
+    "htmlBytes": 36527,
+    "title": "شروط وأحكام استخدام منصة فيورا (Terms &amp; Conditions) | فيورا (Viora)",
+    "appError": false
+  },
+  {
+    "route": "/products/999999999",
+    "status": 200,
+    "ms": 490,
+    "htmlBytes": 23040,
+    "title": "تفاصيل المنتج | فيورا (Viora)",
+    "appError": false
+  },
+  {
+    "route": "/stores/999999999",
+    "status": 200,
+    "ms": 523,
+    "htmlBytes": 23193,
+    "title": "المتجر | فيورا (Viora)",
+    "appError": false
+  },
+  {
+    "route": "/content/nonexistent-qa",
+    "status": 200,
+    "ms": 429,
+    "htmlBytes": 29633,
+    "title": "معلومات المنصة | فيورا (Viora)",
+    "appError": false
+  },
+  {
+    "route": "/register/step1",
+    "status": 404,
+    "ms": 12,
+    "htmlBytes": 20912,
+    "title": "404: This page could not be found.",
+    "appError": false
+  },
+  {
+    "route": "/nonexistent-qa",
+    "status": 404,
+    "ms": 12,
+    "htmlBytes": 20912,
+    "title": "404: This page could not be found.",
+    "appError": false
+  }
+]
