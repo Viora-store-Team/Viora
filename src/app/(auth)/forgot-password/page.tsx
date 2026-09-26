@@ -157,10 +157,10 @@ export default function ForgotPasswordPage() {
       {step === 1 && (
         <div>
           <div className="text-center">
-            <h1 className="text-2xl font-black tracking-tight text-[#1e1b18]">
+            <h1 className="text-2xl font-black tracking-tight text-ink">
               {strings.auth.forgotTitle}
             </h1>
-            <p className="mt-1.5 text-xs font-semibold text-[#80766b] leading-relaxed">
+            <p className="mt-1.5 text-xs font-semibold text-muted leading-relaxed">
               {strings.auth.forgotSubtitle}
             </p>
           </div>
@@ -173,7 +173,7 @@ export default function ForgotPasswordPage() {
 
           <form onSubmit={handleRequestCode} className="mt-6 flex flex-col gap-4">
             <div>
-              <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+              <label className="mb-1.5 block text-xs font-bold text-ink">
                 {strings.auth.email}
               </label>
               <div className="relative flex items-center">
@@ -184,26 +184,26 @@ export default function ForgotPasswordPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={strings.auth.emailPlaceholder}
                   dir="ltr"
-                  className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white text-left"
+                  className="w-full rounded-2xl border border-line bg-canvas py-3 pr-4 pl-10 text-xs text-ink outline-none transition focus:border-brand focus:bg-white text-left"
                 />
-                <Mail className="absolute left-3.5 size-4 text-[#80766b]" />
+                <Mail className="absolute left-3.5 size-4 text-muted" />
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#7d1d29] to-[#580b1e] py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-brand-hover py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
             >
               <span>{loading ? strings.auth.sendingCode : strings.auth.sendResetCodeButton}</span>
               <ArrowLeft className="size-4" />
             </button>
           </form>
 
-          <div className="mt-6 border-t border-[#ede5da] pt-6 text-center text-xs text-[#80766b]">
+          <div className="mt-6 border-t border-line pt-6 text-center text-xs text-muted">
             <Link
               href="/login"
-              className="font-bold text-[#7d1d29] hover:underline"
+              className="font-bold text-brand hover:underline"
             >
               {strings.auth.backToLogin}
             </Link>
@@ -214,13 +214,13 @@ export default function ForgotPasswordPage() {
       {step === 2 && (
         <div>
           <div className="text-center">
-            <h1 className="text-2xl font-black tracking-tight text-[#1e1b18]">
+            <h1 className="text-2xl font-black tracking-tight text-ink">
               {strings.auth.verifyTitle}
             </h1>
-            <p className="mt-1.5 text-xs font-semibold text-[#80766b] leading-relaxed">
+            <p className="mt-1.5 text-xs font-semibold text-muted leading-relaxed">
               أدخل رمز التحقق المكون من 6 أرقام المرسل إلى:
               <br />
-              <strong className="text-[#1e1b18] ltr-nums text-sm font-bold mt-1 inline-block">
+              <strong className="text-ink ltr-nums text-sm font-bold mt-1 inline-block">
                 {email}
               </strong>
             </p>
@@ -240,7 +240,7 @@ export default function ForgotPasswordPage() {
 
           <form onSubmit={handleVerifyCode} className="mt-6 space-y-6">
             <div>
-              <label className="mb-3 block text-xs font-bold text-[#1e1b18] text-center">
+              <label className="mb-3 block text-xs font-bold text-ink text-center">
                 {strings.auth.otpBoxLabel}
               </label>
               <OtpInput
@@ -254,7 +254,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading || code.length !== 6}
-              className="w-full rounded-2xl bg-gradient-to-r from-[#7d1d29] to-[#580b1e] py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
+              className="w-full rounded-2xl bg-gradient-to-r from-brand to-brand-hover py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
             >
               {loading ? strings.auth.verifySubmitting : strings.auth.verifyButton}
             </button>
@@ -265,10 +265,10 @@ export default function ForgotPasswordPage() {
       {step === 3 && (
         <div>
           <div className="text-center">
-            <h1 className="text-2xl font-black tracking-tight text-[#1e1b18]">
+            <h1 className="text-2xl font-black tracking-tight text-ink">
               {strings.auth.resetTitle}
             </h1>
-            <p className="mt-1.5 text-xs font-semibold text-[#80766b] leading-relaxed">
+            <p className="mt-1.5 text-xs font-semibold text-muted leading-relaxed">
               {strings.auth.resetSubtitle}
             </p>
           </div>
@@ -281,7 +281,7 @@ export default function ForgotPasswordPage() {
 
           <form onSubmit={handleResetPassword} className="mt-6 flex flex-col gap-4">
             <div>
-              <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+              <label className="mb-1.5 block text-xs font-bold text-ink">
                 {strings.auth.password}
               </label>
               <div className="relative flex items-center">
@@ -292,12 +292,12 @@ export default function ForgotPasswordPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder={strings.auth.passwordPlaceholder}
                   dir="ltr"
-                  className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white text-left"
+                  className="w-full rounded-2xl border border-line bg-canvas py-3 pr-4 pl-10 text-xs text-ink outline-none transition focus:border-brand focus:bg-white text-left"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute left-3.5 text-[#80766b] hover:text-[#1e1b18] transition"
+                  className="absolute left-3.5 text-muted hover:text-ink transition"
                 >
                   {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                 </button>
@@ -305,7 +305,7 @@ export default function ForgotPasswordPage() {
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+              <label className="mb-1.5 block text-xs font-bold text-ink">
                 {strings.auth.confirmPassword}
               </label>
               <div className="relative flex items-center">
@@ -316,37 +316,37 @@ export default function ForgotPasswordPage() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder={strings.auth.passwordPlaceholder}
                   dir="ltr"
-                  className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white text-left"
+                  className="w-full rounded-2xl border border-line bg-canvas py-3 pr-4 pl-10 text-xs text-ink outline-none transition focus:border-brand focus:bg-white text-left"
                 />
-                <Lock className="absolute left-3.5 size-4 text-[#80766b]" />
+                <Lock className="absolute left-3.5 size-4 text-muted" />
               </div>
             </div>
 
-            <div className="rounded-2xl bg-[#faf7f2] p-4 border border-[#ede5da] space-y-2 text-xs">
-              <span className="block font-bold text-[#1e1b18]">
+            <div className="rounded-2xl bg-canvas p-4 border border-line space-y-2 text-xs">
+              <span className="block font-bold text-ink">
                 {strings.auth.requirementsTitle}
               </span>
               <div className="flex items-center gap-2">
                 <div
                   className={`size-4 rounded-full flex items-center justify-center text-white transition ${
-                    reqLengthValid ? "bg-[#15803d]" : "bg-[#80766b]/30"
+                    reqLengthValid ? "bg-[#15803d]" : "bg-muted/30"
                   }`}
                 >
                   <Check className="size-2.5 stroke-[3]" />
                 </div>
-                <span className={reqLengthValid ? "font-bold text-[#15803d]" : "text-[#80766b]"}>
+                <span className={reqLengthValid ? "font-bold text-[#15803d]" : "text-muted"}>
                   {strings.auth.reqLength}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <div
                   className={`size-4 rounded-full flex items-center justify-center text-white transition ${
-                    reqMatchValid ? "bg-[#15803d]" : "bg-[#80766b]/30"
+                    reqMatchValid ? "bg-[#15803d]" : "bg-muted/30"
                   }`}
                 >
                   <Check className="size-2.5 stroke-[3]" />
                 </div>
-                <span className={reqMatchValid ? "font-bold text-[#15803d]" : "text-[#80766b]"}>
+                <span className={reqMatchValid ? "font-bold text-[#15803d]" : "text-muted"}>
                   {strings.auth.reqMatch}
                 </span>
               </div>
@@ -355,7 +355,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#7d1d29] to-[#580b1e] py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-brand-hover py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
             >
               <span>
                 {loading ? strings.auth.savingPassword : strings.auth.savePasswordButton}
@@ -373,10 +373,10 @@ export default function ForgotPasswordPage() {
           </div>
 
           <div>
-            <h1 className="text-2xl font-black text-[#1e1b18]">
+            <h1 className="text-2xl font-black text-ink">
               {strings.auth.passwordUpdatedSuccessTitle}
             </h1>
-            <p className="mt-2 text-xs font-semibold text-[#80766b] leading-relaxed max-w-xs mx-auto">
+            <p className="mt-2 text-xs font-semibold text-muted leading-relaxed max-w-xs mx-auto">
               {strings.auth.passwordUpdatedSuccessDesc}
             </p>
           </div>
@@ -384,7 +384,7 @@ export default function ForgotPasswordPage() {
           <button
             type="button"
             onClick={() => router.push("/login")}
-            className="w-full rounded-2xl bg-gradient-to-r from-[#7d1d29] to-[#580b1e] py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99"
+            className="w-full rounded-2xl bg-gradient-to-r from-brand to-brand-hover py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99"
           >
             {strings.auth.loginButton}
           </button>

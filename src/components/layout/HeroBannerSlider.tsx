@@ -60,7 +60,7 @@ export default function HeroBannerSlider({ banners }: { banners: Banner[] }) {
               type="button"
               onClick={() => setCurrentSlide((activeSlide - 1 + count) % count)}
               aria-label="البنر السابق"
-              className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#7d1d29] text-white hover:bg-[#580b1e]"
+              className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white hover:bg-brand-hover"
             >
               <ChevronRight className="size-5" />
             </button>
@@ -68,11 +68,11 @@ export default function HeroBannerSlider({ banners }: { banners: Banner[] }) {
               type="button"
               onClick={() => setCurrentSlide((activeSlide + 1) % count)}
               aria-label="البنر التالي"
-              className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#7d1d29] text-white hover:bg-[#580b1e]"
+              className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white hover:bg-brand-hover"
             >
               <ChevronLeft className="size-5" />
             </button>
-            <div className="flex min-w-0 items-center rounded-full bg-[#7d1d29] px-2">
+            <div className="flex min-w-0 items-center rounded-full bg-brand px-2">
               <div className="flex min-w-0 items-center overflow-x-auto">
               {slides.map((slide, index) => (
                 <button

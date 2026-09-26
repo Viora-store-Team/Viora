@@ -19,26 +19,26 @@ export default function GuestJoinBanner() {
   if (!isGuest) return null;
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#4a0e17] via-[#7d1d29] to-[#2d080e] p-8 text-white shadow-xl sm:p-12">
+    <section className="v-container">
+      <div className="relative overflow-hidden rounded-panel bg-brand p-8 text-white sm:p-12">
         <div className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-white/5 blur-3xl" />
         <div className="relative z-10 flex flex-col items-center justify-between gap-6 sm:flex-row">
           <div className="space-y-2 text-center sm:text-right">
             <h3 className="text-2xl font-black sm:text-3xl">انضم إلى منصة فيورا اليوم</h3>
-            <p className="max-w-md text-xs text-[#fbf4ea]/80 sm:text-sm">
+            <p className="max-w-md text-sm text-white/85">
               تصفح أفضل المتاجر المحلية، اختر منتجاتك المفضلة للرجال والنساء والأطفال، واستمتع بتجربة تسوق سلسة وآمنة.
             </p>
           </div>
           <div className="flex shrink-0 flex-wrap gap-3">
             <Link
               href="/register"
-              className="rounded-full bg-white px-6 py-3 text-xs font-black text-[#7d1d29] shadow-md transition hover:scale-105 hover:bg-[#fbf4ea]"
+              className="v-button bg-white text-brand hover:bg-gold-soft"
             >
               إنشاء حساب جديد
             </Link>
             <Link
               href="/stores"
-              className="rounded-full border border-white/30 bg-white/10 px-6 py-3 text-xs font-black text-white backdrop-blur-md transition hover:bg-white/20"
+              className="v-button border border-white/40 bg-transparent hover:bg-white/10"
             >
               استعرض المتاجر
             </Link>

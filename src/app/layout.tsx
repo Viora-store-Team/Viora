@@ -11,6 +11,7 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
+  icons: { icon: "/viora-mark.png" },
   title: "فيورا (Viora) | منصة الأزياء والمتاجر المحلية",
   description: "تسوّق من أفضل المتاجر المحلية للأزياء والموضة والإكسسوارات مع توصيل سريع وآمن.",
 };
@@ -22,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" className={`${cairo.variable} h-full`} suppressHydrationWarning>
-      <body className="flex min-h-screen flex-col font-sans antialiased bg-[#faf7f2] text-[#4a443e]" suppressHydrationWarning>
+      <body className="flex min-h-screen flex-col font-sans antialiased bg-canvas text-copy" suppressHydrationWarning>
         <AppShell>{children}</AppShell>
       </body>
     </html>

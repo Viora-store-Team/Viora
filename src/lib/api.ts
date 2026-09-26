@@ -142,6 +142,24 @@ export async function syncGuestCartOnLogin() {
   } catch {}
 }
 
+/** Submit a customer report against a merchant (POST /reports). */
+export interface StoreReportPayload {
+  merchantId: number;
+  reason: string;
+  details?: string;
+}
+
+export function submitStoreReport(payload: StoreReportPayload): Promise<ApiResponse> {
+  return apiFetch("/reports", {
+    method: "POST",
+    body: JSON.stringify({
+      merchantId: payload.merchantId,
+      reason: payload.reason,
+      ...(payload.details?.trim() ? { details: payload.details.trim().slice(0, 300) } : {}),
+    }),
+  });
+}
+
 /**
  * Safely sanitize internal return URLs to prevent open redirect vulnerabilities.
  */
@@ -158,4 +176,3 @@ export function getSafeReturnUrl(url?: string | null, fallback = "/"): string {
   }
   return fallback;
 }
-

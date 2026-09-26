@@ -52,9 +52,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             key={t.id}
             className={`pointer-events-auto flex items-center justify-between gap-3 rounded-2xl p-4 shadow-2xl border backdrop-blur-md transition-all duration-300 animate-in fade-in slide-in-from-bottom-5 ${
               t.type === "error"
-                ? "bg-[#4a0e17] text-white border-[#7d1d29]/40"
+                ? "bg-[#4a0e17] text-white border-brand/40"
                 : t.type === "info"
-                ? "bg-[#1e1b18] text-white border-white/20"
+                ? "bg-ink text-white border-white/20"
                 : "bg-gradient-to-r from-[#166534] to-[#15803d] text-white border-green-500/30"
             }`}
           >

@@ -159,31 +159,31 @@ export default function OrdersPage() {
       <div className="mb-6 flex items-center justify-between">
         <Link
           href="/profile"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#80766b] hover:text-[#7d1d29] transition"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-muted hover:text-brand transition"
         >
           <ArrowRight className="size-4" />
           <span>العودة للحساب</span>
         </Link>
-        <h1 className="text-xl font-black text-[#1e1b18]">{strings.orders.title}</h1>
+        <h1 className="text-xl font-black text-ink">{strings.orders.title}</h1>
       </div>
 
       {loading ? (
-        <div className="py-20 text-center text-xs text-[#80766b]">جاري تحميل الطلبات...</div>
+        <div className="py-20 text-center text-xs text-muted">جاري تحميل الطلبات...</div>
       ) : orders.length === 0 ? (
         /* Empty State (Matching Image 2 Screen 3) */
-        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-[#ede5da] bg-white p-12 text-center shadow-xs my-8 space-y-4">
+        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-line bg-white p-12 text-center shadow-xs my-8 space-y-4">
           <div className="mx-auto grid size-20 place-items-center rounded-full bg-red-50 text-red-600">
             <XCircle className="size-10" />
           </div>
-          <h2 className="text-lg font-black text-[#1e1b18]">
+          <h2 className="text-lg font-black text-ink">
             {strings.orders.emptyOrdersTitle}
           </h2>
-          <p className="text-xs text-[#80766b] max-w-xs">
+          <p className="text-xs text-muted max-w-xs">
             {strings.orders.emptyOrdersDesc}
           </p>
           <Link
             href="/products"
-            className="rounded-2xl bg-[#7d1d29] px-8 py-3 text-xs font-black text-white shadow hover:bg-[#681822] transition"
+            className="rounded-2xl bg-brand px-8 py-3 text-xs font-black text-white shadow hover:bg-[#681822] transition"
           >
             {strings.orders.shopNowButton}
           </Link>
@@ -204,8 +204,8 @@ export default function OrdersPage() {
                 onClick={() => setFilter(tab.id as any)}
                 className={`rounded-2xl px-5 py-2.5 text-xs font-black transition shrink-0 ${
                   filter === tab.id
-                    ? "bg-[#7d1d29] text-white shadow-md"
-                    : "bg-white text-[#80766b] border border-[#ede5da] hover:bg-[#faf7f2]"
+                    ? "bg-brand text-white shadow-md"
+                    : "bg-white text-muted border border-line hover:bg-canvas"
                 }`}
               >
                 {tab.label}
@@ -218,34 +218,34 @@ export default function OrdersPage() {
             {filteredOrders.map((ord) => (
               <div
                 key={ord.id}
-                className="rounded-3xl border border-[#ede5da] bg-white p-5 shadow-xs space-y-4 hover:border-[#7d1d29]/30 transition"
+                className="rounded-3xl border border-line bg-white p-5 shadow-xs space-y-4 hover:border-brand/30 transition"
               >
-                <div className="flex items-center justify-between border-b border-[#ede5da] pb-3 text-xs">
+                <div className="flex items-center justify-between border-b border-line pb-3 text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="font-black text-[#1e1b18] ltr-nums">{ord.orderNumber}</span>
-                    <span className="text-[#80766b]">• {ord.date}</span>
+                    <span className="font-black text-ink ltr-nums">{ord.orderNumber}</span>
+                    <span className="text-muted">• {ord.date}</span>
                   </div>
                   {getStatusBadge(ord.status)}
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="size-16 rounded-2xl overflow-hidden bg-[#faf7f2] border border-[#ede5da] shrink-0">
+                  <div className="size-16 rounded-2xl overflow-hidden bg-canvas border border-line shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={ord.imageUrl} alt={ord.productName} className="size-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <span className="text-[11px] font-bold text-[#7d1d29] block truncate">{ord.storeName}</span>
-                    <h3 className="text-xs font-black text-[#1e1b18] truncate mt-0.5">{ord.productName}</h3>
+                    <span className="text-[11px] font-bold text-brand block truncate">{ord.storeName}</span>
+                    <h3 className="text-xs font-black text-ink truncate mt-0.5">{ord.productName}</h3>
                     {ord.colorSizeInfo && (
-                      <p className="text-[11px] text-[#80766b] mt-0.5">{ord.colorSizeInfo}</p>
+                      <p className="text-[11px] text-muted mt-0.5">{ord.colorSizeInfo}</p>
                     )}
                   </div>
                   <div className="text-left shrink-0">
-                    <span className="ltr-nums text-sm font-black text-[#7d1d29]">{ord.price} ₪</span>
+                    <span className="ltr-nums text-sm font-black text-brand">{ord.price} ₪</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-end gap-3 pt-2 border-t border-[#ede5da]">
+                <div className="flex items-center justify-end gap-3 pt-2 border-t border-line">
                   {ord.status === "SHIPPING" || ord.status === "PENDING" ? (
                     <button
                       type="button"
@@ -262,7 +262,7 @@ export default function OrdersPage() {
                   <button
                     type="button"
                     onClick={() => setSelectedOrder(ord)}
-                    className="rounded-xl bg-[#faf7f2] border border-[#ede5da] px-4 py-2 text-xs font-black text-[#1e1b18] hover:bg-[#7d1d29] hover:text-white transition"
+                    className="rounded-xl bg-canvas border border-line px-4 py-2 text-xs font-black text-ink hover:bg-brand hover:text-white transition"
                   >
                     {strings.orders.trackTitle}
                   </button>
@@ -276,21 +276,21 @@ export default function OrdersPage() {
       {/* ─── Cancel Order Reason Modal (Matching Image 3 Modal) ─── */}
       {showCancelModal && selectedOrder && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/60 px-4 py-8 backdrop-blur-sm animate-in fade-in">
-          <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl border border-[#ede5da] animate-in zoom-in-95">
-            <div className="flex items-center justify-between border-b border-[#ede5da] pb-3 mb-4">
-              <h3 className="text-base font-black text-[#1e1b18]">
+          <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl border border-line animate-in zoom-in-95">
+            <div className="flex items-center justify-between border-b border-line pb-3 mb-4">
+              <h3 className="text-base font-black text-ink">
                 {strings.orders.cancelModalTitle}
               </h3>
               <button
                 type="button"
                 onClick={() => setShowCancelModal(false)}
-                className="text-[#80766b] hover:text-[#1e1b18] p-1"
+                className="text-muted hover:text-ink p-1"
               >
                 <X className="size-4" />
               </button>
             </div>
 
-            <p className="text-xs font-bold text-[#1e1b18] mb-3">
+            <p className="text-xs font-bold text-ink mb-3">
               {strings.orders.cancelReasonSelect}
             </p>
 
@@ -307,8 +307,8 @@ export default function OrdersPage() {
                   onClick={() => setCancelReason(reason)}
                   className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-3 transition ${
                     cancelReason === reason
-                      ? "border-[#7d1d29] bg-[#fdf0f2]"
-                      : "border-[#ede5da] bg-[#faf7f2]"
+                      ? "border-brand bg-brand-soft"
+                      : "border-line bg-canvas"
                   }`}
                 >
                   <input
@@ -316,9 +316,9 @@ export default function OrdersPage() {
                     name="cancelReason"
                     checked={cancelReason === reason}
                     onChange={() => {}}
-                    className="accent-[#7d1d29]"
+                    className="accent-brand"
                   />
-                  <span className="font-bold text-[#1e1b18]">{reason}</span>
+                  <span className="font-bold text-ink">{reason}</span>
                 </label>
               ))}
             </div>
@@ -330,9 +330,9 @@ export default function OrdersPage() {
                 value={cancelNotes}
                 onChange={(e) => setCancelNotes(e.target.value)}
                 placeholder={strings.orders.otherReasonPlaceholder}
-                className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] p-3 text-xs outline-none focus:border-[#7d1d29]"
+                className="w-full rounded-2xl border border-line bg-canvas p-3 text-xs outline-none focus:border-brand"
               />
-              <span className="block text-[10px] text-[#80766b] text-left mt-1">
+              <span className="block text-[10px] text-muted text-left mt-1">
                 {cancelNotes.length}/300
               </span>
             </div>
@@ -341,7 +341,7 @@ export default function OrdersPage() {
               type="button"
               disabled={submittingCancel}
               onClick={handleCancelSubmit}
-              className="mt-4 w-full rounded-2xl bg-[#7d1d29] py-3.5 text-xs font-black text-white shadow hover:bg-[#681822] disabled:opacity-50"
+              className="mt-4 w-full rounded-2xl bg-brand py-3.5 text-xs font-black text-white shadow hover:bg-[#681822] disabled:opacity-50"
             >
               {submittingCancel ? "جاري الإرسال..." : strings.orders.sendCancelReport}
             </button>

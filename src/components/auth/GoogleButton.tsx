@@ -125,9 +125,9 @@ export default function GoogleButton({
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <span className="h-px flex-1 bg-[#ede5da]" />
-        <span className="text-xs font-bold text-[#80766b]">أو</span>
-        <span className="h-px flex-1 bg-[#ede5da]" />
+        <span className="h-px flex-1 bg-line" />
+        <span className="text-xs font-bold text-muted">أو</span>
+        <span className="h-px flex-1 bg-line" />
       </div>
 
       <div className="relative">
@@ -135,7 +135,7 @@ export default function GoogleButton({
           type="button"
           onClick={handleClick}
           disabled={busy}
-          className="flex w-full items-center justify-center gap-2.5 rounded-2xl border border-[#ede5da] bg-[#faf7f2] px-4 py-3 text-xs font-bold text-[#1e1b18] shadow-2xs transition duration-200 hover:border-[#7d1d29]/40 hover:bg-white active:scale-99 disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2.5 rounded-2xl border border-line bg-canvas px-4 py-3 text-xs font-bold text-ink shadow-2xs transition duration-200 hover:border-brand/40 hover:bg-white active:scale-99 disabled:opacity-60"
         >
           <GoogleIcon />
           <span>{text}</span>

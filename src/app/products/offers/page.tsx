@@ -27,30 +27,30 @@ export default function OffersPage() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
       {/* ─── 1. Breadcrumbs ─── */}
-      <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-[#80766b]">
-        <Link href="/" className="flex items-center gap-1 hover:text-[#7d1d29] transition">
+      <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-muted">
+        <Link href="/" className="flex items-center gap-1 hover:text-brand transition">
           <Home className="size-3.5" />
           <span>الرئيسية</span>
         </Link>
-        <ChevronLeft className="size-3 text-[#ede5da]" />
-        <Link href="/products" className="hover:text-[#7d1d29] transition">
+        <ChevronLeft className="size-3 text-line" />
+        <Link href="/products" className="hover:text-brand transition">
           المنتجات
         </Link>
-        <ChevronLeft className="size-3 text-[#ede5da]" />
-        <span className="font-bold text-[#7d1d29]">عروض وخصومات</span>
+        <ChevronLeft className="size-3 text-line" />
+        <span className="font-bold text-brand">عروض وخصومات</span>
       </nav>
 
       {/* ─── 2. Header & Title ─── */}
       <div className="mb-8 flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <div className="grid size-10 place-items-center rounded-2xl bg-[#fdf0f2] text-[#7d1d29]">
-            <Flame className="size-5 fill-[#7d1d29]" />
+          <div className="grid size-10 place-items-center rounded-2xl bg-brand-soft text-brand">
+            <Flame className="size-5 fill-brand" />
           </div>
-          <h1 className="text-2xl font-black text-[#1e1b18] sm:text-3xl">
+          <h1 className="text-2xl font-black text-ink sm:text-3xl">
             أحدث العروض والتخفيضات
           </h1>
         </div>
-        <p className="text-xs sm:text-sm text-[#80766b]">
+        <p className="text-xs sm:text-sm text-muted">
           تصفحي أفضل المنتجات المخفضة والعروض الحصرية من مختلف المتاجر
         </p>
       </div>
@@ -61,11 +61,11 @@ export default function OffersPage() {
           {Array.from({ length: 4 }).map((_, i) => (
             <div
               key={i}
-              className="flex flex-col overflow-hidden rounded-2xl border border-[#ede5da] bg-white p-3 shadow-2xs animate-pulse"
+              className="flex flex-col overflow-hidden rounded-2xl border border-line bg-white p-3 shadow-2xs animate-pulse"
             >
-              <div className="aspect-square w-full rounded-xl bg-[#ede5da]/50" />
-              <div className="mt-3 h-3 w-1/3 rounded bg-[#ede5da]/60" />
-              <div className="mt-2 h-4 w-3/4 rounded bg-[#ede5da]/80" />
+              <div className="aspect-square w-full rounded-xl bg-line/50" />
+              <div className="mt-3 h-3 w-1/3 rounded bg-line/60" />
+              <div className="mt-2 h-4 w-3/4 rounded bg-line/80" />
             </div>
           ))}
         </div>
@@ -76,17 +76,17 @@ export default function OffersPage() {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-[#ede5da] bg-white p-12 text-center shadow-2xs">
-          <Sparkles className="size-12 text-[#7d1d29]" />
-          <h2 className="mt-4 text-lg font-black text-[#1e1b18]">
+        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-line bg-white p-12 text-center shadow-2xs">
+          <Sparkles className="size-12 text-brand" />
+          <h2 className="mt-4 text-lg font-black text-ink">
             لا توجد عروض نشطة حالياً
           </h2>
-          <p className="mt-1 text-xs text-[#80766b]">
+          <p className="mt-1 text-xs text-muted">
             ترقبوا أحدث العروض والخصومات القادمة قريباً!
           </p>
           <Link
             href="/products"
-            className="mt-6 rounded-2xl bg-[#7d1d29] px-6 py-2.5 text-xs font-black text-white shadow"
+            className="mt-6 rounded-2xl bg-brand px-6 py-2.5 text-xs font-black text-white shadow"
           >
             تصفح جميع المنتجات
           </Link>

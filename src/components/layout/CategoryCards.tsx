@@ -28,17 +28,17 @@ export default function CategoryCards({
   getHref,
 }: CategoryCardsProps) {
   const cardClass = (isActive: boolean) =>
-    `group flex w-32 shrink-0 snap-start flex-col overflow-hidden rounded-[1.35rem] border bg-white p-1.5 text-right shadow-sm transition duration-200 sm:w-36 ${
+    `group flex w-32 shrink-0 snap-start flex-col overflow-hidden rounded-card border bg-white p-1.5 text-right shadow-sm transition duration-200 sm:w-36 ${
       isActive
-        ? "border-[#8d1f30] ring-2 ring-[#8d1f30]/15"
-        : "border-[#eadfd4] hover:-translate-y-0.5 hover:border-[#caa59d] hover:shadow-md"
+        ? "border-brand ring-2 ring-brand/15"
+        : "border-line hover:-translate-y-0.5 hover:border-[#caa59d] hover:shadow-md"
     }`;
 
   const content = (category: Category | null, isActive: boolean) => (
     <>
       <span
         className={`grid h-20 overflow-hidden rounded-[1rem] sm:h-24 ${
-          isActive ? "bg-[#8d1f30] text-white" : "bg-[#f3ece4] text-[#7d1d29]"
+          isActive ? "bg-brand text-white" : "bg-[#f3ece4] text-brand"
         }`}
       >
         {category?.imageUrl ? (
@@ -56,8 +56,8 @@ export default function CategoryCards({
         )}
       </span>
       <span
-        className={`mt-2 line-clamp-2 min-h-8 px-1 text-center text-[11px] font-black leading-4 sm:text-xs ${
-          isActive ? "text-[#8d1f30]" : "text-[#3f3833]"
+        className={`mt-2 line-clamp-2 min-h-12 px-1 text-center text-sm font-bold leading-6 ${
+          isActive ? "text-brand" : "text-[#3f3833]"
         }`}
       >
         {category?.name || allLabel}
@@ -82,6 +82,7 @@ export default function CategoryCards({
       <button
         key={category?.id ?? "all"}
         type="button"
+        aria-pressed={isActive}
         onClick={() => onSelect?.(category?.id ?? null)}
         className={className}
       >

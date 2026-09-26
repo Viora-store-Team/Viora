@@ -12,16 +12,16 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children, showBackHome = true }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-screen w-full bg-[#faf7f2] font-cairo text-[#1e1b18] antialiased selection:bg-[#7d1d29]/20 selection:text-[#7d1d29] dir-rtl">
+    <div className="flex min-h-screen w-full bg-canvas font-cairo text-ink antialiased selection:bg-brand/20 selection:text-brand dir-rtl">
       {/* ─── Main Form Side Container ─── */}
       <div className="flex flex-1 flex-col items-center justify-center px-4 py-8 sm:px-8 lg:px-12 min-h-screen">
         {/* Mobile Header Brand Logo */}
         <div className="mb-6 lg:hidden text-center">
           <Link href="/" className="inline-flex items-center gap-2">
-            <div className="grid size-10 place-items-center rounded-xl bg-[#7d1d29] text-white shadow-md">
+            <div className="grid size-10 place-items-center rounded-xl bg-brand text-white shadow-md">
               <ShoppingBag className="size-5" />
             </div>
-            <span className="text-2xl font-black tracking-widest text-[#7d1d29]">
+            <span className="text-2xl font-black tracking-widest text-brand">
               {strings.appName}
             </span>
           </Link>
@@ -32,7 +32,7 @@ export default function AuthLayout({ children, showBackHome = true }: AuthLayout
           <div className="w-full max-w-md mb-4 flex justify-end">
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#80766b] hover:text-[#7d1d29] transition group"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-muted hover:text-brand transition group"
             >
               <span>العودة للرئيسية</span>
               <ArrowRight className="size-3.5 transition group-hover:-translate-x-1" />
@@ -41,14 +41,14 @@ export default function AuthLayout({ children, showBackHome = true }: AuthLayout
         )}
 
         {/* Form Card */}
-        <div className="w-full max-w-md overflow-hidden rounded-3xl border border-[#ede5da] bg-white p-6 sm:p-8 shadow-xl shadow-[#7d1d29]/5 transition-all">
+        <div className="w-full max-w-md overflow-hidden rounded-3xl border border-line bg-white p-6 sm:p-8 shadow-xl shadow-brand/5 transition-all">
           {children}
         </div>
       </div>
 
       {/* ─── Desktop Visual Side Card (Matching User Screenshot Layout) ─── */}
       <div className="hidden lg:flex lg:w-[48%] xl:w-[50%] p-6 sm:p-8 flex-col justify-center items-center">
-        <div className="relative size-full max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl border border-[#ede5da] bg-gradient-to-br from-[#4a0e17] via-[#7d1d29] to-[#2d080e] group">
+        <div className="relative size-full max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl border border-line bg-gradient-to-br from-[#4a0e17] via-brand to-[#2d080e] group">
           {/* Custom Multi-Category Platform Image Mockup */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -66,8 +66,8 @@ export default function AuthLayout({ children, showBackHome = true }: AuthLayout
 
           {/* Bottom Card Title Overlay */}
           <div className="absolute bottom-0 inset-x-0 p-8 text-white z-10 space-y-2 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-md px-3.5 py-1 text-xs font-bold text-[#fbf4ea] border border-white/20">
-              <ShoppingBag className="size-3.5 text-[#c48b4e]" />
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-md px-3.5 py-1 text-xs font-bold text-gold-soft border border-white/20">
+              <ShoppingBag className="size-3.5 text-gold" />
               <span>منصة المتاجر المحلية الأولى</span>
             </div>
             <h3 className="text-2xl font-black text-white">

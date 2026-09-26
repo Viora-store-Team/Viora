@@ -86,13 +86,13 @@ function GoogleCompleteForm() {
   return (
     <div>
       <div className="text-center">
-        <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#fdf0f2] text-[#7d1d29]">
+        <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-brand-soft text-brand">
           <ShieldCheck className="size-7" />
         </div>
-        <h1 className="mt-3 text-2xl font-black text-[#1e1b18]">
+        <h1 className="mt-3 text-2xl font-black text-ink">
           {strings.auth.googleSetupTitle}
         </h1>
-        <p className="mt-1.5 text-xs text-[#80766b] leading-relaxed">
+        <p className="mt-1.5 text-xs text-muted leading-relaxed">
           {strings.auth.googleSetupSubtitle}
         </p>
       </div>
@@ -107,7 +107,7 @@ function GoogleCompleteForm() {
       {/* Form */}
       <form onSubmit={handleComplete} className="mt-6 flex flex-col gap-4">
         <div>
-          <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+          <label className="mb-1.5 block text-xs font-bold text-ink">
             {strings.auth.password}
           </label>
           <div className="relative flex items-center">
@@ -118,12 +118,12 @@ function GoogleCompleteForm() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder={strings.auth.passwordPlaceholder}
               dir="ltr"
-              className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white text-left"
+              className="w-full rounded-2xl border border-line bg-canvas py-3 pr-4 pl-10 text-xs text-ink outline-none transition focus:border-brand focus:bg-white text-left"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute left-3.5 text-[#80766b] hover:text-[#1e1b18]"
+              className="absolute left-3.5 text-muted hover:text-ink"
             >
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             </button>
@@ -131,7 +131,7 @@ function GoogleCompleteForm() {
         </div>
 
         <div>
-          <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+          <label className="mb-1.5 block text-xs font-bold text-ink">
             {strings.auth.confirmPassword}
           </label>
           <div className="relative flex items-center">
@@ -142,16 +142,16 @@ function GoogleCompleteForm() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder={strings.auth.passwordPlaceholder}
               dir="ltr"
-              className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white text-left"
+              className="w-full rounded-2xl border border-line bg-canvas py-3 pr-4 pl-10 text-xs text-ink outline-none transition focus:border-brand focus:bg-white text-left"
             />
-            <Lock className="absolute left-3.5 size-4 text-[#80766b]" />
+            <Lock className="absolute left-3.5 size-4 text-muted" />
           </div>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#7d1d29] to-[#580b1e] py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-brand-hover py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
         >
           <span>{loading ? strings.auth.savingPassword : "حفظ كلمة المرور والدخول"}</span>
           <ArrowLeft className="size-4" />
@@ -166,7 +166,7 @@ export default function GoogleCompletePage() {
     <AuthLayout>
       <Suspense
         fallback={
-          <div className="py-20 text-center text-xs text-[#80766b]">جاري التحميل...</div>
+          <div className="py-20 text-center text-xs text-muted">جاري التحميل...</div>
         }
       >
         <GoogleCompleteForm />

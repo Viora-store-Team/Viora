@@ -135,10 +135,10 @@ function VerifyEmailForm() {
         </div>
 
         <div>
-          <h1 className="text-2xl font-black text-[#1e1b18]">
+          <h1 className="text-2xl font-black text-ink">
             {strings.auth.accountCreatedSuccessTitle}
           </h1>
-          <p className="mt-2 text-xs font-semibold text-[#80766b] leading-relaxed max-w-xs mx-auto">
+          <p className="mt-2 text-xs font-semibold text-muted leading-relaxed max-w-xs mx-auto">
             {strings.auth.accountCreatedSuccessDesc}
           </p>
         </div>
@@ -146,7 +146,7 @@ function VerifyEmailForm() {
         <button
           type="button"
           onClick={() => router.push(getSafeReturnUrl(returnUrl, "/"))}
-          className="w-full rounded-2xl bg-gradient-to-r from-[#7d1d29] to-[#580b1e] py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99"
+          className="w-full rounded-2xl bg-gradient-to-r from-brand to-brand-hover py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99"
         >
           {strings.auth.goToHomeButton}
         </button>
@@ -157,13 +157,13 @@ function VerifyEmailForm() {
   return (
     <div>
       <div className="text-center">
-        <h1 className="text-2xl font-black tracking-tight text-[#1e1b18]">
+        <h1 className="text-2xl font-black tracking-tight text-ink">
           {strings.auth.verifyTitle}
         </h1>
-        <p className="mt-2 text-xs font-semibold text-[#80766b] leading-relaxed">
+        <p className="mt-2 text-xs font-semibold text-muted leading-relaxed">
           {strings.auth.verifySubtitle}:
           <br />
-          <strong className="text-[#1e1b18] ltr-nums text-sm font-bold mt-1 inline-block">
+          <strong className="text-ink ltr-nums text-sm font-bold mt-1 inline-block">
             {email || "بريدك الإلكتروني"}
           </strong>
         </p>
@@ -183,7 +183,7 @@ function VerifyEmailForm() {
 
       <form onSubmit={handleVerify} className="mt-6 space-y-6">
         <div>
-          <label className="mb-3 block text-xs font-bold text-[#1e1b18] text-center">
+          <label className="mb-3 block text-xs font-bold text-ink text-center">
             {strings.auth.otpBoxLabel}
           </label>
           <OtpInput
@@ -197,13 +197,13 @@ function VerifyEmailForm() {
         <button
           type="submit"
           disabled={loading || code.length !== 6}
-          className="w-full rounded-2xl bg-gradient-to-r from-[#7d1d29] to-[#580b1e] py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
+          className="w-full rounded-2xl bg-gradient-to-r from-brand to-brand-hover py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
         >
           {loading ? strings.auth.verifySubmitting : strings.auth.verifyButton}
         </button>
       </form>
 
-      <div className="mt-6 flex items-center justify-between border-t border-[#ede5da] pt-4 text-xs text-[#80766b]">
+      <div className="mt-6 flex items-center justify-between border-t border-line pt-4 text-xs text-muted">
         <span>{strings.auth.didNotReceiveCode}</span>
 
         {canResend ? (
@@ -211,7 +211,7 @@ function VerifyEmailForm() {
             type="button"
             disabled={resending}
             onClick={handleResend}
-            className="flex items-center gap-1 font-bold text-[#7d1d29] hover:underline disabled:opacity-50"
+            className="flex items-center gap-1 font-bold text-brand hover:underline disabled:opacity-50"
           >
             <RefreshCw className={`size-3.5 ${resending ? "animate-spin" : ""}`} />
             <span>
@@ -219,7 +219,7 @@ function VerifyEmailForm() {
             </span>
           </button>
         ) : (
-          <span className="font-bold text-[#7d1d29] ltr-nums bg-[#fdf0f2] px-2.5 py-1 rounded-lg">
+          <span className="font-bold text-brand ltr-nums bg-brand-soft px-2.5 py-1 rounded-lg">
             {strings.auth.resendCode} ({formatTimer(timer)})
           </span>
         )}
@@ -233,7 +233,7 @@ export default function VerifyEmailPage() {
     <AuthLayout>
       <Suspense
         fallback={
-          <div className="py-20 text-center text-xs text-[#80766b]">جاري التحميل...</div>
+          <div className="py-20 text-center text-xs text-muted">جاري التحميل...</div>
         }
       >
         <VerifyEmailForm />

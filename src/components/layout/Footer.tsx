@@ -11,9 +11,9 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="mt-20 overflow-hidden bg-gradient-to-b from-[#3b0a12] via-[#580b1e] to-[#1e0307] text-white font-cairo dir-rtl">
+    <footer className="v-footer overflow-hidden">
       {/* Top Banner Accent */}
-      <div className="h-1.5 w-full bg-gradient-to-r from-[#580b1e] via-[#c48b4e] to-[#7d1d29]" />
+      <div className="h-1.5 w-full bg-gradient-to-r from-brand-hover via-gold to-brand" />
 
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr] sm:px-8 lg:py-16">
         {/* Brand & Description */}
@@ -26,25 +26,25 @@ export default function Footer() {
               <span className="block text-2xl font-black tracking-widest text-white">
                 {strings.brandEnglish}
               </span>
-              <span className="block text-[10px] font-semibold text-[#fbf4ea]/80">
+              <span className="block text-[10px] font-semibold text-gold-soft-soft/80">
                 {strings.brandSubtitle}
               </span>
             </div>
           </Link>
 
-          <p className="max-w-sm text-xs leading-relaxed text-[#fbf4ea]/80 font-medium">
+          <p className="max-w-sm text-sm leading-relaxed text-gold-soft-soft/80 font-medium">
             منصتك الأولى لتسوق أرقى المتاجر المحلية، تصفح تشكيلات الأزياء والموضة للرجال، النساء، والأطفال واشترِ بسهولة وأمان.
           </p>
 
-          <div className="flex items-center gap-2 pt-2 text-[#c48b4e]">
+          <div className="flex items-center gap-2 pt-2 text-gold-soft">
             <Sparkles className="size-4" />
-            <span className="text-xs font-bold text-white/90">أفضل المتاجر الموثقة في مكان واحد</span>
+            <span className="text-sm font-bold text-white/90">أفضل المتاجر الموثقة في مكان واحد</span>
           </div>
         </div>
 
         {/* Quick Links */}
         <div>
-          <h2 className="text-xs font-black text-[#c48b4e] tracking-wider uppercase">
+          <h2 className="text-sm font-black text-gold-soft tracking-wider uppercase">
             روابط سريعة
           </h2>
           <nav className="mt-4 flex flex-col gap-3">
@@ -52,10 +52,10 @@ export default function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex items-center gap-1.5 text-xs font-semibold text-white/80 transition hover:text-white hover:translate-x-1"
+                className="flex items-center gap-1.5 text-sm font-semibold text-white/80 transition hover:text-white hover:translate-x-1"
               >
                 <span>{link.label}</span>
-                <ArrowUpLeft className="size-3 text-[#c48b4e]" />
+                <ArrowUpLeft className="size-3 text-gold-soft" />
               </Link>
             ))}
           </nav>
@@ -63,10 +63,10 @@ export default function Footer() {
 
         {/* Categories */}
         <div>
-          <h2 className="text-xs font-black text-[#c48b4e] tracking-wider uppercase">
+          <h2 className="text-sm font-black text-gold-soft tracking-wider uppercase">
             الأقسام الشهيرة
           </h2>
-          <nav className="mt-4 flex flex-col gap-3 text-xs font-semibold text-white/80">
+          <nav className="mt-4 flex flex-col gap-3 text-sm font-semibold text-white/80">
             <Link href="/products?categoryId=1" className="hover:text-white transition">
               {strings.home.categories.men}
             </Link>
@@ -84,20 +84,20 @@ export default function Footer() {
 
         {/* Trust Badges */}
         <div>
-          <h2 className="text-xs font-black text-[#c48b4e] tracking-wider uppercase">
+          <h2 className="text-sm font-black text-gold-soft tracking-wider uppercase">
             تسوّق بثقة
           </h2>
-          <div className="mt-4 space-y-3.5 text-xs font-semibold text-white/80">
+          <div className="mt-4 space-y-3.5 text-sm font-semibold text-white/80">
             <p className="flex items-center gap-2.5">
-              <ShieldCheck className="size-4 shrink-0 text-[#c48b4e]" />
+              <ShieldCheck className="size-4 shrink-0 text-gold-soft" />
               <span>متاجر معتمدة ومنتجات مضمونة</span>
             </p>
             <p className="flex items-center gap-2.5">
-              <Truck className="size-4 shrink-0 text-[#c48b4e]" />
+              <Truck className="size-4 shrink-0 text-gold-soft" />
               <span>توصيل سريع وآمن لجميع المناطق</span>
             </p>
             <p className="flex items-center gap-2.5">
-              <Heart className="size-4 shrink-0 text-[#c48b4e]" />
+              <Heart className="size-4 shrink-0 text-gold-soft" />
               <span>صُنع بحب لدعم التسوق المحلي</span>
             </p>
           </div>

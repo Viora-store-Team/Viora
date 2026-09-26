@@ -112,8 +112,8 @@ export default function OtpInput({
             onPaste={handlePaste}
             className={`size-11 sm:size-13 rounded-2xl border text-center text-xl font-black transition-all outline-none ${
               isFilled
-                ? "border-[#7d1d29] bg-[#fdf0f2] text-[#7d1d29] shadow-xs"
-                : "border-[#ede5da] bg-[#faf7f2] text-[#1e1b18] hover:border-[#7d1d29]/40 focus:border-[#7d1d29] focus:bg-white focus:ring-4 focus:ring-[#7d1d29]/10"
+                ? "border-brand bg-brand-soft text-brand shadow-xs"
+                : "border-line bg-canvas text-ink hover:border-brand/40 focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10"
             } disabled:opacity-50`}
           />
         );

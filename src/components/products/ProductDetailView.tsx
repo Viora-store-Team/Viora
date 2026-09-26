@@ -172,28 +172,28 @@ export default function ProductDetailView({
       {feedbackToast.show && <VioraToast message={feedbackToast.text} type={feedbackToast.type} onClose={() => setFeedbackToast((prev) => ({ ...prev, show: false }))} />}
 
       {/* ─── 1. Breadcrumb ─── */}
-      <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-[#80766b]">
-        <Link href="/" className="flex items-center gap-1 hover:text-[#7d1d29] transition">
+      <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-muted">
+        <Link href="/" className="flex items-center gap-1 hover:text-brand transition">
           <Home className="size-3.5" />
           <span>الرئيسية</span>
         </Link>
-        <ChevronLeft className="size-3 text-[#ede5da]" />
-        <Link href="/products" className="hover:text-[#7d1d29] transition">
+        <ChevronLeft className="size-3 text-line" />
+        <Link href="/products" className="hover:text-brand transition">
           المنتجات
         </Link>
         {product.category && (
           <>
-            <ChevronLeft className="size-3 text-[#ede5da]" />
+            <ChevronLeft className="size-3 text-line" />
             <Link
               href={`/products?categoryId=${product.category.id}`}
-              className="hover:text-[#7d1d29] transition"
+              className="hover:text-brand transition"
             >
               {product.category.name}
             </Link>
           </>
         )}
-        <ChevronLeft className="size-3 text-[#ede5da]" />
-        <span className="font-bold text-[#1e1b18] truncate max-w-[200px]">
+        <ChevronLeft className="size-3 text-line" />
+        <span className="font-bold text-ink truncate max-w-[200px]">
           {product.name}
         </span>
       </nav>
@@ -212,14 +212,14 @@ export default function ProductDetailView({
                 className="size-full object-cover transition duration-300"
               />
             ) : (
-              <div className="flex size-full items-center justify-center text-sm text-[#80766b]">
+              <div className="flex size-full items-center justify-center text-sm text-muted">
                 لا توجد صورة لهذا اللون
               </div>
             )}
 
             {/* Discount Badge */}
             {product.discountPercent && product.discountPercent > 0 && (
-              <div className="absolute top-4 right-4 rounded-full bg-[#7d1d29] px-3 py-1.5 text-xs font-black text-white shadow-lg shadow-[#7d1d29]/30">
+              <div className="absolute top-4 right-4 rounded-full bg-brand px-3 py-1.5 text-xs font-black text-white shadow-lg shadow-brand/30">
                 %{product.discountPercent} خصم
               </div>
             )}
@@ -230,11 +230,11 @@ export default function ProductDetailView({
               onClick={handleToggleFavorite}
               disabled={favLoading}
               aria-label={isFav ? "إزالة من المفضلة" : "إضافة للمفضلة"}
-              className="absolute top-4 left-4 grid size-11 place-items-center rounded-full bg-white/95 text-[#4a443e] shadow-lg transition hover:scale-110 hover:text-[#7d1d29]"
+              className="absolute top-4 left-4 grid size-11 place-items-center rounded-full bg-white/95 text-copy shadow-lg transition hover:scale-110 hover:text-brand"
             >
               <Heart
                 className={`size-5 transition-colors ${
-                  isFav ? "fill-[#7d1d29] text-[#7d1d29]" : "text-[#4a443e]"
+                  isFav ? "fill-brand text-brand" : "text-copy"
                 }`}
               />
             </button>
@@ -250,8 +250,8 @@ export default function ProductDetailView({
                   onClick={() => setActiveImageIdx(i)}
                   className={`relative size-20 shrink-0 overflow-hidden rounded-2xl border-2 transition ${
                     activeImageIdx === i
-                      ? "border-[#7d1d29] shadow-sm"
-                      : "border-[#ede5da] hover:border-[#80766b]"
+                      ? "border-brand shadow-sm"
+                      : "border-line hover:border-muted"
                   }`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -268,9 +268,9 @@ export default function ProductDetailView({
           {product.store && (
             <Link
               href={`/stores/${product.store.id}`}
-              className="group mb-5 inline-flex items-center gap-2.5 rounded-full border border-[#eadfd4] bg-white px-3.5 py-2 transition hover:border-[#7d1d29]/40 w-fit"
+              className="group mb-5 inline-flex items-center gap-2.5 rounded-full border border-line bg-white px-3.5 py-2 transition hover:border-brand/40 w-fit"
             >
-              <div className="grid size-6 place-items-center rounded-lg bg-[#faf7f2] text-[#c48b4e]">
+              <div className="grid size-6 place-items-center rounded-lg bg-canvas text-gold">
                 {product.store.logoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -282,12 +282,12 @@ export default function ProductDetailView({
                   <StoreIcon className="size-3.5" />
                 )}
               </div>
-              <span className="text-xs font-black text-[#1e1b18] group-hover:text-[#7d1d29] transition">
+              <span className="text-xs font-black text-ink group-hover:text-brand transition">
                 {product.store.name}
               </span>
               {product.store.city && (
-                <span className="flex items-center gap-0.5 text-[11px] text-[#80766b]">
-                  <MapPin className="size-3 text-[#7d1d29]" />
+                <span className="flex items-center gap-0.5 text-[11px] text-muted">
+                  <MapPin className="size-3 text-brand" />
                   <span>{product.store.city}</span>
                 </span>
               )}
@@ -295,7 +295,7 @@ export default function ProductDetailView({
           )}
 
           {/* Product Title */}
-          <h1 className="text-3xl font-black tracking-tight text-[#1e1b18] sm:text-4xl leading-tight">
+          <h1 className="text-3xl font-black tracking-tight text-ink sm:text-4xl leading-tight">
             {product.name}
           </h1>
 
@@ -303,18 +303,18 @@ export default function ProductDetailView({
           <div className="mt-3 flex items-center gap-3">
             <div className="flex items-center gap-1 text-amber-500">
               <Star className="size-4 fill-amber-400 text-amber-400" />
-              <span className="text-xs font-black text-[#1e1b18]">
+              <span className="text-xs font-black text-ink">
                 {product.ratingAvg ? Number(product.ratingAvg).toFixed(1) : "جديد"}
               </span>
             </div>
-            <span className="h-3 w-px bg-[#ede5da]" />
-            <span className="text-xs text-[#80766b]">
+            <span className="h-3 w-px bg-line" />
+            <span className="text-xs text-muted">
               {product.ratingCount || 0} تقييم
             </span>
           </div>
 
           {/* Price */}
-          <div className="mt-6 flex items-baseline gap-3 rounded-2xl bg-[#7d1d29] p-5 text-white shadow-[0_15px_30px_-20px_rgba(125,29,41,.8)]">
+          <div className="mt-6 flex items-baseline gap-3 rounded-2xl bg-brand p-5 text-white shadow-[0_15px_30px_-20px_rgba(125,29,41,.8)]">
             <div className="flex items-baseline gap-1.5">
               <span className="ltr-nums text-3xl font-black text-white">
                 {product.price} ₪
@@ -336,9 +336,9 @@ export default function ProductDetailView({
           {variants.length > 0 && (
             <div className="mt-6 flex flex-col gap-2.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-black text-[#1e1b18]">
+                <span className="font-black text-ink">
                   اللون:{" "}
-                  <span className="font-bold text-[#7d1d29]">
+                  <span className="font-bold text-brand">
                     {activeVariant?.colorName || "غير محدد"}
                   </span>
                 </span>
@@ -352,8 +352,8 @@ export default function ProductDetailView({
                     onClick={() => handleSelectVariant(idx)}
                     className={`group flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-bold transition ${
                       activeVariantIdx === idx
-                        ? "border-[#7d1d29] bg-[#fdf0f2] text-[#7d1d29] shadow-xs"
-                        : "border-[#ede5da] bg-white text-[#4a443e] hover:border-[#80766b]"
+                        ? "border-brand bg-brand-soft text-brand shadow-xs"
+                        : "border-line bg-white text-copy hover:border-muted"
                     }`}
                   >
                     <span
@@ -371,9 +371,9 @@ export default function ProductDetailView({
           {sizes.length > 0 && (
             <div className="mt-6 flex flex-col gap-2.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-black text-[#1e1b18]">اختر المقاس:</span>
+                <span className="font-black text-ink">اختر المقاس:</span>
                 {selectedSize && (
-                  <span className="text-[11px] font-bold text-[#80766b]">
+                  <span className="text-[11px] font-bold text-muted">
                     المتوفر: {selectedSize.stock} قطعة
                   </span>
                 )}
@@ -395,10 +395,10 @@ export default function ProductDetailView({
                       }}
                       className={`relative min-w-12 rounded-xl border px-4 py-2 text-center text-xs font-black transition ${
                         isSelected
-                          ? "border-[#7d1d29] bg-[#7d1d29] text-white shadow-xs"
+                          ? "border-brand bg-brand text-white shadow-xs"
                           : outOfStock
-                          ? "cursor-not-allowed border-[#ede5da] bg-[#ede5da]/40 text-[#80766b] line-through opacity-60"
-                          : "border-[#ede5da] bg-white text-[#1e1b18] hover:border-[#7d1d29]"
+                          ? "cursor-not-allowed border-line bg-line/40 text-muted line-through opacity-60"
+                          : "border-line bg-white text-ink hover:border-brand"
                       }`}
                     >
                       {s.name}
@@ -410,27 +410,27 @@ export default function ProductDetailView({
           )}
 
           {/* ─── Quantity & Action Buttons ─── */}
-          <div className="mt-7 flex flex-col gap-4 border-t border-[#eadfd4] pt-6">
+          <div className="mt-7 flex flex-col gap-4 border-t border-line pt-6">
             <div className="flex items-center gap-4">
-              <span className="text-xs font-black text-[#1e1b18]">الكمية:</span>
-              <div className="flex items-center rounded-xl border border-[#ede5da] bg-white shadow-2xs">
+              <span className="text-xs font-black text-ink">الكمية:</span>
+              <div className="flex items-center rounded-xl border border-line bg-white shadow-2xs">
                 <button
                   type="button"
                   disabled={quantity <= 1 || isOutOfStock}
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="grid size-9 place-items-center text-[#4a443e] transition hover:text-[#7d1d29] disabled:opacity-40"
+                  className="grid size-9 place-items-center text-copy transition hover:text-brand disabled:opacity-40"
                   aria-label="تقليل الكمية"
                 >
                   <Minus className="size-3.5" />
                 </button>
-                <span className="ltr-nums min-w-10 text-center text-sm font-black text-[#1e1b18]">
+                <span className="ltr-nums min-w-10 text-center text-sm font-black text-ink">
                   {quantity}
                 </span>
                 <button
                   type="button"
                   disabled={quantity >= maxStock || isOutOfStock}
                   onClick={() => setQuantity((q) => Math.min(maxStock, q + 1))}
-                  className="grid size-9 place-items-center text-[#4a443e] transition hover:text-[#7d1d29] disabled:opacity-40"
+                  className="grid size-9 place-items-center text-copy transition hover:text-brand disabled:opacity-40"
                   aria-label="زيادة الكمية"
                 >
                   <Plus className="size-3.5" />
@@ -444,7 +444,7 @@ export default function ProductDetailView({
                 type="button"
                 disabled={addingToCart || isOutOfStock}
                 onClick={() => handleAddToCart(false)}
-                className="flex items-center justify-center gap-2 rounded-2xl bg-[#7d1d29] py-4 px-6 text-sm font-black text-white shadow-lg shadow-[#7d1d29]/25 transition duration-200 hover:bg-[#681822] disabled:opacity-50"
+                className="flex items-center justify-center gap-2 rounded-2xl bg-brand py-4 px-6 text-sm font-black text-white shadow-lg shadow-brand/25 transition duration-200 hover:bg-[#681822] disabled:opacity-50"
               >
                 <ShoppingBag className="size-4.5" />
                 <span>{addingToCart ? "جاري الإضافة..." : "أضف إلى السلة"}</span>
@@ -454,7 +454,7 @@ export default function ProductDetailView({
                 type="button"
                 disabled={addingToCart || isOutOfStock}
                 onClick={() => handleAddToCart(true)}
-                className="flex items-center justify-center gap-2 rounded-2xl border-2 border-[#7d1d29] bg-white py-3.5 px-6 text-sm font-black text-[#7d1d29] transition duration-200 hover:bg-[#fdf0f2] disabled:opacity-50"
+                className="flex items-center justify-center gap-2 rounded-2xl border-2 border-brand bg-white py-3.5 px-6 text-sm font-black text-brand transition duration-200 hover:bg-brand-soft disabled:opacity-50"
               >
                 <span>اشتري الآن</span>
               </button>
@@ -462,17 +462,17 @@ export default function ProductDetailView({
           </div>
 
           {/* ─── Trust Badges ─── */}
-          <div className="mt-7 grid grid-cols-1 gap-3 border-t border-[#eadfd4] pt-5 sm:grid-cols-3">
-            <div className="flex items-center gap-2 text-xs font-bold text-[#4a443e]">
-              <Truck className="size-4 text-[#7d1d29]" />
+          <div className="mt-7 grid grid-cols-1 gap-3 border-t border-line pt-5 sm:grid-cols-3">
+            <div className="flex items-center gap-2 text-xs font-bold text-copy">
+              <Truck className="size-4 text-brand" />
               <span>توصيل سريع وآمن</span>
             </div>
-            <div className="flex items-center gap-2 text-xs font-bold text-[#4a443e]">
-              <ShieldCheck className="size-4 text-[#7d1d29]" />
+            <div className="flex items-center gap-2 text-xs font-bold text-copy">
+              <ShieldCheck className="size-4 text-brand" />
               <span>منتج أصلي 100%</span>
             </div>
-            <div className="flex items-center gap-2 text-xs font-bold text-[#4a443e]">
-              <RotateCcw className="size-4 text-[#7d1d29]" />
+            <div className="flex items-center gap-2 text-xs font-bold text-copy">
+              <RotateCcw className="size-4 text-brand" />
               <span>استبدال وإرجاع سهل</span>
             </div>
           </div>
@@ -490,7 +490,7 @@ export default function ProductDetailView({
             onClick={() => setActiveTab("desc")}
             className={`rounded-xl px-4 py-3 text-right text-sm font-black transition ${
               activeTab === "desc"
-                ? "bg-white text-[#7d1d29]"
+                ? "bg-white text-brand"
                 : "text-white/70 hover:bg-white/10 hover:text-white"
             }`}
           >
@@ -502,12 +502,12 @@ export default function ProductDetailView({
             onClick={() => setActiveTab("ratings")}
             className={`flex items-center gap-1.5 rounded-xl px-4 py-3 text-right text-sm font-black transition ${
               activeTab === "ratings"
-                ? "bg-white text-[#7d1d29]"
+                ? "bg-white text-brand"
                 : "text-white/70 hover:bg-white/10 hover:text-white"
             }`}
           >
             <span>آراء وتقييمات الزبائن</span>
-            <span className={`rounded-full px-2 py-0.5 text-xs ${activeTab === "ratings" ? "bg-[#fdf0f2] text-[#7d1d29]" : "bg-white/10 text-white/80"}`}>
+            <span className={`rounded-full px-2 py-0.5 text-xs ${activeTab === "ratings" ? "bg-brand-soft text-brand" : "bg-white/10 text-white/80"}`}>
               {initialRatings.length}
             </span>
           </button>
@@ -517,31 +517,31 @@ export default function ProductDetailView({
         {/* Tab Content */}
         <div className="rounded-[1.5rem] bg-white p-6 ring-1 ring-[#e9e1d7] sm:p-8">
           {activeTab === "desc" && (
-            <div className="max-w-3xl flex flex-col gap-5 text-sm text-[#4a443e] leading-8">
+            <div className="max-w-3xl flex flex-col gap-5 text-sm text-copy leading-8">
               {product.description ? (
                 <p>{product.description}</p>
               ) : (
-                <p className="text-[#80766b]">لا يتوفر وصف إضافي لهذا المنتج.</p>
+                <p className="text-muted">لا يتوفر وصف إضافي لهذا المنتج.</p>
               )}
 
               {/* Attributes table */}
-              <div className="mt-2 grid max-w-xl grid-cols-2 gap-px overflow-hidden rounded-2xl bg-[#ede5da]">
+              <div className="mt-2 grid max-w-xl grid-cols-2 gap-px overflow-hidden rounded-2xl bg-line">
                 {product.brand && (
                   <div className="bg-[#fcf9f5] p-4">
-                    <span className="text-xs text-[#80766b]">الماركة:</span>
-                    <p className="text-xs font-black text-[#1e1b18]">{product.brand}</p>
+                    <span className="text-xs text-muted">الماركة:</span>
+                    <p className="text-xs font-black text-ink">{product.brand}</p>
                   </div>
                 )}
                 {product.material && (
                   <div className="bg-[#fcf9f5] p-4">
-                    <span className="text-xs text-[#80766b]">الخامة:</span>
-                    <p className="text-xs font-black text-[#1e1b18]">{product.material}</p>
+                    <span className="text-xs text-muted">الخامة:</span>
+                    <p className="text-xs font-black text-ink">{product.material}</p>
                   </div>
                 )}
                 {product.category && (
                   <div className="bg-[#fcf9f5] p-4">
-                    <span className="text-xs text-[#80766b]">القسم:</span>
-                    <p className="text-xs font-black text-[#1e1b18]">{product.category.name}</p>
+                    <span className="text-xs text-muted">القسم:</span>
+                    <p className="text-xs font-black text-ink">{product.category.name}</p>
                   </div>
                 )}
               </div>
@@ -555,10 +555,10 @@ export default function ProductDetailView({
                   {initialRatings.map((r) => (
                     <div
                       key={r.id}
-                      className="rounded-2xl bg-[#fcf9f5] p-5 ring-1 ring-[#eadfd4]"
+                      className="rounded-2xl bg-[#fcf9f5] p-5 ring-1 ring-line"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-black text-[#1e1b18]">
+                        <span className="text-xs font-black text-ink">
                           {r.user?.name || "زبون فيورا"}
                         </span>
                         <div className="flex items-center gap-0.5 text-amber-400">
@@ -568,14 +568,14 @@ export default function ProductDetailView({
                               className={`size-3.5 ${
                                 idx < r.stars
                                   ? "fill-amber-400 text-amber-400"
-                                  : "text-[#ede5da]"
+                                  : "text-line"
                               }`}
                             />
                           ))}
                         </div>
                       </div>
                       {r.comment && (
-                        <p className="mt-2 text-xs text-[#4a443e] leading-relaxed">
+                        <p className="mt-2 text-xs text-copy leading-relaxed">
                           {r.comment}
                         </p>
                       )}
@@ -583,7 +583,7 @@ export default function ProductDetailView({
                   ))}
                 </div>
               ) : (
-                <div className="rounded-2xl border border-dashed border-[#ede5da] p-8 text-center text-xs text-[#80766b]">
+                <div className="rounded-2xl border border-dashed border-line p-8 text-center text-xs text-muted">
                   لا توجد تقييمات لهذا المنتج حتى الآن. كن أول من يقيّم بعد استلام الطلب!
                 </div>
               )}
@@ -594,12 +594,12 @@ export default function ProductDetailView({
 
       {/* ─── 4. Related Products ─── */}
       {relatedProducts.length > 0 && (
-        <section className="mt-16 border-t border-[#ede5da] pt-12">
+        <section className="mt-16 border-t border-line pt-12">
           <div className="flex items-center justify-between pb-6">
-            <h2 className="text-xl font-black text-[#1e1b18]">منتجات مشابهة قد تعجبك</h2>
+            <h2 className="text-xl font-black text-ink">منتجات مشابهة قد تعجبك</h2>
             <Link
               href={`/products?categoryId=${product.category?.id || ""}`}
-              className="text-xs font-bold text-[#7d1d29] hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-brand hover:underline flex items-center gap-1"
             >
               <span>عرض المزيد</span>
               <ChevronLeft className="size-3.5" />

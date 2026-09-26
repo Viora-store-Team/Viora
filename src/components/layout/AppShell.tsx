@@ -28,8 +28,9 @@ export default function AppShell({ children }: AppShellProps) {
         <main className="flex-1 w-full min-h-screen">{children}</main>
       ) : (
         <>
+          <a href="#main-content" className="v-skip v-button">تجاوز إلى المحتوى</a>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main id="main-content" tabIndex={-1} className="flex-1">{children}</main>
           <Footer />
         </>
       )}

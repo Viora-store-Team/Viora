@@ -70,6 +70,6 @@ export default function HorizontalScroller({ children, className = "" }: { child
       drag.current.suppressClick = false;
     }}
     >{children}</div>
-    {hasOverflow && <button type="button" onClick={showMore} aria-label="عرض المزيد" className="absolute left-1 top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-[#eadfd4] bg-white/95 text-[#8d1f30] shadow-md backdrop-blur transition hover:scale-105 hover:bg-[#8d1f30] hover:text-white"><ChevronLeft className="size-5" /></button>}
+    {hasOverflow && <button type="button" onClick={showMore} aria-label="عرض المزيد" className="absolute left-1 top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-line bg-white/95 text-brand shadow-md backdrop-blur transition hover:scale-105 hover:bg-brand hover:text-white"><ChevronLeft className="size-5" /></button>}
   </div>;
 }

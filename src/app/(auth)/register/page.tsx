@@ -120,10 +120,10 @@ function RegisterForm() {
     <div>
       {/* Brand Header */}
       <div className="text-center">
-        <h1 className="text-2xl font-black tracking-tight text-[#1e1b18]">
+        <h1 className="text-2xl font-black tracking-tight text-ink">
           {strings.auth.registerTitle}
         </h1>
-        <p className="mt-1.5 text-xs font-semibold text-[#80766b]">
+        <p className="mt-1.5 text-xs font-semibold text-muted">
           {strings.auth.registerSubtitle}
         </p>
       </div>
@@ -148,7 +148,7 @@ function RegisterForm() {
       <form onSubmit={handleRegister} className="mt-6 flex flex-col gap-4">
         {/* Full Name */}
         <div>
-          <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+          <label className="mb-1.5 block text-xs font-bold text-ink">
             {strings.auth.fullName}
           </label>
           <div className="relative flex items-center">
@@ -158,15 +158,15 @@ function RegisterForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={strings.auth.fullNamePlaceholder}
-              className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white"
+              className="w-full rounded-2xl border border-line bg-canvas py-3 pr-4 pl-10 text-xs text-ink outline-none transition focus:border-brand focus:bg-white"
             />
-            <User className="absolute left-3.5 size-4 text-[#80766b]" />
+            <User className="absolute left-3.5 size-4 text-muted" />
           </div>
         </div>
 
         {/* Email */}
         <div>
-          <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+          <label className="mb-1.5 block text-xs font-bold text-ink">
             {strings.auth.email}
           </label>
           <div className="relative flex items-center">
@@ -177,15 +177,15 @@ function RegisterForm() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder={strings.auth.emailPlaceholder}
               dir="ltr"
-              className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white text-left"
+              className="w-full rounded-2xl border border-line bg-canvas py-3 pr-4 pl-10 text-xs text-ink outline-none transition focus:border-brand focus:bg-white text-left"
             />
-            <Mail className="absolute left-3.5 size-4 text-[#80766b]" />
+            <Mail className="absolute left-3.5 size-4 text-muted" />
           </div>
         </div>
 
         {/* Password */}
         <div>
-          <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+          <label className="mb-1.5 block text-xs font-bold text-ink">
             {strings.auth.password}
           </label>
           <div className="relative flex items-center">
@@ -196,12 +196,12 @@ function RegisterForm() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder={strings.auth.passwordPlaceholder}
               dir="ltr"
-              className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white text-left"
+              className="w-full rounded-2xl border border-line bg-canvas py-3 pr-4 pl-10 text-xs text-ink outline-none transition focus:border-brand focus:bg-white text-left"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute left-3.5 text-[#80766b] hover:text-[#1e1b18] transition"
+              className="absolute left-3.5 text-muted hover:text-ink transition"
             >
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             </button>
@@ -210,7 +210,7 @@ function RegisterForm() {
 
         {/* Confirm Password */}
         <div>
-          <label className="mb-1.5 block text-xs font-bold text-[#1e1b18]">
+          <label className="mb-1.5 block text-xs font-bold text-ink">
             {strings.auth.confirmPassword}
           </label>
           <div className="relative flex items-center">
@@ -221,9 +221,9 @@ function RegisterForm() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder={strings.auth.passwordPlaceholder}
               dir="ltr"
-              className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] py-3 pr-4 pl-10 text-xs text-[#1e1b18] outline-none transition focus:border-[#7d1d29] focus:bg-white text-left"
+              className="w-full rounded-2xl border border-line bg-canvas py-3 pr-4 pl-10 text-xs text-ink outline-none transition focus:border-brand focus:bg-white text-left"
             />
-            <Lock className="absolute left-3.5 size-4 text-[#80766b]" />
+            <Lock className="absolute left-3.5 size-4 text-muted" />
           </div>
         </div>
 
@@ -231,7 +231,7 @@ function RegisterForm() {
         <button
           type="submit"
           disabled={loading || googleLoading}
-          className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#7d1d29] to-[#580b1e] py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-brand-hover py-3.5 text-xs font-black text-white shadow-md transition duration-200 hover:opacity-95 hover:shadow-lg active:scale-99 disabled:opacity-50"
         >
           <span>
             {loading ? strings.auth.registerSubmitting : strings.auth.registerButton}
@@ -241,24 +241,24 @@ function RegisterForm() {
       </form>
 
       {/* Terms Notice */}
-      <div className="mt-4 text-center text-[11px] font-semibold text-[#80766b]">
+      <div className="mt-4 text-center text-[11px] font-semibold text-muted">
         <span>{strings.auth.termsNotice} </span>
-        <Link href="/content/terms" className="text-[#7d1d29] hover:underline">
+        <Link href="/content/terms" className="text-brand hover:underline">
           {strings.auth.termsLink}
         </Link>{" "}
         <span>{strings.auth.and} </span>
-        <Link href="/content/privacy" className="text-[#7d1d29] hover:underline">
+        <Link href="/content/privacy" className="text-brand hover:underline">
           {strings.auth.privacyLink}
         </Link>
       </div>
 
       {/* Footer Login Link */}
-      <div className="mt-6 border-t border-[#ede5da] pt-6 text-center text-xs text-[#80766b]">
+      <div className="mt-6 border-t border-line pt-6 text-center text-xs text-muted">
         <span>{strings.auth.alreadyHaveAccount} </span>
         <Link
           href={`/login${returnUrl !== "/" ? `?returnUrl=${encodeURIComponent(returnUrl)}` : ""
             }`}
-          className="font-black text-[#7d1d29] hover:underline"
+          className="font-black text-brand hover:underline"
         >
           {strings.auth.loginLink}
         </Link>
@@ -272,7 +272,7 @@ export default function RegisterPage() {
     <AuthLayout>
       <Suspense
         fallback={
-          <div className="py-20 text-center text-xs text-[#80766b]">جاري التحميل...</div>
+          <div className="py-20 text-center text-xs text-muted">جاري التحميل...</div>
         }
       >
         <RegisterForm />

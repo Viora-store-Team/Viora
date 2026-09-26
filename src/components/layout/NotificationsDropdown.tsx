@@ -150,9 +150,9 @@ export default function NotificationsDropdown() {
       case "ORDER_CANCELLED":
         return <ShieldAlert className="size-4 text-red-600" />;
       case "STORE_APPROVED":
-        return <Store className="size-4 text-[#7d1d29]" />;
+        return <Store className="size-4 text-brand" />;
       default:
-        return <ShoppingBag className="size-4 text-[#c48b4e]" />;
+        return <ShoppingBag className="size-4 text-gold" />;
     }
   };
 
@@ -180,13 +180,13 @@ export default function NotificationsDropdown() {
         aria-expanded={isOpen}
         className={`relative grid size-10 place-items-center rounded-2xl border transition-all active:scale-95 ${
           isOpen
-            ? "border-[#7d1d29]/30 bg-[#fdf0f2] text-[#7d1d29] shadow-sm"
-            : "border-[#ede5da] bg-white text-[#4a443e] hover:border-[#7d1d29]/40 hover:bg-[#fdf0f2] hover:text-[#7d1d29] hover:scale-105"
+            ? "border-brand/30 bg-brand-soft text-brand shadow-sm"
+            : "border-line bg-white text-copy hover:border-brand/40 hover:bg-brand-soft hover:text-brand hover:scale-105"
         }`}
       >
         <Bell className="size-4.5" />
         {unreadCount > 0 && (
-          <span className="absolute -right-1 -top-1 flex min-w-5 h-5 items-center justify-center rounded-full border-2 border-[#faf7f2] bg-[#8d1f30] px-1 text-[9px] font-black text-white shadow-sm">
+          <span className="absolute -right-1 -top-1 flex min-w-5 h-5 items-center justify-center rounded-full border-2 border-canvas bg-brand px-1 text-[9px] font-black text-white shadow-sm">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
@@ -196,12 +196,12 @@ export default function NotificationsDropdown() {
       {isOpen && (
         <section
           aria-label="قائمة الإشعارات"
-          className="fixed inset-x-3 top-[4.75rem] z-50 overflow-hidden rounded-[1.45rem] border border-[#eadfd4] bg-white shadow-[0_24px_60px_-30px_rgba(69,12,23,0.5)] animate-in fade-in zoom-in-95 duration-200 sm:absolute sm:inset-x-auto sm:left-0 sm:right-auto sm:top-full sm:mt-3 sm:w-80"
+          className="fixed inset-x-3 top-[4.75rem] z-50 overflow-hidden rounded-[1.45rem] border border-line bg-white shadow-[0_24px_60px_-30px_rgba(69,12,23,0.5)] animate-in fade-in zoom-in-95 duration-200 sm:absolute sm:inset-x-auto sm:left-0 sm:right-auto sm:top-full sm:mt-3 sm:w-80"
         >
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-[#ede5da] bg-[#fcf8f4] px-4 py-3.5">
+          <div className="flex items-center justify-between border-b border-line bg-[#fcf8f4] px-4 py-3.5">
             <div className="flex items-center gap-2">
-              <span className="grid size-8 place-items-center rounded-xl bg-[#f5e5e7] text-[#8d1f30]">
+              <span className="grid size-8 place-items-center rounded-xl bg-[#f5e5e7] text-brand">
                 <Bell className="size-4" />
               </span>
               <div>
@@ -211,7 +211,7 @@ export default function NotificationsDropdown() {
                 </p>
               </div>
               {unreadCount > 0 && (
-                <span className="rounded-full bg-[#8d1f30] px-2 py-0.5 text-[10px] font-black text-white shadow-sm">
+                <span className="rounded-full bg-brand px-2 py-0.5 text-[10px] font-black text-white shadow-sm">
                   {unreadCount}
                 </span>
               )}
@@ -221,7 +221,7 @@ export default function NotificationsDropdown() {
               <button
                 type="button"
                 onClick={handleMarkAllRead}
-                className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] font-black text-[#7d1d29] transition hover:bg-[#f5e5e7]"
+                className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] font-black text-brand transition hover:bg-[#f5e5e7]"
               >
                 <CheckCheck className="size-3.5" />
                 <span>قراءة الكل</span>
@@ -254,20 +254,20 @@ export default function NotificationsDropdown() {
                     className={`flex w-full items-start gap-3 rounded-2xl p-3 text-right transition ${
                       isUnread
                         ? "bg-[#fdf6f5] hover:bg-[#f8e9ea]"
-                        : "hover:bg-[#faf7f2]"
+                        : "hover:bg-canvas"
                     }`}
                   >
-                    <div className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl border border-[#eadfd4] bg-white shadow-sm">
+                    <div className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl border border-line bg-white shadow-sm">
                       {getNotifIcon(notif.type)}
                     </div>
 
                     <div className="flex flex-1 flex-col overflow-hidden">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs font-black text-[#1e1b18] truncate">
+                        <span className="text-xs font-black text-ink truncate">
                           {notif.title}
                         </span>
                         {isUnread && (
-                          <span className="size-2 shrink-0 rounded-full bg-[#7d1d29]" />
+                          <span className="size-2 shrink-0 rounded-full bg-brand" />
                         )}
                       </div>
 
@@ -284,7 +284,7 @@ export default function NotificationsDropdown() {
               })
             ) : (
               <div className="flex min-h-56 flex-col items-center justify-center px-7 py-8 text-center">
-                <div className="relative mb-4 grid size-14 place-items-center rounded-2xl bg-[#f7eaeb] text-[#8d1f30] shadow-sm ring-8 ring-[#fcf7f3]">
+                <div className="relative mb-4 grid size-14 place-items-center rounded-2xl bg-[#f7eaeb] text-brand shadow-sm ring-8 ring-[#fcf7f3]">
                   <Bell className="size-6" strokeWidth={1.7} />
                 </div>
                 <p className="text-sm font-black text-[#241d19]">لا توجد إشعارات جديدة</p>

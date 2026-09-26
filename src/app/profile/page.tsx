@@ -227,13 +227,13 @@ export default function ProfilePage() {
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:py-10">
       {/* ─── Breadcrumbs ─── */}
-      <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-[#80766b]">
-        <Link href="/" className="flex items-center gap-1 hover:text-[#7d1d29] transition">
+      <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-muted">
+        <Link href="/" className="flex items-center gap-1 hover:text-brand transition">
           <Home className="size-3.5" />
           <span>الرئيسية</span>
         </Link>
-        <ChevronLeft className="size-3 text-[#ede5da]" />
-        <span className="font-bold text-[#1e1b18]">حسابي</span>
+        <ChevronLeft className="size-3 text-line" />
+        <span className="font-bold text-ink">حسابي</span>
       </nav>
 
       <section className="relative isolate overflow-hidden rounded-[2rem] bg-[#681822] px-6 py-7 text-white shadow-[0_20px_45px_-28px_rgba(68,12,22,.65)] sm:px-8 sm:py-8">
@@ -246,7 +246,7 @@ export default function ProfilePage() {
             <p className="mt-2 text-sm text-white/80">تابعي طلباتك، عناوين التوصيل وبيانات حسابك في مكان واحد.</p>
           </div>
           <div className="flex items-center gap-3 self-start rounded-2xl border border-white/15 bg-white/10 p-3 backdrop-blur sm:self-auto">
-            <span className="grid size-12 place-items-center rounded-2xl bg-white text-lg font-black text-[#8d1f30] shadow-sm">{user?.name ? user.name[0] : "ز"}</span>
+            <span className="grid size-12 place-items-center rounded-2xl bg-white text-lg font-black text-brand shadow-sm">{user?.name ? user.name[0] : "ز"}</span>
             <div><p className="text-sm font-black">{user?.name || "حسابي"}</p><p className="mt-0.5 text-[11px] text-white/70">عضو في فيورا</p></div>
           </div>
         </div>
@@ -254,17 +254,17 @@ export default function ProfilePage() {
 
       <div className="mt-7 grid grid-cols-1 items-start gap-6 lg:grid-cols-[18rem_minmax(0,1fr)]">
         {/* ─── Sidebar Navigation ─── */}
-        <aside className="rounded-[1.75rem] border border-[#eadfd4] bg-white p-4 shadow-sm lg:sticky lg:top-24">
+        <aside className="rounded-[1.75rem] border border-line bg-white p-4 shadow-sm lg:sticky lg:top-24">
           {/* User Preview */}
           <div className="flex items-center gap-3 rounded-2xl bg-[#fbf6f1] p-3.5">
-            <div className="grid size-12 place-items-center rounded-2xl bg-[#f5e5e7] text-lg font-black text-[#8d1f30]">
+            <div className="grid size-12 place-items-center rounded-2xl bg-[#f5e5e7] text-lg font-black text-brand">
               {user?.name ? user.name[0] : "ز"}
             </div>
             <div className="overflow-hidden">
-              <h2 className="text-sm font-black text-[#1e1b18] truncate">
+              <h2 className="text-sm font-black text-ink truncate">
                 {user?.name || "حسابي"}
               </h2>
-              <p className="mt-0.5 text-[11px] text-[#80766b] truncate ltr-nums text-left">{user?.email || "جاري تحميل بيانات الحساب…"}</p>
+              <p className="mt-0.5 text-[11px] text-muted truncate ltr-nums text-left">{user?.email || "جاري تحميل بيانات الحساب…"}</p>
             </div>
           </div>
 
@@ -275,8 +275,8 @@ export default function ProfilePage() {
               onClick={() => setActiveTab("orders")}
               className={`flex items-center justify-between rounded-xl px-3.5 py-3 text-xs font-black transition ${
                 activeTab === "orders"
-                  ? "bg-[#8d1f30] text-white shadow-md shadow-[#8d1f30]/20"
-                  : "text-[#4a443e] hover:bg-[#fbf6f1] hover:text-[#8d1f30]"
+                  ? "bg-brand text-white shadow-md shadow-brand/20"
+                  : "text-copy hover:bg-[#fbf6f1] hover:text-brand"
               }`}
             >
               <div className="flex items-center gap-2.5">
@@ -293,8 +293,8 @@ export default function ProfilePage() {
               onClick={() => setActiveTab("addresses")}
               className={`flex items-center justify-between rounded-xl px-3.5 py-3 text-xs font-black transition ${
                 activeTab === "addresses"
-                  ? "bg-[#8d1f30] text-white shadow-md shadow-[#8d1f30]/20"
-                  : "text-[#4a443e] hover:bg-[#fbf6f1] hover:text-[#8d1f30]"
+                  ? "bg-brand text-white shadow-md shadow-brand/20"
+                  : "text-copy hover:bg-[#fbf6f1] hover:text-brand"
               }`}
             >
               <div className="flex items-center gap-2.5">
@@ -311,8 +311,8 @@ export default function ProfilePage() {
               onClick={() => setActiveTab("profile")}
               className={`flex items-center gap-2.5 rounded-xl px-3.5 py-3 text-xs font-black transition ${
                 activeTab === "profile"
-                  ? "bg-[#8d1f30] text-white shadow-md shadow-[#8d1f30]/20"
-                  : "text-[#4a443e] hover:bg-[#fbf6f1] hover:text-[#8d1f30]"
+                  ? "bg-brand text-white shadow-md shadow-brand/20"
+                  : "text-copy hover:bg-[#fbf6f1] hover:text-brand"
               }`}
             >
               <User className="size-4" />
@@ -335,37 +335,37 @@ export default function ProfilePage() {
           {/* ─── Tab: Orders ─── */}
           {activeTab === "orders" && (
             <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between rounded-[1.5rem] border border-[#eadfd4] bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between rounded-[1.5rem] border border-line bg-white p-5 shadow-sm">
                 <div className="flex items-center gap-3">
-                  <span className="grid size-11 place-items-center rounded-2xl bg-[#f5e5e7] text-[#8d1f30]"><ShoppingBag className="size-5" /></span>
+                  <span className="grid size-11 place-items-center rounded-2xl bg-[#f5e5e7] text-brand"><ShoppingBag className="size-5" /></span>
                   <div>
-                  <h1 className="text-xl font-black text-[#1e1b18]">طلباتي السابقة</h1>
-                  <p className="mt-1 text-xs text-[#80766b]">متابعة وتفاصيل جميع طلبياتك على منصة فيورا</p>
+                  <h1 className="text-xl font-black text-ink">طلباتي السابقة</h1>
+                  <p className="mt-1 text-xs text-muted">متابعة وتفاصيل جميع طلبياتك على منصة فيورا</p>
                   </div>
                 </div>
-                <span className="rounded-xl bg-[#fbf6f1] px-3 py-2 text-xs font-black text-[#8d1f30]">{orders.length} طلب</span>
+                <span className="rounded-xl bg-[#fbf6f1] px-3 py-2 text-xs font-black text-brand">{orders.length} طلب</span>
               </div>
 
               {loadingOrders ? (
-                <div className="py-12 text-center text-xs text-[#80766b]">جاري جلب الطلبات...</div>
+                <div className="py-12 text-center text-xs text-muted">جاري جلب الطلبات...</div>
               ) : orders.length > 0 ? (
                 <div className="flex flex-col gap-4">
                   {orders.map((order) => (
                     <Link
                       href={`/orders/${order.id}`}
                       key={order.id}
-                      className="group block overflow-hidden rounded-3xl border border-[#ede5da] bg-white p-6 shadow-2xs transition hover:-translate-y-0.5 hover:border-[#8d1f30]/40 hover:shadow-md"
+                      className="group block overflow-hidden rounded-3xl border border-line bg-white p-6 shadow-2xs transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md"
                     >
                       {/* Order Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#ede5da]/60 pb-4">
+                      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line/60 pb-4">
                         <div className="flex items-center gap-2">
-                          <Package className="size-4.5 text-[#7d1d29]" />
-                          <span className="font-black text-sm text-[#1e1b18] ltr-nums">
+                          <Package className="size-4.5 text-brand" />
+                          <span className="font-black text-sm text-ink ltr-nums">
                             {order.orderNumber}
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-1.5 text-xs text-[#80766b]">
+                        <div className="flex items-center gap-1.5 text-xs text-muted">
                           <Clock className="size-3.5" />
                           <span>{new Date(order.createdAt).toLocaleDateString("ar-EG")}</span>
                         </div>
@@ -378,18 +378,18 @@ export default function ProfilePage() {
                           return (
                             <div
                               key={st.id}
-                              className="flex items-center justify-between rounded-2xl bg-[#faf7f2] p-3 text-xs"
+                              className="flex items-center justify-between rounded-2xl bg-canvas p-3 text-xs"
                             >
                               <div className="flex items-center gap-2">
-                                <span className="font-black text-[#1e1b18]">{st.store?.name}</span>
-                                <span className="text-[#80766b] ltr-nums">({st.orderNumber})</span>
+                                <span className="font-black text-ink">{st.store?.name}</span>
+                                <span className="text-muted ltr-nums">({st.orderNumber})</span>
                               </div>
 
                               <div className="flex items-center gap-3">
                                 <span className={`rounded-lg px-2.5 py-1 text-[11px] font-black ${statusInfo.color}`}>
                                   {statusInfo.label}
                                 </span>
-                                <span className="ltr-nums font-black text-[#7d1d29]">
+                                <span className="ltr-nums font-black text-brand">
                                   {st.total} ₪
                                 </span>
                               </div>
@@ -399,21 +399,21 @@ export default function ProfilePage() {
                       </div>
 
                       {/* Total */}
-                      <div className="mt-4 flex items-center justify-between border-t border-[#ede5da]/60 pt-3 text-sm font-black">
-                        <span className="text-[#80766b] text-xs">المجموع الكلي للطلبية:</span>
-                        <span className="ltr-nums text-base text-[#7d1d29]">{order.total} ₪</span>
+                      <div className="mt-4 flex items-center justify-between border-t border-line/60 pt-3 text-sm font-black">
+                        <span className="text-muted text-xs">المجموع الكلي للطلبية:</span>
+                        <span className="ltr-nums text-base text-brand">{order.total} ₪</span>
                       </div>
                     </Link>
                   ))}
                 </div>
               ) : (
                 <div className="flex min-h-80 flex-col items-center justify-center rounded-[1.75rem] border border-dashed border-[#dfd2c5] bg-white p-12 text-center shadow-sm">
-                  <span className="grid size-16 place-items-center rounded-2xl bg-[#f5e5e7] text-[#8d1f30]"><Package className="size-8" /></span>
-                  <h3 className="mt-4 text-base font-black text-[#1e1b18]">لا توجد طلبات سابقة</h3>
-                  <p className="mt-1 text-xs text-[#80766b]">لم تقم بعمل أي طلبات بعد.</p>
+                  <span className="grid size-16 place-items-center rounded-2xl bg-[#f5e5e7] text-brand"><Package className="size-8" /></span>
+                  <h3 className="mt-4 text-base font-black text-ink">لا توجد طلبات سابقة</h3>
+                  <p className="mt-1 text-xs text-muted">لم تقم بعمل أي طلبات بعد.</p>
                   <Link
                     href="/products"
-                    className="mt-6 rounded-2xl bg-[#7d1d29] px-6 py-2.5 text-xs font-black text-white shadow"
+                    className="mt-6 rounded-2xl bg-brand px-6 py-2.5 text-xs font-black text-white shadow"
                   >
                     تصفح المنتجات
                   </Link>
@@ -425,18 +425,18 @@ export default function ProfilePage() {
           {/* ─── Tab: Addresses ─── */}
           {activeTab === "addresses" && (
             <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between rounded-[1.5rem] border border-[#eadfd4] bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between rounded-[1.5rem] border border-line bg-white p-5 shadow-sm">
                 <div className="flex items-center gap-3">
-                  <span className="grid size-11 place-items-center rounded-2xl bg-[#f5e5e7] text-[#8d1f30]"><MapPin className="size-5" /></span>
+                  <span className="grid size-11 place-items-center rounded-2xl bg-[#f5e5e7] text-brand"><MapPin className="size-5" /></span>
                   <div>
-                  <h1 className="text-xl font-black text-[#1e1b18]">دفتر العناوين</h1>
-                  <p className="mt-1 text-xs text-[#80766b]">إدارة عناوين التوصيل الخاصة بك</p>
+                  <h1 className="text-xl font-black text-ink">دفتر العناوين</h1>
+                  <p className="mt-1 text-xs text-muted">إدارة عناوين التوصيل الخاصة بك</p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setShowAddAddr(!showAddAddr)}
-                  className="flex items-center gap-1.5 rounded-xl bg-[#7d1d29] px-4 py-2 text-xs font-black text-white shadow"
+                  className="flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-xs font-black text-white shadow"
                 >
                   <Plus className="size-3.5" />
                   <span>إضافة عنوان جديد</span>
@@ -445,80 +445,80 @@ export default function ProfilePage() {
 
               {/* Add Address Form */}
               {showAddAddr && (
-                <div className="rounded-3xl border-2 border-[#7d1d29]/30 bg-white p-6 shadow-sm">
-                  <h3 className="text-sm font-black text-[#1e1b18] mb-4">إضافة عنوان جديد</h3>
+                <div className="rounded-3xl border-2 border-brand/30 bg-white p-6 shadow-sm">
+                  <h3 className="text-sm font-black text-ink mb-4">إضافة عنوان جديد</h3>
                   <form onSubmit={handleCreateAddress} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <div>
-                      <label className="block font-bold text-[#1e1b18] mb-1">تسمية العنوان</label>
+                      <label className="block font-bold text-ink mb-1">تسمية العنوان</label>
                       <input
                         type="text"
                         value={addrLabel}
                         onChange={(e) => setAddrLabel(e.target.value)}
-                        className="w-full rounded-xl border border-[#ede5da] bg-[#faf7f2] p-2.5 outline-none focus:border-[#7d1d29]"
+                        className="w-full rounded-xl border border-line bg-canvas p-2.5 outline-none focus:border-brand"
                       />
                     </div>
                     <div>
-                      <label className="block font-bold text-[#1e1b18] mb-1">اسم المستلم *</label>
+                      <label className="block font-bold text-ink mb-1">اسم المستلم *</label>
                       <input
                         type="text"
                         required
                         value={addrName}
                         onChange={(e) => setAddrName(e.target.value)}
-                        className="w-full rounded-xl border border-[#ede5da] bg-[#faf7f2] p-2.5 outline-none focus:border-[#7d1d29]"
+                        className="w-full rounded-xl border border-line bg-canvas p-2.5 outline-none focus:border-brand"
                       />
                     </div>
                     <div>
-                      <label className="block font-bold text-[#1e1b18] mb-1">رقم الجوال *</label>
+                      <label className="block font-bold text-ink mb-1">رقم الجوال *</label>
                       <input
                         type="tel"
                         required
                         value={addrPhone}
                         onChange={(e) => setAddrPhone(e.target.value)}
                         dir="ltr"
-                        className="w-full rounded-xl border border-[#ede5da] bg-[#faf7f2] p-2.5 outline-none focus:border-[#7d1d29] text-left"
+                        className="w-full rounded-xl border border-line bg-canvas p-2.5 outline-none focus:border-brand text-left"
                       />
                     </div>
                     <div>
-                      <label className="block font-bold text-[#1e1b18] mb-1">المدينة *</label>
+                      <label className="block font-bold text-ink mb-1">المدينة *</label>
                       <input
                         type="text"
                         required
                         value={addrCity}
                         onChange={(e) => setAddrCity(e.target.value)}
-                        className="w-full rounded-xl border border-[#ede5da] bg-[#faf7f2] p-2.5 outline-none focus:border-[#7d1d29]"
+                        className="w-full rounded-xl border border-line bg-canvas p-2.5 outline-none focus:border-brand"
                       />
                     </div>
                     <div>
-                      <label className="block font-bold text-[#1e1b18] mb-1">الشارع *</label>
+                      <label className="block font-bold text-ink mb-1">الشارع *</label>
                       <input
                         type="text"
                         required
                         value={addrStreet}
                         onChange={(e) => setAddrStreet(e.target.value)}
-                        className="w-full rounded-xl border border-[#ede5da] bg-[#faf7f2] p-2.5 outline-none focus:border-[#7d1d29]"
+                        className="w-full rounded-xl border border-line bg-canvas p-2.5 outline-none focus:border-brand"
                       />
                     </div>
                     <div>
-                      <label className="block font-bold text-[#1e1b18] mb-1">تفاصيل إضافية</label>
+                      <label className="block font-bold text-ink mb-1">تفاصيل إضافية</label>
                       <input
                         type="text"
                         value={addrDetails}
                         onChange={(e) => setAddrDetails(e.target.value)}
-                        className="w-full rounded-xl border border-[#ede5da] bg-[#faf7f2] p-2.5 outline-none focus:border-[#7d1d29]"
+                        className="w-full rounded-xl border border-line bg-canvas p-2.5 outline-none focus:border-brand"
                       />
                     </div>
                     <div className="sm:col-span-2 flex justify-end gap-2 mt-2">
                       <button
                         type="button"
                         onClick={() => setShowAddAddr(false)}
-                        className="px-4 py-2 text-xs font-bold text-[#80766b]"
+                        className="px-4 py-2 text-xs font-bold text-muted"
                       >
                         إلغاء
                       </button>
                       <button
                         type="submit"
                         disabled={savingAddr}
-                        className="rounded-xl bg-[#7d1d29] px-6 py-2.5 text-xs font-black text-white shadow"
+                        className="rounded-xl bg-brand px-6 py-2.5 text-xs font-black text-white shadow"
                       >
                         {savingAddr ? "جاري الحفظ..." : "حفظ العنوان"}
                       </button>
@@ -532,23 +532,23 @@ export default function ProfilePage() {
                 {addresses.map((addr) => (
                   <div
                     key={addr.id}
-                    className="flex flex-col justify-between rounded-3xl border border-[#ede5da] bg-white p-5 shadow-2xs"
+                    className="flex flex-col justify-between rounded-3xl border border-line bg-white p-5 shadow-2xs"
                   >
                     <div>
                       <div className="flex items-center justify-between">
-                        <span className="font-black text-xs text-[#1e1b18]">{addr.label}</span>
+                        <span className="font-black text-xs text-ink">{addr.label}</span>
                         {addr.isDefault && (
-                          <span className="rounded-lg bg-[#fdf0f2] px-2 py-0.5 text-[10px] font-black text-[#7d1d29]">
+                          <span className="rounded-lg bg-brand-soft px-2 py-0.5 text-[10px] font-black text-brand">
                             الافتراضي
                           </span>
                         )}
                       </div>
-                      <p className="mt-2 text-xs font-bold text-[#1e1b18]">{addr.fullName}</p>
-                      <p className="mt-0.5 text-xs text-[#80766b]">{addr.city} - {addr.street}</p>
-                      <p className="mt-0.5 text-xs text-[#80766b] ltr-nums text-left">{addr.phone}</p>
+                      <p className="mt-2 text-xs font-bold text-ink">{addr.fullName}</p>
+                      <p className="mt-0.5 text-xs text-muted">{addr.city} - {addr.street}</p>
+                      <p className="mt-0.5 text-xs text-muted ltr-nums text-left">{addr.phone}</p>
                     </div>
 
-                    <div className="mt-4 flex items-center justify-end border-t border-[#ede5da]/50 pt-3">
+                    <div className="mt-4 flex items-center justify-end border-t border-line/50 pt-3">
                       <button
                         type="button"
                         onClick={() => handleDeleteAddress(addr.id)}
@@ -566,8 +566,8 @@ export default function ProfilePage() {
 
           {/* ─── Tab: Profile Details ─── */}
           {activeTab === "profile" && (
-            <div className="rounded-[1.75rem] border border-[#eadfd4] bg-white p-6 shadow-sm sm:p-8">
-              <div className="flex items-center gap-3 border-b border-[#ede5da] pb-5"><span className="grid size-11 place-items-center rounded-2xl bg-[#f5e5e7] text-[#8d1f30]"><User className="size-5" /></span><div><h1 className="text-xl font-black text-[#1e1b18]">تعديل البيانات الشخصية</h1><p className="mt-1 text-xs text-[#80766b]">حدّثي معلومات حسابك متى شئت.</p></div></div>
+            <div className="rounded-[1.75rem] border border-line bg-white p-6 shadow-sm sm:p-8">
+              <div className="flex items-center gap-3 border-b border-line pb-5"><span className="grid size-11 place-items-center rounded-2xl bg-[#f5e5e7] text-brand"><User className="size-5" /></span><div><h1 className="text-xl font-black text-ink">تعديل البيانات الشخصية</h1><p className="mt-1 text-xs text-muted">حدّثي معلومات حسابك متى شئت.</p></div></div>
 
               {profileMsg && (
                 <div className="mt-4 rounded-2xl bg-green-50 p-4 text-xs font-bold text-green-700 border border-green-200 flex items-center gap-2">
@@ -578,43 +578,43 @@ export default function ProfilePage() {
 
               <form onSubmit={handleUpdateProfile} className="mt-6 flex flex-col gap-4 max-w-md text-xs">
                 <div>
-                  <label className="block font-bold text-[#1e1b18] mb-1">الاسم الكامل</label>
+                  <label className="block font-bold text-ink mb-1">الاسم الكامل</label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] p-3 text-xs outline-none focus:border-[#7d1d29] focus:bg-white"
+                    className="w-full rounded-2xl border border-line bg-canvas p-3 text-xs outline-none focus:border-brand focus:bg-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-[#1e1b18] mb-1">البريد الإلكتروني (غير قابل للتعديل)</label>
+                  <label className="block font-bold text-ink mb-1">البريد الإلكتروني (غير قابل للتعديل)</label>
                   <input
                     type="email"
                     disabled
                     value={user?.email || ""}
                     dir="ltr"
-                    className="w-full rounded-2xl border border-[#ede5da] bg-[#ede5da]/40 p-3 text-xs text-[#80766b] outline-none text-left cursor-not-allowed"
+                    className="w-full rounded-2xl border border-line bg-line/40 p-3 text-xs text-muted outline-none text-left cursor-not-allowed"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-[#1e1b18] mb-1">رقم الجوال</label>
+                  <label className="block font-bold text-ink mb-1">رقم الجوال</label>
                   <input
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="0590000000"
                     dir="ltr"
-                    className="w-full rounded-2xl border border-[#ede5da] bg-[#faf7f2] p-3 text-xs outline-none focus:border-[#7d1d29] focus:bg-white text-left"
+                    className="w-full rounded-2xl border border-line bg-canvas p-3 text-xs outline-none focus:border-brand focus:bg-white text-left"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={savingProfile}
-                  className="mt-4 flex items-center justify-center gap-2 rounded-2xl bg-[#7d1d29] py-3.5 text-xs font-black text-white shadow hover:bg-[#681822] disabled:opacity-50 w-fit px-8"
+                  className="mt-4 flex items-center justify-center gap-2 rounded-2xl bg-brand py-3.5 text-xs font-black text-white shadow hover:bg-[#681822] disabled:opacity-50 w-fit px-8"
                 >
                   <Save className="size-4" />
                   <span>{savingProfile ? "جاري الحفظ..." : "حفظ التعديلات"}</span>
